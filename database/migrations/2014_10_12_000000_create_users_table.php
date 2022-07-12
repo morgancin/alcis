@@ -14,13 +14,25 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->engine = "InnoDB";
+            $table->id('id_user');
+
+            $table->string('email', 255)->collation('utf8_general_ci')->unique();
+            $table->string('name', 255)->collation('utf8_general_ci')->nullable();
+            $table->string('image', 255)->collation('utf8_general_ci')->nullable();
+
+            $table->unsignedTinyInteger('status')->nullable();
+
+            //$table->unsignedBigInteger('role_id')->nullable();
+            //$table->foreign('subcategoria_id')->references('id_subcategoria')->on('subcategorias')->onDelete('cascade');
+
+            //$table->unsignedInteger('anovencimiento')->nullable();
+
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password', 255)->collation('utf8_general_ci');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
         });
     }
 
