@@ -91,7 +91,7 @@ class UserController extends Controller
                 'email' => $data['email'],
                 'role' => $data['role'],
                 'password' => bcrypt($data['password']),
-                'parent_id' => ($data['parent_id']) ? $data['parent_id'] : null,
+                'parent_id' => (isset($data['parent_id'])) ? $data['parent_id'] : null,
             ]);
 
         } catch (Exception $e) {
