@@ -15,7 +15,8 @@ class UserController extends Controller
     {
         try	{
             //@var \App\Models\User
-            $oUsers = User::all();
+            $oUsers = User::whereRole('leader')
+                            ->get();
 
             return response()->json($oUsers, 200);
 
