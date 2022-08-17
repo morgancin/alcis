@@ -13,22 +13,23 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('client_details', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_client_detail');
+            $table->id('id_client');
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');
 
             $table->string('firstname', 80)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('lastname', 80)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('email', 150)->collation('utf8mb4_unicode_ci');
 
             $table->string('officephone', 80)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('mobilephone', 80)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('homephone', 80)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('profession', 80)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('rfc', 15)->collation('utf8mb4_unicode_ci')->nullable();
-            $table->string('curp', 15)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('curp', 20)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('servicepriority', 80)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('prospectingorigin', 80)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('prospectingmedium', 80)->collation('utf8mb4_unicode_ci')->nullable();
@@ -54,6 +55,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_details');
+        Schema::dropIfExists('clients');
     }
 };

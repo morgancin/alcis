@@ -20,9 +20,12 @@ return new class extends Migration
             $table->string('email', 255)->collation('utf8mb4_unicode_ci')->unique();
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('image', 255)->collation('utf8mb4_unicode_ci')->nullable();
-            $table->enum('role', ['leader', 'company', 'client'])->collation('utf8mb4_unicode_ci')->nullable();
+            $table->enum('role', ['leader', 'company', 'usercompany'])->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->unsignedTinyInteger('status')->nullable();
+
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->foreign('parent_id')->references('id_user')->on('users')->onDelete('cascade');
 
             //$table->unsignedBigInteger('role_id')->nullable();
             //$table->foreign('subcategoria_id')->references('id_subcategoria')->on('subcategorias')->onDelete('cascade');

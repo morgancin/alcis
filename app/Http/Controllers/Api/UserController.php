@@ -11,12 +11,44 @@ use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
-    public function index($role = false)
+    public function index()
     {
         try	{
-            //@var \App\Models\User $user
-            $oUsers = User::where('role', $role)
-                            ->get();
+            //@var \App\Models\User
+            $oUsers = User::all();
+
+            return response()->json($oUsers, 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function listCompanies()
+    {
+        try	{
+            //@var \App\Models\User
+            $oUsers = User::whereRole('company')
+                        ->get();
+
+            return response()->json($oUsers, 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function listCompaniesUsers($user_id = false)
+    {
+        try	{
+            //@var \App\Models\User
+            $oUsers = User::where('parent_id', $user_id)
+                        ->where('role', 'usercompany')
+                        ->get();
 
             return response()->json($oUsers, 200);
 
@@ -44,6 +76,8 @@ class UserController extends Controller
             $data = $request->validate([
                 'name' => 'required|string',
                 'email' => 'required|email|string|unique:users,email',
+                'role' => 'required',
+                'parent_id' => 'nullable|int',
                 'password' => [
                     'required',
                     'confirmed',
@@ -56,12 +90,12 @@ class UserController extends Controller
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'role' => $data['role'],
-                'password' => bcrypt($data['password'])
+                'password' => bcrypt($data['password']),
+                'parent_id' => ($data['parent_id']) ? $data['parent_id'] : null,
             ]);
 
         } catch (Exception $e) {
             DB::rollBack();
-            $success = false;
 
             return response()->json([
                 'message' => $e->getMessage(),

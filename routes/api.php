@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,10 +23,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['auth:sanctum']], function()
 {
-    Route::get('/users/{role}', [UserController::class, 'index']);
-    Route::post('/register', [UserController::class, 'store'])->name('api.register.user');
+    Route::post('/users/register', [UserController::class, 'store'])->name('api.users.register');
+    Route::post('/companies/register', [UserController::class, 'store'])->name('api.users.companies.register');
+    Route::post('/companies/users/register', [UserController::class, 'store'])->name('api.users.companies.users.register');
+
+    Route::get('/users/list', [UserController::class, 'index'])->name('api.users.list');
+    Route::get('/companies/list', [UserController::class, 'listCompanies'])->name('api.users.companies.list');
+    Route::get('/companies/users/list/{user_id}', [UserController::class, 'listCompaniesUsers'])->name('api.users.companies.users.list');
+
+    Route::get('/clients/list/{user_id}', [ClientController::class, 'index'])->name('api.clients.list');
+    Route::post('/clients/register', [ClientController::class, 'store'])->name('api.clients.register');
 });
 
 Route::post('/login', [AuthController::class, 'login']);
-
 //Route::post('/register', [AuthController::class, 'register']);
