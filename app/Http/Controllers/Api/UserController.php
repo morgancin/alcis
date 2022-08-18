@@ -111,4 +111,76 @@ class UserController extends Controller
             ], 200);
         }
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        try	{
+            //@var \App\Models\User
+            $oUser = User::findOrFail($id);
+
+            return response()->json($oUser, 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $success = true;
+        DB::beginTransaction();
+
+        try	{
+            $data = $request->validate([
+                'name' => 'required|string',
+                'email' => 'required',
+                'parent_id' => 'nullable|int',
+                'password' => [
+                    'required',
+                    'confirmed',
+                    Password::min(8)->mixedCase()->numbers()->symbols()
+                ]
+            ]);
+
+            //@var \App\Models\User
+            $oUser = User::findOrFail($id);
+
+            $oUser->update([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+                'parent_id' => (isset($data['parent_id'])) ? $data['parent_id'] : null,
+            ]);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+        if ($success === true) {
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Registro actualizado correctamente'
+            ], 200);
+        }
+    }
 }

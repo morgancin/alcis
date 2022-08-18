@@ -90,7 +90,17 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        //
+        try	{
+            //@var \App\Models\User
+            $oClient = Client::findOrFail($id);
+
+            return response()->json($oClient, 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -100,9 +110,51 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClientRequest $request, $id)
     {
-        //
+        $success = true;
+        DB::beginTransaction();
+
+        try	{
+            //@var \App\Models\User
+            $oClient = Client::findOrFail($id);
+
+            $oClient->update([
+                "rfc" => $request->rfc,
+                "age" => $request->age,
+                "curp" => $request->curp,
+                "city" => $request->city,
+                "email" => $request->email,
+                "state" => $request->state,
+                "gender" => $request->gender,
+                "user_id" => $request->user_id,
+                "lastname" => $request->lastname,
+                "firstname" => $request->firstname,
+                "extension" => $request->extension,
+                "homephone" => $request->homephone,
+                "profession" => $request->profession,
+                "officephone" => $request->officephone,
+                "mobilephone" => $request->mobilephone,
+                "servicepriority" => $request->servicepriority,
+                "prospectingorigin" => $request->prospectingorigin,
+                "prospectingmedium" => $request->prospectingmedium,
+            ]);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+        if ($success === true) {
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Registro actualizado correctamente'
+            ], 200);
+        }
     }
 
     /**

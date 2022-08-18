@@ -23,16 +23,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['auth:sanctum']], function()
 {
-    Route::post('/users/register', [UserController::class, 'store'])->name('api.users.register');
     Route::post('/companies/register', [UserController::class, 'store'])->name('api.users.companies.register');
     Route::post('/companies/users/register', [UserController::class, 'store'])->name('api.users.companies.users.register');
 
+    Route::get('/user/{id}', [UserController::class, 'show'])->name('api.users.show');
     Route::get('/users/list', [UserController::class, 'index'])->name('api.users.list');
+    Route::post('/users/register', [UserController::class, 'store'])->name('api.users.register');
+    Route::patch('/users/update/{id}', [UserController::class, 'update'])->name('api.users.update');
+
     Route::get('/companies/list', [UserController::class, 'listCompanies'])->name('api.users.companies.list');
     Route::get('/companies/users/list/{user_id}', [UserController::class, 'listCompaniesUsers'])->name('api.users.companies.users.list');
 
-    Route::get('/clients/list/{user_id}', [ClientController::class, 'index'])->name('api.clients.list');
+    Route::get('/client/{id}', [ClientController::class, 'show'])->name('api.clients.show');
     Route::post('/clients/register', [ClientController::class, 'store'])->name('api.clients.register');
+    Route::get('/clients/list/{user_id}', [ClientController::class, 'index'])->name('api.clients.list');
+    Route::patch('/clients/update/{id}', [ClientController::class, 'update'])->name('api.clients.update');
 });
 
 Route::post('/login', [AuthController::class, 'login']);
