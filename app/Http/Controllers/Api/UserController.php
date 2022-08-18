@@ -87,13 +87,13 @@ class UserController extends Controller
             ]);
 
             //@var \App\Models\User $user
-            User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'role' => $data['role'],
-                'password' => bcrypt($data['password']),
-                'parent_id' => (isset($data['parent_id'])) ? $data['parent_id'] : null,
-            ]);
+            $oUser = User::create([
+                                    'name' => $data['name'],
+                                    'email' => $data['email'],
+                                    'role' => $data['role'],
+                                    'password' => bcrypt($data['password']),
+                                    'parent_id' => (isset($data['parent_id'])) ? $data['parent_id'] : null,
+                                ]);
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -107,7 +107,8 @@ class UserController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Registro insertado correctamente'
+                'result' => $oUser,
+                'message' => 'Registro editado correctamente',
             ], 200);
         }
     }
