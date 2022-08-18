@@ -108,7 +108,7 @@ class UserController extends Controller
 
             return response()->json([
                 'result' => $oUser,
-                'message' => 'Registro editado correctamente',
+                'message' => 'Registro insertado correctamente',
             ], 200);
         }
     }
