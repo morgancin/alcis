@@ -178,7 +178,11 @@ class UserController extends Controller
         if ($success === true) {
             DB::commit();
 
-            return response()->json($oUser, 200);
+            //return response()->json($oUser, 200);
+            return response()->json([
+                'result' => $oUser,
+                'message' => 'Registro editado correctamente',
+            ], 200);
         }
     }
 }
