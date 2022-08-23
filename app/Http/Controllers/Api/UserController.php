@@ -88,9 +88,9 @@ class UserController extends Controller
 
             //@var \App\Models\User $user
             $oUser = User::create([
+                                    'role' => $data['role'],
                                     'name' => $data['name'],
                                     'email' => $data['email'],
-                                    'role' => $data['role'],
                                     'password' => bcrypt($data['password']),
                                     'parent_id' => (isset($data['parent_id'])) ? $data['parent_id'] : null,
                                 ]);

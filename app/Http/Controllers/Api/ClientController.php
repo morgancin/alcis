@@ -68,6 +68,7 @@ class ClientController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json([
                 'message' => $e->getMessage(),
             ], 500);
