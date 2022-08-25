@@ -13,15 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('activity_lead', function (Blueprint $table) {
+        Schema::create('activity_subjects', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_activity_lead');
+            $table->id('id_activity_subject');
 
-            $table->unsignedBigInteger('activity_id')->nullable();
-            $table->foreign('activity_id')->references('id_activity')->on('activities')->onDelete('cascade');
+            $table->unsignedBigInteger('activity_type_id')->nullable();
+            $table->foreign('activity_type_id')->references('id_activity_type')->on('activity_types')->onDelete('cascade');
 
-            $table->unsignedBigInteger('lead_id')->nullable();
-            $table->foreign('lead_id')->references('id_lead')->on('leads')->onDelete('cascade');
+            $table->string('name', 100)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
@@ -35,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activity_lead');
+        Schema::dropIfExists('activity_subjects');
     }
 };

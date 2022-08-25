@@ -16,13 +16,17 @@ class ActivityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id_user = false)
     {
         try	{
-            //@var \App\Models\Activity
-            $oActivities = Activity::all();
+            //@var \App\Models\Api\Activity
+            $oActivities = Activity::where('user_id', $id_user)
+                                            ->get();
 
-            return response()->json($oActivities, 200);
+            if($oActivities->count() > 0)
+                return response()->json($oActivities, 200);
+            else
+                return response()->json(['message' => 'No se encontraron registros'], 404);
 
         } catch (Exception $e) {
             return response()->json([
@@ -55,14 +59,14 @@ class ActivityController extends Controller
         try	{
             //@var \App\Models\Client
             Activity::create([
-                "type" => $request->type,
-                "title" => $request->title,
-                "comment" => $request->comment,
-                "is_done" => $request->is_done,
                 "user_id" => $request->user_id,
-                "location" => $request->location,
-                "schedule_to" => $request->schedule_to,
-                "schedule_from" => $request->schedule_from,
+                "comments" => $request->comments,
+                "client_id" => $request->client_id,
+                "end_datetime" => $request->end_datetime,
+                "activity_date" => $request->activity_date,
+                "start_datetime" => $request->start_datetime,
+                "activity_type_id" => $request->activity_type_id,
+                "activity_subject_id" => $request->activity_subject_id
             ]);
 
         } catch (\Exception $e) {

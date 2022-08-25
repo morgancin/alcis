@@ -20,10 +20,11 @@ return new class extends Migration
             $table->unsignedBigInteger('activity_id')->nullable();
             $table->foreign('activity_id')->references('id_activity')->on('activities')->onDelete('cascade');
 
-            $table->string('name', 255)->collation('utf8_general_ci')->nullable();
-            $table->string('path', 255)->collation('utf8_general_ci')->nullable();
+            $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('path', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->timestamps();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
         });
     }
 

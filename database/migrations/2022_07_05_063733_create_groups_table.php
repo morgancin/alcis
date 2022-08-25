@@ -18,8 +18,8 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id_group');
 
-            $table->string('name', 255)->collation('utf8_general_ci')->nullable();
-            $table->string('description', 255)->collation('utf8_general_ci')->unique();
+            $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('description', 255)->collation('utf8mb4_unicode_ci')->unique();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

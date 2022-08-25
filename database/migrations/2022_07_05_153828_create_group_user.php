@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreign('group_id')->references('id_group')->on('groups')->onDelete('cascade');
 
             $table->timestamps();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
         });
     }
 

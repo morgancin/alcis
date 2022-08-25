@@ -17,7 +17,7 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id_item_group');
 
-            $table->string('name', 255)->collation('utf8_general_ci')->nullable();
+            $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->boolean('active');
 
             $table->timestamps();

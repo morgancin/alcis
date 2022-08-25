@@ -17,8 +17,8 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id_lead_pipeline_stage');
 
-            $table->string('code', 255)->collation('utf8_general_ci')->nullable();
-            $table->string('name', 255)->collation('utf8_general_ci')->nullable();
+            $table->string('code', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->unsignedInteger('probability')->nullable();
             $table->unsignedInteger('sort_order')->nullable();
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreign('lead_pipeline_id')->references('id_lead_pipeline')->on('lead_pipelines')->onDelete('cascade');
 
             $table->timestamps();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
         });
     }
 

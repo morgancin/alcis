@@ -17,11 +17,11 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id_email');
 
-            $table->string('subject', 255)->collation('utf8_general_ci')->nullable();
-            $table->string('source', 255)->collation('utf8_general_ci')->nullable();
-            $table->string('user_type', 255)->collation('utf8_general_ci')->nullable();
-            $table->string('name', 255)->collation('utf8_general_ci')->nullable();
-            $table->text('reply')->collation('utf8_general_ci')->nullable();
+            $table->string('subject', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('source', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('user_type', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->text('reply')->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->unsignedTinyInteger('is_read')->nullable();
 
@@ -32,11 +32,11 @@ return new class extends Migration
             $table->json('cc')->nullable();
             $table->json('bcc')->nullable();
 
-            $table->string('unique_id', 255)->collation('utf8_general_ci')->unique();
+            $table->string('unique_id', 255)->collation('utf8mb4_unicode_ci')->unique();
             //$table->foreign('unique_id');
 
             $table->json('reference_ids')->nullable();
-            $table->string('message_id', 255)->collation('utf8_general_ci')->nullable();
+            $table->string('message_id', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->unsignedBigInteger('person_id')->nullable();
             $table->foreign('person_id')->references('id_person')->on('persons')->onDelete('cascade');

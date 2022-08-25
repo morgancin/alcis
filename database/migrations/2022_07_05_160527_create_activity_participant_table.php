@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreign('person_id')->references('id_person')->on('persons')->onDelete('cascade');
 
             $table->timestamps();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
         });
     }
 

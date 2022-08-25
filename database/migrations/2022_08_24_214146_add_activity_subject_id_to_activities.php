@@ -13,14 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lead_sources', function (Blueprint $table) {
-            $table->engine = "InnoDB";
-            $table->id('id_lead_source');
-
-            $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
-
-            $table->timestamps();
-            $table->softDeletes($column = 'deleted_at', $precision = 0);
+        Schema::table('activities', function (Blueprint $table) {
+            $table->unsignedBigInteger('activity_subject_id')->nullable();
+            $table->foreign('activity_subject_id')->references('id_activity_subject')->on('activity_subjects')->onDelete('cascade');
         });
     }
 
@@ -31,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lead_sources');
+        Schema::table('activities', function (Blueprint $table) {
+            $table->dropColumn('activity_subject_id');
+        });
     }
 };

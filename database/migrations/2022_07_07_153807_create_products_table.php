@@ -17,9 +17,9 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id_product');
 
-            $table->string('sku', 255)->collation('utf8_general_ci')->nullable();
-            $table->string('name', 255)->collation('utf8_general_ci')->nullable();
-            $table->string('description', 255)->collation('utf8_general_ci')->nullable();
+            $table->string('sku', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('description', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->unsignedInteger('quantity')->nullable();
             $table->unsignedDecimal('price', 12, 4)->nullable();
 

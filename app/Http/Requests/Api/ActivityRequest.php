@@ -24,8 +24,7 @@ class ActivityRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string'],
-            'type' => ['required'],
+            'start_datetime' => ['required']
         ];
     }
 }

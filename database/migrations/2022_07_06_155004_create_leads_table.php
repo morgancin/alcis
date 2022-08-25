@@ -17,8 +17,8 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id_lead');
 
-            $table->string('title', 255)->collation('utf8_general_ci')->nullable();
-            $table->text('description')->collation('utf8_general_ci')->nullable();
+            $table->string('title', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->text('description')->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->unsignedDecimal('lead_value', 12, 4)->nullable();
             $table->unsignedTinyInteger('status')->nullable();
@@ -43,7 +43,7 @@ return new class extends Migration
             $table->foreign('lead_pipeline_stage_id')->references('id_lead_pipeline_stage')->on('lead_pipeline_stage')->onDelete('cascade');
             //////////
 
-            $table->text('lost_reason')->collation('utf8_general_ci')->nullable();
+            $table->text('lost_reason')->collation('utf8mb4_unicode_ci')->nullable();
             $table->dateTime('closed_at', $precision = 0);
 
             $table->date('expected_close_date', $precision = 0);

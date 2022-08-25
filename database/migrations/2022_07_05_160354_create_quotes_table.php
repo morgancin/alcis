@@ -17,8 +17,8 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id_quote');
 
-            $table->string('subject', 255)->collation('utf8_general_ci')->nullable();
-            $table->string('description', 255)->collation('utf8_general_ci')->nullable();
+            $table->string('subject', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('description', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->json('billing_address')->nullable();
             $table->json('shipping_address')->nullable();

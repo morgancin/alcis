@@ -16,15 +16,17 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($user_id = false)
+    public function index($id_user = false)
     {
-        try	{
-            //@var \App\Models\Client
-            $oClients = Client::where('user_id', $user_id)
-                            ->get();
+        try {
+            //@var \App\Models\Api\Client
+            $oClients = Client::where('user_id', $id_user)
+                ->get();
 
-            return response()->json($oClients, 200);
-
+            if ($oClients->count() > 0)
+                return response()->json($oClients, 200);
+            else
+                return response()->json(['message' => 'No se encontraron registros'], 404);
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
@@ -43,27 +45,27 @@ class ClientController extends Controller
         $success = true;
         DB::beginTransaction();
 
-        try	{
-            //@var \App\Models\Client
+        try {
+            //@var \App\Models\Api\Client
             Client::create([
                 "rfc" => $request->rfc,
                 "age" => $request->age,
                 "curp" => $request->curp,
-                "city" => $request->city,
                 "email" => $request->email,
-                "state" => $request->state,
                 "gender" => $request->gender,
                 "user_id" => $request->user_id,
-                "lastname" => $request->lastname,
-                "firstname" => $request->firstname,
+                "last_name" => $request->last_name,
                 "extension" => $request->extension,
-                "homephone" => $request->homephone,
+                "first_name" => $request->first_name,
+                "birth_date" => $request->birth_date,
+                "phone_home" => $request->phone_home,
                 "profession" => $request->profession,
-                "officephone" => $request->officephone,
-                "mobilephone" => $request->mobilephone,
-                "servicepriority" => $request->servicepriority,
-                "prospectingorigin" => $request->prospectingorigin,
-                "prospectingmedium" => $request->prospectingmedium,
+                "birth_place" => $request->birth_place,
+                "phone_office" => $request->phone_office,
+                "phone_mobile" => $request->phone_mobile,
+                "second_last_name" => $request->second_last_name,
+                "service_priority" => $request->service_priority,
+                "client_origin_id" => $request->client_origin_id
             ]);
 
         } catch (\Exception $e) {
@@ -91,12 +93,14 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        try	{
+        try {
             //@var \App\Models\User
             $oClient = Client::findOrFail($id);
 
-            return response()->json($oClient, 200);
-
+            if ($oClient !== null)
+                return response()->json($oClient, 200);
+            else
+                return response()->json(['message' => 'No se encontraron registros'], 404);
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
@@ -116,31 +120,30 @@ class ClientController extends Controller
         $success = true;
         DB::beginTransaction();
 
-        try	{
-            //@var \App\Models\User
+        try {
+            //@var \App\Models\Client
             $oClient = Client::findOrFail($id);
 
             $oClient->update([
-                "rfc" => $request->rfc,
-                "age" => $request->age,
-                "curp" => $request->curp,
-                "city" => $request->city,
-                "email" => $request->email,
-                "state" => $request->state,
-                "gender" => $request->gender,
-                "user_id" => $request->user_id,
-                "lastname" => $request->lastname,
-                "firstname" => $request->firstname,
-                "extension" => $request->extension,
-                "homephone" => $request->homephone,
-                "profession" => $request->profession,
-                "officephone" => $request->officephone,
-                "mobilephone" => $request->mobilephone,
-                "servicepriority" => $request->servicepriority,
-                "prospectingorigin" => $request->prospectingorigin,
-                "prospectingmedium" => $request->prospectingmedium,
+                'age' => $request->age,
+                'rfc' => $request->rfc,
+                'curp' => $request->curp,
+                'email' => $request->email,
+                'gender' => $request->gender,
+                'user_id' => $request->user_id,
+                'extension' => $request->extension,
+                'last_name' => $request->last_name,
+                'first_name' => $request->first_name,
+                'birth_date' => $request->birth_date,
+                'phone_home' => $request->phone_home,
+                'profession' => $request->profession,
+                'birth_place' => $request->birth_place,
+                'phone_office' => $request->phone_office,
+                'phone_mobile' => $request->phone_mobile,
+                'second_last_name' => $request->second_last_name,
+                'client_origin_id' => $request->client_origin_id,
+                'service_priority' => $request->service_priority,
             ]);
-
         } catch (Exception $e) {
             DB::rollBack();
 

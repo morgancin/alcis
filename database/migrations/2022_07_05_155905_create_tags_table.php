@@ -17,8 +17,8 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id_tag');
 
-            $table->string('name', 255)->collation('utf8_general_ci')->nullable();
-            $table->string('color', 255)->collation('utf8_general_ci')->nullable();
+            $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('color', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');

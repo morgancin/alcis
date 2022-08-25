@@ -21,8 +21,8 @@ return new class extends Migration
             $table->unsignedInteger('type')->nullable();
             $table->unsignedBigInteger('item_group_id')->nullable();
             $table->unsignedBigInteger('category_group_id')->nullable();
-            $table->string('name', 255)->collation('utf8_general_ci')->nullable();
-            $table->string('image', 255)->collation('utf8_general_ci')->nullable();
+            $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('image', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

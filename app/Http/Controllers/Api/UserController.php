@@ -18,7 +18,10 @@ class UserController extends Controller
             $oUsers = User::whereRole('leader')
                             ->get();
 
-            return response()->json($oUsers, 200);
+            if($oUsers->count() > 0)
+                return response()->json($oUsers, 200);
+            else
+                return response()->json(['message' => 'No se encontraron registros'], 404);
 
         } catch (Exception $e) {
             return response()->json([
@@ -34,7 +37,10 @@ class UserController extends Controller
             $oUsers = User::whereRole('company')
                         ->get();
 
-            return response()->json($oUsers, 200);
+            if($oUsers->count() > 0)
+                return response()->json($oUsers, 200);
+            else
+                return response()->json(['message' => 'No se encontraron registros'], 404);
 
         } catch (Exception $e) {
             return response()->json([
@@ -43,15 +49,18 @@ class UserController extends Controller
         }
     }
 
-    public function listCompaniesUsers($user_id = false)
+    public function listCompaniesUsers($id_user = false)
     {
         try	{
             //@var \App\Models\User
-            $oUsers = User::where('parent_id', $user_id)
-                        ->where('role', 'usercompany')
-                        ->get();
+            $oUsers = User::where('parent_id', $id_user)
+                            ->where('role', 'usercompany')
+                            ->get();
 
-            return response()->json($oUsers, 200);
+            if($oUsers->count() > 0)
+                return response()->json($oUsers, 200);
+            else
+                return response()->json(['message' => 'No se encontraron registros'], 404);
 
         } catch (Exception $e) {
             return response()->json([
@@ -125,7 +134,10 @@ class UserController extends Controller
             //@var \App\Models\User
             $oUser = User::findOrFail($id);
 
-            return response()->json($oUser, 200);
+            if($oUser !== null)
+                return response()->json($oUser, 200);
+            else
+                return response()->json(['message' => 'No se encontraron registros'], 404);
 
         } catch (Exception $e) {
             return response()->json([

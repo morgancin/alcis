@@ -17,7 +17,7 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id_lead_pipeline');
 
-            $table->string('name', 255)->collation('utf8_general_ci')->nullable();
+            $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->unsignedTinyInteger('is_default')->nullable();
             $table->unsignedInteger('rotten_days')->nullable();
 

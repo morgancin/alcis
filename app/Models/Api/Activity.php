@@ -9,7 +9,7 @@ class Activity extends Model
 {
     //use HasFactory;
     protected $primaryKey = 'id_activity';
-    protected $fillable = ['title', 'type', 'comment', 'schedule_to', 'schedule_from', 'is_done', 'user_id', 'location'];
+    protected $fillable = ['user_id', 'client_id', 'activity_date', 'start_datetime', 'end_datetime', 'comments', 'activity_type_id', 'activity_subject_id'];
 
     //protected $perPage = 30;
 }
