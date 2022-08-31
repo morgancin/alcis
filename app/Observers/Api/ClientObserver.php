@@ -89,6 +89,14 @@ class ClientObserver
             }
         }
 
+        if(isset(request()->zipcode))
+        {
+            if (!empty(request()->zipcode))
+            {
+                $aAdress['zipcode'] = request()->zipcode;
+            }
+        }
+
         if(count($aAdress) > 0)
         {
             $aAdress['client_id'] = $client->id_client;

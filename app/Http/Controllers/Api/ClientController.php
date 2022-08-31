@@ -65,7 +65,7 @@ class ClientController extends Controller
                 "phone_mobile" => $request->phone_mobile,
                 "second_last_name" => $request->second_last_name,
                 "service_priority" => $request->service_priority,
-                "client_origin_id" => $request->client_origin_id
+                "client_medium_origin_id" => $request->client_medium_origin_id
             ]);
 
         } catch (\Exception $e) {
@@ -141,8 +141,8 @@ class ClientController extends Controller
                 'phone_office' => $request->phone_office,
                 'phone_mobile' => $request->phone_mobile,
                 'second_last_name' => $request->second_last_name,
-                'client_origin_id' => $request->client_origin_id,
                 'service_priority' => $request->service_priority,
+                "client_medium_origin_id" => $request->client_medium_origin_id,
             ]);
         } catch (Exception $e) {
             DB::rollBack();

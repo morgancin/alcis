@@ -9,5 +9,5 @@ class ClientAddress extends Model
 {
     //use HasFactory;
     protected $primaryKey = 'id_client_address';
-    protected $fillable = ['client_id', 'street', 'outdoor', 'indoor', 'suburb', 'town', 'city', 'state', 'country', 'alias'];
+    protected $fillable = ['client_id', 'zipcode', 'street', 'outdoor', 'indoor', 'suburb', 'town', 'city', 'state', 'country', 'alias'];
 }

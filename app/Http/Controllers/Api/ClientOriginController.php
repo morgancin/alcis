@@ -25,6 +25,7 @@ class ClientOriginController extends Controller
                 return response()->json($oClientOrigins, 200);
             else
                 return response()->json(['message' => 'No se encontraron registros'], 404);
+
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
