@@ -21,8 +21,11 @@ return new class extends Migration
             $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');
 
             $table->date('activity_date', $precision = 0);
-            $table->dateTime('start_datetime', $precision = 0);
-            $table->dateTime('end_datetime', $precision = 0);
+
+            $table->date('start_date', $precision = 0);
+            $table->time('start_time', $precision = 0);
+            $table->date('end_date', $precision = 0);
+            $table->time('end_time', $precision = 0);
             $table->text('comments')->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->timestamps();
