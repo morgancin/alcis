@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ClientRequest;
-
 class ClientController extends Controller
 {
     /**
@@ -94,13 +93,14 @@ class ClientController extends Controller
     public function show($id)
     {
         try {
-            //@var \App\Models\User
+            //@var \App\Models\Api\Client
             $oClient = Client::findOrFail($id);
 
             if ($oClient !== null)
                 return response()->json($oClient, 200);
             else
                 return response()->json(['message' => 'No se encontraron registros'], 404);
+
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
@@ -121,7 +121,7 @@ class ClientController extends Controller
         DB::beginTransaction();
 
         try {
-            //@var \App\Models\Client
+            //@var \App\Models\Api\Client
             $oClient = Client::findOrFail($id);
 
             $oClient->update([
@@ -144,6 +144,7 @@ class ClientController extends Controller
                 'service_priority' => $request->service_priority,
                 "client_medium_origin_id" => $request->client_medium_origin_id,
             ]);
+
         } catch (Exception $e) {
             DB::rollBack();
 
