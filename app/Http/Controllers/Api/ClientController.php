@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use App\Models\Api\Client;
+use App\Models\Api\Activity;
 use Illuminate\Http\Request;
+use App\Models\Api\ClientAddress;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ClientRequest;
+use App\Http\Requests\Api\ClientActivityRequest;
+
 class ClientController extends Controller
 {
     /**
@@ -85,6 +89,86 @@ class ClientController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store_client_activity(ClientActivityRequest $request)
+    {
+        $success = true;
+        DB::beginTransaction();
+
+        try {
+            //@var \App\Models\Api\Client
+            $oClient = Client::create([
+                                        "user_id" => $request->user_id,
+
+                                        "rfc" => $request->rfc,
+                                        "age" => $request->age,
+                                        "curp" => $request->curp,
+                                        "email" => $request->email,
+                                        "gender" => $request->gender,
+                                        "last_name" => $request->last_name,
+                                        "extension" => $request->extension,
+                                        "first_name" => $request->first_name,
+                                        "birth_date" => $request->birth_date,
+                                        "phone_home" => $request->phone_home,
+                                        "profession" => $request->profession,
+                                        "birth_place" => $request->birth_place,
+                                        "phone_office" => $request->phone_office,
+                                        "phone_mobile" => $request->phone_mobile,
+                                        "second_last_name" => $request->second_last_name,
+                                        "service_priority" => $request->service_priority,
+                                        "client_medium_origin_id" => $request->client_medium_origin_id
+                                    ]);
+
+            ClientAddress::create([
+                "client_id" => $oClient->id_client,
+
+                "city" => $request->city,
+                "town" => $request->town,
+                "state" => $request->state,
+                "alias" => $request->alias,
+                "street" => $request->street,
+                "indoor" => $request->indoor,
+                "suburb" => $request->suburb,
+                "outdoor" => $request->outdoor,
+                "country" => $request->country,
+                "zipcode" => $request->zipcode,
+            ]);
+
+            Activity::create([
+                "user_id" => $request->user_id,
+                "comments" => $request->comments,
+                "end_date" => $request->end_date,
+                "end_time" => $request->end_time,
+                "client_id" => $request->client_id,
+                "start_time" => $request->start_time,
+                "start_date" => $request->start_date,
+                "activity_date" => $request->activity_date,
+                "activity_type_id" => $request->activity_type_id,
+                "activity_subject_id" => $request->activity_subject_id,
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+        if ($success === true) {
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Registro insertado correctamente'
+            ], 200);
+        }
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -125,23 +209,23 @@ class ClientController extends Controller
             $oClient = Client::findOrFail($id);
 
             $oClient->update([
-                'age' => $request->age,
-                'rfc' => $request->rfc,
-                'curp' => $request->curp,
-                'email' => $request->email,
-                'gender' => $request->gender,
-                'user_id' => $request->user_id,
-                'extension' => $request->extension,
-                'last_name' => $request->last_name,
-                'first_name' => $request->first_name,
-                'birth_date' => $request->birth_date,
-                'phone_home' => $request->phone_home,
-                'profession' => $request->profession,
-                'birth_place' => $request->birth_place,
-                'phone_office' => $request->phone_office,
-                'phone_mobile' => $request->phone_mobile,
-                'second_last_name' => $request->second_last_name,
-                'service_priority' => $request->service_priority,
+                "age" => $request->age,
+                "rfc" => $request->rfc,
+                "curp" => $request->curp,
+                "email" => $request->email,
+                "gender" => $request->gender,
+                "user_id" => $request->user_id,
+                "extension" => $request->extension,
+                "last_name" => $request->last_name,
+                "first_name" => $request->first_name,
+                "birth_date" => $request->birth_date,
+                "phone_home" => $request->phone_home,
+                "profession" => $request->profession,
+                "birth_place" => $request->birth_place,
+                "phone_office" => $request->phone_office,
+                "phone_mobile" => $request->phone_mobile,
+                "second_last_name" => $request->second_last_name,
+                "service_priority" => $request->service_priority,
                 "client_medium_origin_id" => $request->client_medium_origin_id,
             ]);
 

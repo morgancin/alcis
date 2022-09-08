@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('state', 50)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('country', 50)->collation('utf8mb4_unicode_ci')->default('México');
             $table->string('alias', 50)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->unsignedInteger('zipcode', 5)->nullable();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

@@ -57,10 +57,9 @@ Route::group(['middleware' => ['auth:sanctum']], function()
             Route::post('/register', 'store')->name('api.clients.register');
             Route::get('/list/{id_user}', 'index')->name('api.clients.list');
             Route::patch('/update/{id}', 'update')->name('api.clients.update');
-        });
 
-        //Route::get('/origins/list', [ClientOriginController::class, 'index'])->name('api.clients.origins');
-        //Route::get('/origins/mediums/list/{id_client_origin}', [ClientOriginController::class, 'listOriginsMedium'])->name('api.clients.origins.medium');
+            Route::post('/activity/register', 'store_client_activity')->name('api.clients.activity.register');
+        });
 
         Route::group(['prefix' => "origins"], function()
         {
@@ -87,9 +86,6 @@ Route::group(['middleware' => ['auth:sanctum']], function()
             Route::post('/register', 'store')->name('api.activities.register');
             Route::get('/list/{id_user}', 'index')->name('api.activities.list');
         });
-
-        //Route::get('/types/list/{id_user}', ActivityTypeController::class)->name('api.activities.types');
-        //Route::get('/subjects/list/{id_activity_type}', ActivitySubjectController::class)->name('api.activities.subjects');
 
         Route::group(['prefix' => "types"], function()
         {
