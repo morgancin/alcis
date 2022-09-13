@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_categorie');
+            $table->id('id');
 
             $table->boolean('active');
             $table->unsignedInteger('order')->nullable();

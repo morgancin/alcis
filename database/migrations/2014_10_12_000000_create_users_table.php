@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_user');
+            $table->id('id');
 
             $table->string('email', 255)->collation('utf8mb4_unicode_ci')->unique();
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('status')->nullable();
 
             $table->unsignedBigInteger('parent_id')->nullable();
-            $table->foreign('parent_id')->references('id_user')->on('users')->onDelete('cascade');
+            $table->foreign('parent_id')->references('id')->on('users')->onDelete('cascade');
 
             //$table->unsignedBigInteger('role_id')->nullable();
             //$table->foreign('subcategoria_id')->references('id_subcategoria')->on('subcategorias')->onDelete('cascade');

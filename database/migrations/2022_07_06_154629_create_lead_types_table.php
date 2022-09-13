@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('lead_types', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_lead_type');
+            $table->id('id');
 
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
 

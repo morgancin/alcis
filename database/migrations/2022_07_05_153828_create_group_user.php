@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('group_user', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_group_user');
+            $table->id('id');
 
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->unsignedBigInteger('group_id')->nullable();
-            $table->foreign('group_id')->references('id_group')->on('groups')->onDelete('cascade');
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

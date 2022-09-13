@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('quote_items', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_quote_item');
+            $table->id('id');
 
             $table->string('sku', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
@@ -29,10 +29,10 @@ return new class extends Migration
             $table->unsignedDecimal('total', 12, 4)->nullable();
 
             $table->unsignedBigInteger('quote_id')->nullable();
-            $table->foreign('quote_id')->references('id_quote')->on('quotes')->onDelete('cascade');
+            $table->foreign('quote_id')->references('id')->on('quotes')->onDelete('cascade');
 
             $table->unsignedBigInteger('product_id')->nullable();
-            $table->foreign('product_id')->references('id_product')->on('products')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

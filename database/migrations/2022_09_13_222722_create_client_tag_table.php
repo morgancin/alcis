@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('activity_files', function (Blueprint $table) {
+        Schema::create('client_tag', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->id('id');
 
-            $table->unsignedBigInteger('activity_id')->nullable();
-            $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
+            $table->unsignedBigInteger('client_id')->nullable();
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
 
-            $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
-            $table->string('path', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->unsignedBigInteger('tag_id')->nullable();
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activity_files');
+        Schema::dropIfExists('client_tag');
     }
 };

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_product');
+            $table->id('id');
 
             $table->string('sku', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unsignedDecimal('price', 12, 4)->nullable();
 
             $table->unsignedBigInteger('categorie_id')->nullable();
-            $table->foreign('categorie_id')->references('id_categorie')->on('categories')->onDelete('cascade');
+            $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('persons', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_person');
+            $table->id('id');
 
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->json('emails')->nullable();
             $table->json('contact_numbers')->nullable();
 
             $table->unsignedBigInteger('organization_id')->nullable();
-            $table->foreign('organization_id')->references('id_organization')->on('organizations')->onDelete('cascade');
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

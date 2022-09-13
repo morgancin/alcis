@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('lead_tag', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_lead_tag');
+            $table->id('id');
 
             $table->unsignedBigInteger('tag_id')->nullable();
-            $table->foreign('tag_id')->references('id_tag')->on('tags')->onDelete('cascade');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
 
             $table->unsignedBigInteger('lead_id')->nullable();
-            $table->foreign('lead_id')->references('id_lead')->on('leads')->onDelete('cascade');
+            $table->foreign('lead_id')->references('id')->on('leads')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('lead_pipeline_stage', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_lead_pipeline_stage');
+            $table->id('id');
 
             $table->string('code', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unsignedInteger('sort_order')->nullable();
 
             $table->unsignedBigInteger('lead_pipeline_id')->nullable();
-            $table->foreign('lead_pipeline_id')->references('id_lead_pipeline')->on('lead_pipelines')->onDelete('cascade');
+            $table->foreign('lead_pipeline_id')->references('id')->on('lead_pipelines')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

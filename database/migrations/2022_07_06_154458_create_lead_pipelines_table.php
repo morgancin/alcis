@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('lead_pipelines', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_lead_pipeline');
+            $table->id('id');
 
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->unsignedTinyInteger('is_default')->nullable();

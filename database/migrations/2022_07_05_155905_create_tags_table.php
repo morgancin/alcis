@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_tag');
+            $table->id('id');
 
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
-            $table->string('color', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->enum('type', ['tag', 'list'])->collation('utf8mb4_unicode_ci')->nullable();
+            //$table->string('color', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

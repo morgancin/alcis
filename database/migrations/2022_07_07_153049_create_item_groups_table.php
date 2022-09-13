@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('item_groups', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_item_group');
+            $table->id('id');
 
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->boolean('active');

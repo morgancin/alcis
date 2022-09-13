@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('emails', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_email');
+            $table->id('id');
 
             $table->string('subject', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('source', 255)->collation('utf8mb4_unicode_ci')->nullable();
@@ -39,10 +39,10 @@ return new class extends Migration
             $table->string('message_id', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->unsignedBigInteger('person_id')->nullable();
-            $table->foreign('person_id')->references('id_person')->on('persons')->onDelete('cascade');
+            $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade');
 
             $table->unsignedBigInteger('lead_id')->nullable();
-            $table->foreign('lead_id')->references('id_lead')->on('leads')->onDelete('cascade');
+            $table->foreign('lead_id')->references('id')->on('leads')->onDelete('cascade');
 
             $table->unsignedBigInteger('parent_id')->nullable();
             //$table->foreign('parent_id');

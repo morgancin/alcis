@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_client');
+            $table->id('id');
 
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->string('first_name', 50)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('last_name', 50)->collation('utf8mb4_unicode_ci')->nullable();

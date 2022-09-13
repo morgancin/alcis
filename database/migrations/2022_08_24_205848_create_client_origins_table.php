@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('client_origins', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_client_origin');
+            $table->id('id');
 
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->string('description', 100)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->unsignedBigInteger('parent_id_client_medium')->nullable();
-            $table->foreign('parent_id_client_medium')->references('id_client_origin')->on('client_origins')->onDelete('cascade');
+            $table->foreign('parent_id_client_medium')->references('id')->on('client_origins')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

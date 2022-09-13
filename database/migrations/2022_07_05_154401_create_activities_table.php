@@ -15,16 +15,18 @@ return new class extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_activity');
+            $table->id('id');
+            //start_date & end_date se cambian a TimeStamp
 
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->date('activity_date', $precision = 0);
 
-            $table->date('start_date', $precision = 0);
+            $table->timestamp('end_date')->nullable();
+            $table->timestamp('start_date')->nullable();
+
             $table->time('start_time', $precision = 0);
-            $table->date('end_date', $precision = 0);
             $table->time('end_time', $precision = 0);
             $table->text('comments')->collation('utf8mb4_unicode_ci')->nullable();
 

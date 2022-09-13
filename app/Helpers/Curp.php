@@ -1,4 +1,35 @@
 <?php
+/*
+function agregaDigitoVerificador(curp_str) {
+      var curp, caracteres, curpNumerico, suma, digito;
+
+      // Convierte el CURP en un arreglo
+      curp = curp_str.substring(0, 17).toUpperCase().split('');
+      caracteres  = [
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
+        'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S',
+        'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+      ];
+
+      // Convierte el curp a un arreglo de números, usando la posición de cada
+      // carácter, dentro del arreglo caracteres.
+      curpNumerico = curp.map(function (caracter) {
+        return caracteres.indexOf(caracter);
+      });
+
+      suma = curpNumerico.reduce(function (prev, valor, indice) {
+        return prev + (valor * (18 - indice));
+      }, 0);
+
+      digito = (10 - (suma % 10));
+
+      if (digito === 10) {
+        digito = 0;
+      }
+
+      return curp_str + digito;
+    }
+*/
 
  namespace App\Helpers;
 

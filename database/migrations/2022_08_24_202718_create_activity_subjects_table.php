@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('activity_subjects', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_activity_subject');
+            $table->id('id');
 
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->unsignedBigInteger('activity_type_id')->nullable();
-            $table->foreign('activity_type_id')->references('id_activity_type')->on('activity_types')->onDelete('cascade');
+            $table->foreign('activity_type_id')->references('id')->on('activity_types')->onDelete('cascade');
 
             $table->string('name', 100)->collation('utf8mb4_unicode_ci')->nullable();
 

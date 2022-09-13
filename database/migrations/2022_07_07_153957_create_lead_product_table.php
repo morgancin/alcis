@@ -15,17 +15,17 @@ return new class extends Migration
     {
         Schema::create('lead_product', function (Blueprint $table) {
             $table->engine = "InnoDB";
-            $table->id('id_lead_product');
+            $table->id('id');
 
             $table->unsignedInteger('quantity')->nullable();
             $table->unsignedDecimal('price', 12, 4)->nullable();
             $table->unsignedDecimal('amount', 12, 4)->nullable();
 
             $table->unsignedBigInteger('lead_id')->nullable();
-            $table->foreign('lead_id')->references('id_lead')->on('leads')->onDelete('cascade');
+            $table->foreign('lead_id')->references('id')->on('leads')->onDelete('cascade');
 
             $table->unsignedBigInteger('product_id')->nullable();
-            $table->foreign('product_id')->references('id_product')->on('products')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
 
             $table->timestamps();
         });
