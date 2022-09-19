@@ -2,13 +2,14 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AnexoController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\ActivityController;
-use App\Http\Controllers\Api\ClientOriginController;
 use App\Http\Controllers\Api\ActivityTypeController;
+use App\Http\Controllers\Api\ClientOriginController;
 use App\Http\Controllers\Api\ActivitySubjectController;
 
 /*
@@ -106,6 +107,44 @@ Route::group(['middleware' => ['auth:sanctum']], function()
                 Route::get('/list/{id_user}/{id_activity_type}', 'index')->name('api.activities.subjects');
             });
         });
+    });
+
+    Route::group(['prefix' => "tags"], function()
+    {
+        Route::controller(TagController::class)->group(function ()
+        {
+            Route::post('/register', 'store')->name('api.tags.register');
+            Route::get('/list/{id_user}', 'index')->name('api.tags.list');
+            Route::patch('/update/{id}', 'update')->name('api.tags.update');
+        });
+
+        /*
+        Route::controller(ActivityController::class)->group(function ()
+        {
+            Route::post('/register', 'store')->name('api.activities.register');
+            Route::get('/list/{id_user}', 'index')->name('api.activities.list');
+        });
+
+        Route::group(['prefix' => "types"], function()
+        {
+            Route::controller(ActivityTypeController::class)->group(function ()
+            {
+                Route::get('/list/{id_user}', 'index')->name('api.activities.types');
+                Route::post('/register', 'store')->name('api.activities.types.register');
+                Route::patch('/update/{id}', 'update')->name('api.activities.types.update');
+            });
+        });
+
+        Route::group(['prefix' => "subjects"], function()
+        {
+            Route::controller(ActivitySubjectController::class)->group(function ()
+            {
+                Route::post('/register', 'store')->name('api.activities.subjects.register');
+                Route::patch('/update/{id}', 'update')->name('api.activities.subjects.update');
+                Route::get('/list/{id_user}/{id_activity_type}', 'index')->name('api.activities.subjects');
+            });
+        });
+        */
     });
 
     Route::post('/fetch/curp', [AnexoController::class, 'fetchCurp'])->name('api.fetch.curp');
