@@ -16,13 +16,18 @@ class ClientOriginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id_client_origin = false)
     {
         try {
             //@var \App\Models\Api\ClientOrigin
-            $oClientOrigins = ClientOrigin::where('user_id', auth()->user()->id)
-                                        ->whereNull('parent_id_client_medium')
-                                        ->get();
+            $oClientOrigins = ClientOrigin::where('user_id', auth()->user()->id);
+
+            if(!$id_client_origin)
+                $oClientOrigins->whereNull('parent_id_client_medium');
+            else
+                $oClientOrigins->where('parent_id_client_medium', $id_client_origin);
+
+            $oClientOrigins = $oClientOrigins->get();
 
             if ($oClientOrigins->count() > 0)
                 return response()->json($oClientOrigins, 200);
@@ -124,6 +129,7 @@ class ClientOriginController extends Controller
         }
     }
 
+    /*
     public function listOriginsMedium($id_client_origin = false)
     {
         try {
@@ -143,4 +149,5 @@ class ClientOriginController extends Controller
             ], 500);
         }
     }
+    */
 }

@@ -74,7 +74,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
                 {
                     Route::post('/register', 'store')->name('api.clients.origins.medium.register');
                     Route::patch('/update/{id}', 'update')->name('api.clients.origins.medium.update');
-                    Route::get('/list/{id_client_origin}', 'listOriginsMedium')->name('api.clients.origins.medium');
+                    Route::get('/list/{id_client_origin}', 'index')->name('api.clients.origins.medium');    //Route::get('/list/{id_client_origin}', 'listOriginsMedium')->name('api.clients.origins.medium');
                 });
             });
         });
