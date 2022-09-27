@@ -16,11 +16,11 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id_user = false)
+    public function index()
     {
         try {
             //@var \App\Models\Api\Tag
-            $oTags = Tag::where('user_id', $id_user)
+            $oTags = Tag::where('user_id', auth()->user()->id)
                 ->get();
 
             if ($oTags->count() > 0)
@@ -49,9 +49,9 @@ class TagController extends Controller
         try {
             //@var \App\Models\Api\Tag
             $oTag = Tag::create([
+                                    "user_id" => auth()->user()->id,
                                     "name" => $request->name,
                                     "type" => $request->type,
-                                    "user_id" => $request->user_id,
                                 ]);
 
         } catch (\Exception $e) {
@@ -88,9 +88,9 @@ class TagController extends Controller
             $oTag = Tag::findOrFail($id);
 
             $oTag->update([
+                            "user_id" => auth()->user()->id,
                             "name" => $request->name,
                             "type" => $request->type,
-                            "user_id" => $request->user_id,
                         ]);
 
         } catch (Exception $e) {

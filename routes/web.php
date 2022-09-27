@@ -1,6 +1,9 @@
 <?php
 
+use Carbon\Carbon;
+use App\Jobs\Logger;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestQueueEmails;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Route::get('sendSMS', [TwilioSMSController::class, 'index']);
+
 Route::get('/', function () {
-    return view('welcome');
+    //return view('welcome');
+    //Logger::dispatch();
+    //Logger::dispatch()->onQueue('secondary');
+    //Logger::dispatch()->delay(Carbon::today()->addMinutes(20));
 });
+
+Route::get('sending-queue-emails', [TestQueueEmails::class,'sendTestEmails']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

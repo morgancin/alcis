@@ -11,11 +11,11 @@ use App\Http\Requests\Api\ActivityTypeRequest;
 
 class ActivityTypeController extends Controller
 {
-    public function index($id_user = false)
+    public function index()
     {
         try	{
             //@var \App\Models\Api\ActivityType
-            $oActivityTypes = ActivityType::where('user_id', $id_user)
+            $oActivityTypes = ActivityType::where('user_id', auth()->user()->id)
                                             ->get();
 
             if($oActivityTypes->count() > 0)
@@ -44,9 +44,10 @@ class ActivityTypeController extends Controller
         try {
             //@var \App\Models\Api\ActivityType
             ActivityType::create([
+                'user_id' => auth()->user()->id,
+
                 'type' => $request->type,
                 'name' => $request->name,
-                'user_id' => $request->user_id,
             ]);
 
         } catch (\Exception $e) {

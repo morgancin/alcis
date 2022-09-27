@@ -11,11 +11,11 @@ use App\Http\Requests\Api\ActivitySubjectRequest;
 
 class ActivitySubjectController extends Controller
 {
-    public function index($id_user = false, $id_activity_type = false)
+    public function index($id_activity_type = false)
     {
         try	{
             //@var \App\Models\Api\ActivitySubject
-            $oActivitySubjects = ActivitySubject::where('user_id', $id_user)
+            $oActivitySubjects = ActivitySubject::where('user_id', auth()->user()->id)
                                             ->where('activity_type_id', $id_activity_type)
                                             ->get();
 

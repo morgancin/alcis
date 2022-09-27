@@ -46,7 +46,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
             Route::post('/register', 'store')->name('api.users.companies.register');
             Route::patch('/update/{id}', 'update')->name('api.users.companies.update');
             Route::post('/users/register', 'store')->name('api.users.companies.users.register');
-            Route::get('/users/list/{id_user}', 'listCompaniesUsers')->name('api.users.companies.users.list');
+            Route::get('/users/list', 'listCompaniesUsers')->name('api.users.companies.users.list');
         });
     });
 
@@ -54,9 +54,9 @@ Route::group(['middleware' => ['auth:sanctum']], function()
     {
         Route::controller(ClientController::class)->group(function ()
         {
+            Route::get('/list', 'index')->name('api.clients.list');
             Route::get('/client/{id}', 'show')->name('api.clients.show');
-            Route::post('/register', 'store')->name('api.clients.register');
-            Route::get('/list/{id_user}', 'index')->name('api.clients.list');
+            //Route::post('/register', 'store')->name('api.clients.register');
             Route::patch('/update/{id}', 'update')->name('api.clients.update');
 
             Route::post('/activity/register', 'store_client_activity')->name('api.clients.activity.register');
@@ -66,7 +66,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
         {
             Route::controller(ClientOriginController::class)->group(function ()
             {
-                Route::get('/list/{id_user}', 'index')->name('api.clients.origins');
+                Route::get('/list', 'index')->name('api.clients.origins');
                 Route::post('/register', 'store')->name('api.clients.origins.register');
                 Route::patch('/update/{id}', 'update')->name('api.clients.origins.update');
 
@@ -74,7 +74,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
                 {
                     Route::post('/register', 'store')->name('api.clients.origins.medium.register');
                     Route::patch('/update/{id}', 'update')->name('api.clients.origins.medium.update');
-                    Route::get('/list/{id_user}/{id_client_origin}', 'listOriginsMedium')->name('api.clients.origins.medium');
+                    Route::get('/list/{id_client_origin}', 'listOriginsMedium')->name('api.clients.origins.medium');
                 });
             });
         });
@@ -84,15 +84,15 @@ Route::group(['middleware' => ['auth:sanctum']], function()
     {
         Route::controller(ActivityController::class)->group(function ()
         {
+            Route::get('/list', 'index')->name('api.activities.list');
             Route::post('/register', 'store')->name('api.activities.register');
-            Route::get('/list/{id_user}', 'index')->name('api.activities.list');
         });
 
         Route::group(['prefix' => "types"], function()
         {
             Route::controller(ActivityTypeController::class)->group(function ()
             {
-                Route::get('/list/{id_user}', 'index')->name('api.activities.types');
+                Route::get('/list', 'index')->name('api.activities.types');
                 Route::post('/register', 'store')->name('api.activities.types.register');
                 Route::patch('/update/{id}', 'update')->name('api.activities.types.update');
             });
@@ -104,7 +104,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
             {
                 Route::post('/register', 'store')->name('api.activities.subjects.register');
                 Route::patch('/update/{id}', 'update')->name('api.activities.subjects.update');
-                Route::get('/list/{id_user}/{id_activity_type}', 'index')->name('api.activities.subjects');
+                Route::get('/list/{id_activity_type}', 'index')->name('api.activities.subjects');
             });
         });
     });
@@ -113,38 +113,10 @@ Route::group(['middleware' => ['auth:sanctum']], function()
     {
         Route::controller(TagController::class)->group(function ()
         {
+            Route::get('/list', 'index')->name('api.tags.list');
             Route::post('/register', 'store')->name('api.tags.register');
-            Route::get('/list/{id_user}', 'index')->name('api.tags.list');
             Route::patch('/update/{id}', 'update')->name('api.tags.update');
         });
-
-        /*
-        Route::controller(ActivityController::class)->group(function ()
-        {
-            Route::post('/register', 'store')->name('api.activities.register');
-            Route::get('/list/{id_user}', 'index')->name('api.activities.list');
-        });
-
-        Route::group(['prefix' => "types"], function()
-        {
-            Route::controller(ActivityTypeController::class)->group(function ()
-            {
-                Route::get('/list/{id_user}', 'index')->name('api.activities.types');
-                Route::post('/register', 'store')->name('api.activities.types.register');
-                Route::patch('/update/{id}', 'update')->name('api.activities.types.update');
-            });
-        });
-
-        Route::group(['prefix' => "subjects"], function()
-        {
-            Route::controller(ActivitySubjectController::class)->group(function ()
-            {
-                Route::post('/register', 'store')->name('api.activities.subjects.register');
-                Route::patch('/update/{id}', 'update')->name('api.activities.subjects.update');
-                Route::get('/list/{id_user}/{id_activity_type}', 'index')->name('api.activities.subjects');
-            });
-        });
-        */
     });
 
     Route::post('/fetch/curp', [AnexoController::class, 'fetchCurp'])->name('api.fetch.curp');

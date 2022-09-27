@@ -16,12 +16,12 @@ class ActivityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id_user = false)
+    public function index()
     {
         try	{
             //@var \App\Models\Api\Activity
-            $oActivities = Activity::where('user_id', $id_user)
-                                            ->get();
+            $oActivities = Activity::where('user_id', auth()->user()->id)
+                                    ->get();
 
             if($oActivities->count() > 0)
                 return response()->json($oActivities, 200);
@@ -59,7 +59,7 @@ class ActivityController extends Controller
         try	{
             //@var \App\Models\Client
             Activity::create([
-                "user_id" => $request->user_id,
+                "user_id" => auth()->user()->id,
                 "comments" => $request->comments,
                 "client_id" => $request->client_id,
                 "end_datetime" => $request->end_datetime,

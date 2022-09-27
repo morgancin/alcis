@@ -49,11 +49,11 @@ class UserController extends Controller
         }
     }
 
-    public function listCompaniesUsers($id_user = false)
+    public function listCompaniesUsers()
     {
         try	{
             //@var \App\Models\User
-            $oUsers = User::where('parent_id', $id_user)
+            $oUsers = User::where('parent_id', auth()->user()->id)
                             ->where('role', 'usercompany')
                             ->get();
 

@@ -16,11 +16,11 @@ class ClientOriginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id_user = false)
+    public function index()
     {
         try {
             //@var \App\Models\Api\ClientOrigin
-            $oClientOrigins = ClientOrigin::where('user_id', $id_user)
+            $oClientOrigins = ClientOrigin::where('user_id', auth()->user()->id)
                                         ->whereNull('parent_id_client_medium')
                                         ->get();
 
@@ -49,7 +49,7 @@ class ClientOriginController extends Controller
 
         try {
             $aRegistro = array(
-                                'user_id' => $request->user_id,
+                                'user_id' => auth()->user()->id,
                                 'description' => $request->description,
                             );
 
@@ -124,11 +124,11 @@ class ClientOriginController extends Controller
         }
     }
 
-    public function listOriginsMedium($id_user = false, $id_client_origin = false)
+    public function listOriginsMedium($id_client_origin = false)
     {
         try {
             //@var \App\Models\Api\ClientOrigin
-            $oClientOriginsMediums = ClientOrigin::where('user_id', $id_user)
+            $oClientOriginsMediums = ClientOrigin::where('user_id', auth()->user()->id)
                                             ->where('parent_id_client_medium', $id_client_origin)
                                             ->get();
 

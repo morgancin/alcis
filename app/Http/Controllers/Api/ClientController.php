@@ -19,11 +19,11 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id_user = false)
+    public function index()
     {
         try {
             //@var \App\Models\Api\Client
-            $oClients = Client::where('user_id', $id_user)
+            $oClients = Client::where('user_id', auth()->user()->id)
                 ->get();
 
             if ($oClients->count() > 0)
@@ -57,7 +57,7 @@ class ClientController extends Controller
                 "curp" => $request->curp,
                 "email" => $request->email,
                 "gender" => $request->gender,
-                "user_id" => $request->user_id,
+                "user_id" => auth()->user()->id,
                 "last_name" => $request->last_name,
                 "extension" => $request->extension,
                 "first_name" => $request->first_name,
@@ -95,6 +95,7 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    //Create Store ClientActivity
     public function store_client_activity(ClientActivityRequest $request)
     {
         $success = true;
@@ -103,44 +104,48 @@ class ClientController extends Controller
         try {
             //@var \App\Models\Api\Client
             $oClient = Client::create([
-                                        "user_id" => $request->user_id,
+                            "user_id" => auth()->user()->id,
 
-                                        "rfc" => $request->rfc,
-                                        "age" => $request->age,
-                                        "curp" => $request->curp,
-                                        "email" => $request->email,
-                                        "gender" => $request->gender,
-                                        "last_name" => $request->last_name,
-                                        "extension" => $request->extension,
-                                        "first_name" => $request->first_name,
-                                        "birth_date" => $request->birth_date,
-                                        "phone_home" => $request->phone_home,
-                                        "profession" => $request->profession,
-                                        "birth_place" => $request->birth_place,
-                                        "phone_office" => $request->phone_office,
-                                        "phone_mobile" => $request->phone_mobile,
-                                        "second_last_name" => $request->second_last_name,
-                                        "service_priority" => $request->service_priority,
-                                        "client_medium_origin_id" => $request->client_medium_origin_id
-                                    ]);
+                            "rfc" => $request->rfc,
+                            "age" => $request->age,
+                            "curp" => $request->curp,
+                            "email" => $request->email,
+                            "gender" => $request->gender,
+                            "last_name" => $request->last_name,
+                            "extension" => $request->extension,
+                            "first_name" => $request->first_name,
+                            "birth_date" => $request->birth_date,
+                            "phone_home" => $request->phone_home,
+                            "profession" => $request->profession,
+                            "birth_place" => $request->birth_place,
+                            "phone_office" => $request->phone_office,
+                            "phone_mobile" => $request->phone_mobile,
+                            "second_last_name" => $request->second_last_name,
+                            "service_priority" => $request->service_priority,
+                            "client_medium_origin_id" => $request->client_medium_origin_id
+                        ]);
 
-            ClientAddress::create([
-                "client_id" => $oClient->id_client,
+            if ($request->has('zipcode') && $request->has('city'))
+            {
+                $oClientAddress = ClientAddress::create([
+                    "client_id" => $oClient->id,
 
-                "city" => $request->city,
-                "town" => $request->town,
-                "state" => $request->state,
-                "alias" => $request->alias,
-                "street" => $request->street,
-                "indoor" => $request->indoor,
-                "suburb" => $request->suburb,
-                "outdoor" => $request->outdoor,
-                "country" => $request->country,
-                "zipcode" => $request->zipcode,
-            ]);
+                    "city" => ($request->city) ? $request->city : null,
+                    "town" => ($request->town) ? $request->town : null,
+                    "state" => ($request->state) ? $request->state : null,
+                    "alias" => ($request->alias) ? $request->alias : null,
+                    "street" => ($request->street) ? $request->street : null,
+                    "indoor" => ($request->indoor) ? $request->indoor : null,
+                    "suburb" => ($request->suburb) ? $request->suburb : null,
+                    "outdoor" => ($request->outdoor) ? $request->outdoor : null,
+                    "country" => ($request->country) ? $request->country : null,
+                    "zipcode" => ($request->zipcode) ? $request->zipcode : null,
+                ]);
+            }
 
-            Activity::create([
-                "user_id" => $request->user_id,
+            $oActivity = Activity::create([
+                "user_id" => auth()->user()->id,
+
                 "comments" => $request->comments,
                 "end_date" => $request->end_date,
                 "end_time" => $request->end_time,
@@ -151,6 +156,8 @@ class ClientController extends Controller
                 "activity_type_id" => $request->activity_type_id,
                 "activity_subject_id" => $request->activity_subject_id,
             ]);
+
+            ///SE PROGRAMA EJECUTA CRONJOB
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -210,12 +217,13 @@ class ClientController extends Controller
             $oClient = Client::findOrFail($id);
 
             $oClient->update([
+                "user_id" => auth()->user()->id,
+
                 "age" => $request->age,
                 "rfc" => $request->rfc,
                 "curp" => $request->curp,
                 "email" => $request->email,
                 "gender" => $request->gender,
-                "user_id" => $request->user_id,
                 "extension" => $request->extension,
                 "last_name" => $request->last_name,
                 "first_name" => $request->first_name,
