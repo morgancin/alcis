@@ -34,17 +34,17 @@ Route::group(['middleware' => ['auth:sanctum']], function()
         Route::group(['prefix' => "users"], function()
         {
             Route::get('/list', 'index')->name('api.users.list');
-            Route::get('/user/{id}', 'show')->name('api.users.show');
+            Route::get('/user', 'show')->name('api.users.show');
             Route::post('/register', 'store')->name('api.users.register');
-            Route::patch('/update/{id}', 'update')->name('api.users.update');
+            Route::patch('/update', 'update')->name('api.users.update');
         });
 
         Route::group(['prefix' => "companies"], function()
         {
-            Route::get('/company/{id}', 'show')->name('api.users.companies.show');
+            Route::get('/company', 'show')->name('api.users.companies.show');
             Route::get('/list', 'listCompanies')->name('api.users.companies.list');
             Route::post('/register', 'store')->name('api.users.companies.register');
-            Route::patch('/update/{id}', 'update')->name('api.users.companies.update');
+            Route::patch('/update', 'update')->name('api.users.companies.update');
             Route::post('/users/register', 'store')->name('api.users.companies.users.register');
             Route::get('/users/list', 'listCompaniesUsers')->name('api.users.companies.users.list');
         });
@@ -113,7 +113,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
     {
         Route::controller(TagController::class)->group(function ()
         {
-            Route::get('/list', 'index')->name('api.tags.list');
+            Route::get('/list/{type}', 'index')->name('api.tags.list');
             Route::post('/register', 'store')->name('api.tags.register');
             Route::patch('/update/{id}', 'update')->name('api.tags.update');
         });

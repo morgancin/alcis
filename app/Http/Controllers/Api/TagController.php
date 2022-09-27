@@ -16,12 +16,13 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($type = null)
     {
         try {
             //@var \App\Models\Api\Tag
-            $oTags = Tag::where('user_id', auth()->user()->id)
-                ->get();
+            $oTags = Tag::where('type', $type)
+                        ->where('user_id', auth()->user()->id)
+                        ->get();
 
             if ($oTags->count() > 0)
                 return response()->json($oTags, 200);

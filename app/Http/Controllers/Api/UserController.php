@@ -128,11 +128,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
         try	{
             //@var \App\Models\User
-            $oUser = User::findOrFail($id);
+            $oUser = User::findOrFail(auth()->user()->id);
 
             if($oUser !== null)
                 return response()->json($oUser, 200);
@@ -153,7 +153,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $success = true;
         DB::beginTransaction();
@@ -171,7 +171,7 @@ class UserController extends Controller
             ]);
 
             //@var \App\Models\User
-            $oUser = User::findOrFail($id);
+            $oUser = User::findOrFail(auth()->user()->id);
 
             $oUser->update([
                 'name' => $data['name'],
