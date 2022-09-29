@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email', 255)->collation('utf8mb4_unicode_ci')->unique();
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('image', 255)->collation('utf8mb4_unicode_ci')->nullable();
-            $table->enum('role', ['leader', 'company', 'usercompany'])->collation('utf8mb4_unicode_ci')->nullable();
+            $table->enum('role', ['leader', 'userleader', 'company', 'usercompany'])->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->unsignedTinyInteger('status')->nullable();
 

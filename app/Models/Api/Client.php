@@ -12,12 +12,10 @@ class Client extends Model
 
     //protected $perPage = 30;
 
-    /*
     protected static function boot(){
         parent::boot();
         self::creating(function(Client $client){
             $client->user_id = auth()->id();
         });
     }
-    */
 }
