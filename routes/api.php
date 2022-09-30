@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AnexoController;
 use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ActivityController;
 use App\Http\Controllers\Api\ActivityTypeController;
 use App\Http\Controllers\Api\ClientOriginController;
@@ -49,6 +50,17 @@ Route::group(['middleware' => ['auth:sanctum']], function()
             Route::get('/users/list', 'listCompaniesUsers')->name('api.users.companies.users.list');
         });
     });
+
+    Route::controller(ProfileController::class)->group(function ()
+    {
+        Route::group(['prefix' => "users"], function()
+        {
+            Route::patch('profile/update', 'update')->name('api.users.profile.update');
+        });
+    });
+
+
+
 
     Route::group(['prefix' => "clients"], function()
     {

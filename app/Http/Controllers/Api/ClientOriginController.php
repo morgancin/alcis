@@ -32,7 +32,7 @@ class ClientOriginController extends Controller
             if ($oClientOrigins->count() > 0)
                 return response()->json($oClientOrigins, 200);
             else
-                return response()->json(['message' => 'No se encontraron registros'], 404);
+                return response()->json(['message' => __('api.messages.notfound')], 404);
 
         } catch (Exception $e) {
             return response()->json([
@@ -54,7 +54,7 @@ class ClientOriginController extends Controller
 
         try {
             $aRegistro = array(
-                                'user_id' => auth()->user()->id,
+                                //'user_id' => auth()->user()->id,
                                 'description' => $request->description,
                             );
 
@@ -79,7 +79,7 @@ class ClientOriginController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Registro insertado correctamente'
+                'message' => __('api.messages.added')
             ], 200);
         }
     }
@@ -124,7 +124,7 @@ class ClientOriginController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Registro actualizado correctamente'
+                'message' => __('api.messages.updated')
             ], 200);
         }
     }

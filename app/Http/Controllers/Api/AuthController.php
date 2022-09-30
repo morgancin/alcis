@@ -17,12 +17,13 @@ class AuthController extends Controller
             ],
             'remember' => 'boolean'
         ]);
+
         $remember = $credentials['remember'] ?? false;
         unset($credentials['remember']);
 
         if (!Auth::attempt($credentials, $remember)) {
             return response()->json([
-                'error' => 'The Provided credentials are not correct'
+                'error' => __('api.messages.controller.auth.error')
             ], 422);
         }
         $user = Auth::user();

@@ -6,9 +6,10 @@ namespace App\Models\Api;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class UserProfile extends Model
+class Profile extends Model
 {
-    // HasFactory;
+    //use HasFactory;
+    protected $fillable = ['user_id', 'language'];
 
     public function user(): BelongsTo
     {

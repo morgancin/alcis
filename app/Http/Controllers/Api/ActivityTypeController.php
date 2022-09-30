@@ -21,7 +21,7 @@ class ActivityTypeController extends Controller
             if($oActivityTypes->count() > 0)
                 return response()->json($oActivityTypes, 200);
             else
-                return response()->json(['message' => 'No se encontraron registros'], 404);
+                return response()->json(['message' => __('api.messages.notfound')], 404);
 
         } catch (Exception $e) {
             return response()->json([
@@ -44,8 +44,7 @@ class ActivityTypeController extends Controller
         try {
             //@var \App\Models\Api\ActivityType
             ActivityType::create([
-                'user_id' => auth()->user()->id,
-
+                //'user_id' => auth()->user()->id,
                 'type' => $request->type,
                 'name' => $request->name,
             ]);
@@ -62,7 +61,7 @@ class ActivityTypeController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Registro insertado correctamente'
+                'message' => __('api.messages.added')
             ], 200);
         }
     }
@@ -100,7 +99,7 @@ class ActivityTypeController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Registro actualizado correctamente'
+                'message' => __('api.messages.updated')
             ], 200);
         }
     }

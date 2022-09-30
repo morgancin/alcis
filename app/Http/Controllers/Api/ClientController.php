@@ -29,7 +29,7 @@ class ClientController extends Controller
             if ($oClients->count() > 0)
                 return response()->json($oClients, 200);
             else
-                return response()->json(['message' => 'No se encontraron registros'], 404);
+                return response()->json(['message' => __('api.messages.notfound')], 404);
 
         } catch (Exception $e) {
             return response()->json([
@@ -52,12 +52,12 @@ class ClientController extends Controller
         try {
             //@var \App\Models\Api\Client
             Client::create([
+                //"user_id" => auth()->user()->id,
                 "rfc" => $request->rfc,
                 "age" => $request->age,
                 "curp" => $request->curp,
                 "email" => $request->email,
                 "gender" => $request->gender,
-                "user_id" => auth()->user()->id,
                 "last_name" => $request->last_name,
                 "extension" => $request->extension,
                 "first_name" => $request->first_name,
@@ -84,7 +84,7 @@ class ClientController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Registro insertado correctamente'
+                'message' => __('api.messages.added')
             ], 200);
         }
     }
@@ -104,7 +104,7 @@ class ClientController extends Controller
         try {
             //@var \App\Models\Api\Client
             $oClient = Client::create([
-                            "user_id" => auth()->user()->id,
+                            //"user_id" => auth()->user()->id,
 
                             "rfc" => $request->rfc,
                             "age" => $request->age,
@@ -144,7 +144,7 @@ class ClientController extends Controller
             }
 
             $oActivity = Activity::create([
-                "user_id" => auth()->user()->id,
+                //"user_id" => auth()->user()->id,
 
                 "comments" => $request->comments,
                 "end_date" => $request->end_date,
@@ -171,7 +171,7 @@ class ClientController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Registro insertado correctamente'
+                'message' => __('api.messages.added')
             ], 200);
         }
     }
@@ -191,7 +191,7 @@ class ClientController extends Controller
             if ($oClient !== null)
                 return response()->json($oClient, 200);
             else
-                return response()->json(['message' => 'No se encontraron registros'], 404);
+                return response()->json(['message' => __('api.messages.notfound')], 404);
 
         } catch (Exception $e) {
             return response()->json([
@@ -217,7 +217,7 @@ class ClientController extends Controller
             $oClient = Client::findOrFail($id);
 
             $oClient->update([
-                "user_id" => auth()->user()->id,
+                //"user_id" => auth()->user()->id,
 
                 "age" => $request->age,
                 "rfc" => $request->rfc,
@@ -250,7 +250,7 @@ class ClientController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Registro actualizado correctamente'
+                'message' => __('api.messages.updated')
             ], 200);
         }
     }

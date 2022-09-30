@@ -22,7 +22,7 @@ class ActivitySubjectController extends Controller
             if($oActivitySubjects->count() > 0)
                 return response()->json($oActivitySubjects, 200);
             else
-                return response()->json(['message' => 'No se encontraron registros'], 404);
+                return response()->json(['message' => __('api.messages.notfound')], 404);
 
         } catch (Exception $e) {
             return response()->json([
@@ -45,8 +45,8 @@ class ActivitySubjectController extends Controller
         try {
             //@var \App\Models\Api\ActivitySubject
             ActivitySubject::create([
+                //'user_id' => $request->user_id,
                 'name' => $request->name,
-                'user_id' => $request->user_id,
                 'activity_type_id' => $request->activity_type_id,
             ]);
 
@@ -62,7 +62,7 @@ class ActivitySubjectController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Registro insertado correctamente'
+                'message' => __('api.messages.added')
             ], 200);
         }
     }
@@ -100,7 +100,7 @@ class ActivitySubjectController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Registro actualizado correctamente'
+                'message' => __('api.messages.updated')
             ], 200);
         }
     }

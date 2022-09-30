@@ -3,78 +3,27 @@
 namespace App\Observers\Api;
 
 use App\Models\User;
-use App\Models\Api\ClientAddress;
+use App\Models\Api\Profile;
 
 class UserObserver
 {
     /**
-     * Handle the Client "created" event.
+     * Handle the User "created" event.
      *
-     * @param  \App\Models\Api\Client  $client
+     * @param  \App\Models\User  $user
      * @return void
      */
     public function created(User $user)
     {
-        if(isset(request()->street))
+        if(isset(request()->role))
         {
             if (request()->role !== 'userleader' && request()->role !== 'usercompany')
             {
-                $user->profile->create([
-                    'language' => 'en'
+                Profile::create([
+                    'language' => 'en',
+                    'user_id' => $user->id,
                 ]);
             }
         }
     }
-
-    /**
-     * Handle the Client "updated" event.
-     *
-     * @param  \App\Models\Api\Client  $client
-     * @return void
-     */
-    /*
-    public function updated(Client $client)
-    {
-        //
-    }
-    */
-
-    /**
-     * Handle the Client "deleted" event.
-     *
-     * @param  \App\Models\Api\Client  $client
-     * @return void
-     */
-    /*
-    public function deleted(Client $client)
-    {
-        //
-    }
-    */
-
-    /**
-     * Handle the Client "restored" event.
-     *
-     * @param  \App\Models\Api\Client  $client
-     * @return void
-     */
-    /*
-    public function restored(Client $client)
-    {
-        //
-    }
-    */
-
-    /**
-     * Handle the Client "force deleted" event.
-     *
-     * @param  \App\Models\Api\Client  $client
-     * @return void
-     */
-    /*
-    public function forceDeleted(Client $client)
-    {
-        //
-    }
-    */
 }

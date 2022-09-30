@@ -48,6 +48,6 @@ class User extends Authenticatable
     ////////////RELACIONES////////////
     public function profile(): HasOne
     {
-        return $this->hasOne(UserProfile::class, 'user_id', 'id');
+        return $this->hasOne(Api\Profile::class, 'user_id', 'id');
     }
 }

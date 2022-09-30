@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
+use App\Helpers\Curp;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
-use App\Http\Requests\Api\FetchCurpRequest;
 
-use App\Helpers\Curp;
+use App\Http\Requests\Api\FetchCurpRequest;
 
 class AnexoController extends Controller
 {
@@ -23,10 +23,10 @@ class AnexoController extends Controller
                 if($response)
                     return response()->json($response, 200);
                 else
-                    return response()->json(['message' => 'No se encontraron registros'], 404);
+                    return response()->json(['message' => __('api.messages.notfound')], 404);
 
             }else{
-                return response()->json(['message' => 'El dato código postal debe ser numérico'], 500);
+                return response()->json(['message' => __('api.messages.controller.anexo.fetchcp')], 500);
             }
 
         } catch (Exception $e) {
@@ -47,7 +47,7 @@ class AnexoController extends Controller
             if($cCurp)
                 return response()->json($cCurp, 200);
             else
-                return response()->json(['message' => 'No se encontró registro'], 404);
+                return response()->json(['message' => __('api.messages.notfound')], 404);
 
         } catch (Exception $e) {
             return response()->json([
