@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
     {
         Route::group(['prefix' => "users"], function()
         {
-            Route::patch('profile/update', 'update')->name('api.users.profile.update');
+            Route::patch('/update/profile', 'update')->name('api.users.update.profile');
         });
     });
 
