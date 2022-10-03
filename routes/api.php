@@ -55,12 +55,10 @@ Route::group(['middleware' => ['auth:sanctum']], function()
     {
         Route::group(['prefix' => "users"], function()
         {
-            Route::patch('/update/profile', 'update')->name('api.users.update.profile');
+            Route::patch('/profile', 'show')->name('api.users.profile');
+            Route::patch('/profile/update', 'update')->name('api.users.profile.update');
         });
     });
-
-
-
 
     Route::group(['prefix' => "clients"], function()
     {

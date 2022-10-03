@@ -12,6 +12,26 @@ use App\Http\Requests\Api\ProfileRequest;
 class ProfileController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show()
+    {
+        try {
+            if (auth()->user())
+                return response()->json(auth()->user()->profile, 200);
+            else
+                return response()->json(['message' => __('api.messages.notfound')], 404);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
