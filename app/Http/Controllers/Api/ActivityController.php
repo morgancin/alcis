@@ -59,12 +59,13 @@ class ActivityController extends Controller
         try	{
             //@var \App\Models\Client
             Activity::create([
-                //"user_id" => auth()->user()->id,
+                "end_date" => $request->end_date,
+                "end_time" => $request->end_time,
                 "comments" => $request->comments,
                 "client_id" => $request->client_id,
-                "end_datetime" => $request->end_datetime,
+                "start_date" => $request->start_date,
+                "start_time" => $request->start_time,
                 "activity_date" => $request->activity_date,
-                "start_datetime" => $request->start_datetime,
                 "activity_type_id" => $request->activity_type_id,
                 "activity_subject_id" => $request->activity_subject_id
             ]);
