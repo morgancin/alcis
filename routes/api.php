@@ -124,6 +124,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
         Route::controller(TagController::class)->group(function ()
         {
             Route::get('/list/{type}', 'index')->name('api.tags.list');
+            Route::get('/list/all', 'index')->name('api.tags.list.all');
             Route::post('/register', 'store')->name('api.tags.register');
             Route::patch('/update/{id}', 'update')->name('api.tags.update');
         });

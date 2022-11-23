@@ -20,9 +20,12 @@ class TagController extends Controller
     {
         try {
             //@var \App\Models\Api\Tag
-            $oTags = Tag::where('type', $type)
-                        ->where('user_id', auth()->user()->id)
-                        ->get();
+            $oTags = Tag::where('user_id', auth()->user()->id);
+
+            if($type !== 'all')
+                $oTags->where('type', $type);
+
+            $oTags = $oTags->get();
 
             if ($oTags->count() > 0)
                 return response()->json($oTags, 200);
