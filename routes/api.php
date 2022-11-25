@@ -105,6 +105,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
                 Route::get('/list', 'index')->name('api.activities.types');
                 Route::post('/register', 'store')->name('api.activities.types.register');
                 Route::patch('/update/{id}', 'update')->name('api.activities.types.update');
+                Route::get('/activity-type/{id}', 'show')->name('api.activities.types.activity_type');
             });
         });
 

@@ -8,7 +8,6 @@ use App\Models\Api\ActivityType;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ActivityTypeRequest;
-
 class ActivityTypeController extends Controller
 {
     public function index()
@@ -101,6 +100,30 @@ class ActivityTypeController extends Controller
             return response()->json([
                 'message' => __('api.messages.updated')
             ], 200);
+        }
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        try {
+            //@var \App\Models\Api\Client
+            $oActivityType = ActivityType::findOrFail($id);
+
+            if ($oActivityType !== null)
+                return response()->json($oActivityType, 200);
+            else
+                return response()->json(['message' => __('api.messages.notfound')], 404);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
         }
     }
 
