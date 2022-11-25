@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Api\ActivitySubject;
 use App\Http\Controllers\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\Api\ActivitySubjectRequest;
-
 class ActivitySubjectController extends Controller
 {
     public function index($id_activity_type = false)
@@ -102,6 +102,30 @@ class ActivitySubjectController extends Controller
             return response()->json([
                 'message' => __('api.messages.updated')
             ], 200);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        try {
+            //@var \App\Models\Api\Client
+            $oActivitySubjects = ActivitySubject::findOrFail($id);
+
+            if ($oActivitySubjects !== null)
+                return response()->json($oActivitySubjects, Response::HTTP_OK);
+            else
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 

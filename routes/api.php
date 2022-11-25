@@ -116,6 +116,8 @@ Route::group(['middleware' => ['auth:sanctum']], function()
                 Route::post('/register', 'store')->name('api.activities.subjects.register');
                 Route::patch('/update/{id}', 'update')->name('api.activities.subjects.update');
                 Route::get('/list/{id_activity_type}', 'index')->name('api.activities.subjects');
+                Route::get('/activity-subject/{id}', 'show')->name('api.activities.subjects.activity_subject');
+                //Route::get('/activity-type/{id}', 'show')->name('api.activities.types.activity_type');
             });
         });
     });
