@@ -8,6 +8,7 @@ use App\Models\Api\ActivityType;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ActivityTypeRequest;
+use Symfony\Component\HttpFoundation\Response;
 class ActivityTypeController extends Controller
 {
     public function index()
@@ -116,14 +117,14 @@ class ActivityTypeController extends Controller
             $oActivityType = ActivityType::findOrFail($id);
 
             if ($oActivityType !== null)
-                return response()->json($oActivityType, 200);
+                return response()->json($oActivityType, Response::HTTP_OK);
             else
-                return response()->json(['message' => __('api.messages.notfound')], 404);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 
