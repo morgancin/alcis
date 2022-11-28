@@ -8,7 +8,7 @@ use App\Models\Api\ClientOrigin;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ClientOriginRequest;
-
+use Symfony\Component\HttpFoundation\Response;
 class ClientOriginController extends Controller
 {
     /**
@@ -129,25 +129,27 @@ class ClientOriginController extends Controller
         }
     }
 
-    /*
-    public function listOriginsMedium($id_client_origin = false)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
         try {
             //@var \App\Models\Api\ClientOrigin
-            $oClientOriginsMediums = ClientOrigin::where('user_id', auth()->user()->id)
-                                            ->where('parent_id_client_medium', $id_client_origin)
-                                            ->get();
+            $oClientOrigin = ClientOrigin::findOrFail($id);
 
-            if ($oClientOriginsMediums->count() > 0)
-                return response()->json($oClientOriginsMediums, 200);
+            if ($oClientOrigin !== null)
+                return response()->json($oClientOrigin, Response::HTTP_OK);
             else
-                return response()->json(['message' => 'No se encontraron registros'], 404);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
-    */
 }
