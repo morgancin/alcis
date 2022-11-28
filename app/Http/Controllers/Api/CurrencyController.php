@@ -3,31 +3,36 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
+use App\Models\Api\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use App\Models\Api\ActivitySubject;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\ActivitySubjectRequest;
-class ActivitySubjectController extends Controller
-{
-    public function index($id_activity_type = false)
-    {
-        try	{
-            //@var \App\Models\Api\ActivitySubject
-            $oActivitySubjects = ActivitySubject::where('user_id', auth()->user()->id)
-                                            ->where('activity_type_id', $id_activity_type)
-                                            ->get();
 
-            if($oActivitySubjects->count() > 0)
-                return response()->json($oActivitySubjects, 200);
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\CurrencyRequest;
+
+class CurrencyController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        try {
+            //@var \App\Models\Api\Currency
+            $oCurrencies = Currency::get();
+
+            if ($oCurrencies->count() > 0)
+                return response()->json($oCurrencies, Response::HTTP_OK);
             else
-                return response()->json(['message' => __('api.messages.notfound')], 404);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -37,17 +42,16 @@ class ActivitySubjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ActivitySubjectRequest $request)
+    public function store(CurrencyRequest $request)
     {
         $success = true;
         DB::beginTransaction();
 
-        try {
-            //@var \App\Models\Api\ActivitySubject
-            ActivitySubject::create([
-                //'user_id' => $request->user_id,
-                'name' => $request->name,
-                'activity_type_id' => $request->activity_type_id,
+        try	{
+            //@var \App\Models\Currency
+            Currency::create([
+                "code" => $request->code,
+                "name" => $request->name,
             ]);
 
         } catch (\Exception $e) {
@@ -55,7 +59,7 @@ class ActivitySubjectController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         if ($success === true) {
@@ -63,7 +67,7 @@ class ActivitySubjectController extends Controller
 
             return response()->json([
                 'message' => __('api.messages.added')
-            ], 200);
+            ], Response::HTTP_OK);
         }
     }
 
@@ -74,18 +78,18 @@ class ActivitySubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ActivitySubjectRequest $request, $id)
+    public function update(CurrencyRequest $request, $id)
     {
         $success = true;
         DB::beginTransaction();
 
         try {
-            //@var \App\Models\Api\ActivitySubject
-            $oActivitySubject = ActivitySubject::findOrFail($id);
+            //@var \App\Models\Api\Currency
+            $oCurrency = Currency::findOrFail($id);
 
-            $oActivitySubject->update([
-                'name' => $request->name,
-                'activity_type_id' => $request->activity_type_id,
+            $oCurrency->update([
+                "code" => $request->code,
+                "name" => $request->name,
             ]);
 
         } catch (Exception $e) {
@@ -93,7 +97,7 @@ class ActivitySubjectController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         if ($success === true) {
@@ -101,7 +105,7 @@ class ActivitySubjectController extends Controller
 
             return response()->json([
                 'message' => __('api.messages.updated')
-            ], 200);
+            ], Response::HTTP_OK);
         }
     }
 
@@ -114,11 +118,11 @@ class ActivitySubjectController extends Controller
     public function show($id)
     {
         try {
-            //@var \App\Models\Api\Client
-            $oActivitySubjects = ActivitySubject::findOrFail($id);
+            //@var \App\Models\Api\Currency
+            $oCurrency = Currency::findOrFail($id);
 
-            if ($oActivitySubjects !== null)
-                return response()->json($oActivitySubjects, Response::HTTP_OK);
+            if ($oCurrency !== null)
+                return response()->json($oCurrency, Response::HTTP_OK);
             else
                 return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 
@@ -127,16 +131,5 @@ class ActivitySubjectController extends Controller
                 'message' => $e->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

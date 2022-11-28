@@ -133,6 +133,40 @@ Route::group(['middleware' => ['auth:sanctum']], function()
         });
     });
 
+    ///////////NEWS
+    Route::group(['prefix' => "currencies"], function()
+    {
+        Route::controller(CurrencyController::class)->group(function ()
+        {
+            Route::get('/list', 'index')->name('api.currencies.list');
+            Route::post('/create', 'store')->name('api.currencies.create');
+            Route::get('/currency/{id}', 'show')->name('api.currencies.currency');
+            Route::patch('/update/{id}', 'update')->name('api.currencies.update');
+        });
+    });
+
+    Route::group(['prefix' => "prices"], function()
+    {
+        Route::controller(PriceController::class)->group(function ()
+        {
+            Route::get('/list', 'index')->name('api.prices.list');
+            Route::post('/create', 'store')->name('api.prices.create');
+            Route::get('/price/{id}', 'show')->name('api.prices.price');
+            Route::patch('/update/{id}', 'update')->name('api.prices.update');
+        });
+
+        Route::group(['prefix' => "lists"], function()
+        {
+            Route::controller(PriceListController::class)->group(function ()
+            {
+                Route::get('/list', 'index')->name('api.prices.list');
+                Route::post('/create', 'store')->name('api.prices.create');
+                Route::patch('/update/{id}', 'update')->name('api.prices.update');
+                Route::get('/price-list/{id}', 'show')->name('api.prices.price_list');
+            });
+        });
+    });
+
     Route::post('/fetch/curp', [AnexoController::class, 'fetchCurp'])->name('api.fetch.curp');
     Route::get('/fetch/data/cp/{cp}', [AnexoController::class, 'fetchCp'])->name('api.fetch.data.cp');
 });

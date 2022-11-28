@@ -21,10 +21,10 @@ return new class extends Migration
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('description', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->unsignedInteger('quantity')->nullable();
-            $table->unsignedDecimal('price', 12, 4)->nullable();
+            //$table->unsignedDecimal('price', 12, 4)->nullable();
 
-            $table->unsignedBigInteger('categorie_id')->nullable();
-            $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

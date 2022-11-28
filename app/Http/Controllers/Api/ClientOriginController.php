@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\Api\ClientOrigin;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ClientOriginRequest;
-use Symfony\Component\HttpFoundation\Response;
 class ClientOriginController extends Controller
 {
     /**

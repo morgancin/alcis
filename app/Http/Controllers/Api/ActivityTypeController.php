@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\Api\ActivityType;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ActivityTypeRequest;
-use Symfony\Component\HttpFoundation\Response;
 class ActivityTypeController extends Controller
 {
     public function index()

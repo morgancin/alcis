@@ -5,17 +5,17 @@ namespace App\Models\Api;
 //use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tag extends Model
+class Price extends Model
 {
     //use HasFactory;
-    protected $fillable = ['name', 'type', 'user_id'];
+    protected $fillable = ['user_id', 'product_id', 'currency_id', 'price_list_id', 'price'];
 
     protected static function boot()
     {
         parent::boot();
-        self::creating(function(Tag $tag)
+        self::creating(function(Price $price)
         {
-            $tag->user_id = auth()->id();
+            $price->user_id = auth()->id();
         });
     }
 }
