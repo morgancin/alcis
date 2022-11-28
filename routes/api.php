@@ -66,9 +66,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
         {
             Route::get('/list', 'index')->name('api.clients.list');
             Route::get('/client/{id}', 'show')->name('api.clients.show');
-            //Route::post('/register', 'store')->name('api.clients.register');
             Route::patch('/update/{id}', 'update')->name('api.clients.update');
-
             Route::post('/activity/register', 'store_client_activity')->name('api.clients.activity.register');
         });
 
@@ -85,7 +83,8 @@ Route::group(['middleware' => ['auth:sanctum']], function()
                 {
                     Route::post('/register', 'store')->name('api.clients.origins.medium.register');
                     Route::patch('/update/{id}', 'update')->name('api.clients.origins.medium.update');
-                    Route::get('/list/{id_client_origin}', 'index')->name('api.clients.origins.medium');    //Route::get('/list/{id_client_origin}', 'listOriginsMedium')->name('api.clients.origins.medium');
+                    Route::get('/list/{id_client_origin}', 'index')->name('api.clients.origins.medium');
+                    Route::get('/client-origin-medium/{id}', 'show')->name('api.clients.origins.medium.client_origin_medium');
                 });
             });
         });
