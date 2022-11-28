@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TagRequest;
-
+use Symfony\Component\HttpFoundation\Response;
 class TagController extends Controller
 {
     /**
@@ -110,6 +110,30 @@ class TagController extends Controller
             return response()->json([
                 'message' => __('api.messages.updated')
             ], 200);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        try {
+            //@var \App\Models\Api\Tag
+            $oTag = Tag::findOrFail($id);
+
+            if ($oTag !== null)
+                return response()->json($oTag, Response::HTTP_OK);
+            else
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 }

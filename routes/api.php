@@ -117,7 +117,6 @@ Route::group(['middleware' => ['auth:sanctum']], function()
                 Route::patch('/update/{id}', 'update')->name('api.activities.subjects.update');
                 Route::get('/list/{id_activity_type}', 'index')->name('api.activities.subjects');
                 Route::get('/activity-subject/{id}', 'show')->name('api.activities.subjects.activity_subject');
-                //Route::get('/activity-type/{id}', 'show')->name('api.activities.types.activity_type');
             });
         });
     });
@@ -126,6 +125,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
     {
         Route::controller(TagController::class)->group(function ()
         {
+            Route::get('/tag/{id}', 'show')->name('api.tags.tag');
             Route::get('/list/{type}', 'index')->name('api.tags.list');
             Route::get('/list/all', 'index')->name('api.tags.list.all');
             Route::post('/register', 'store')->name('api.tags.register');
