@@ -50,8 +50,11 @@ class ProductController extends Controller
         try	{
             //@var \App\Models\Product
             Product::create([
-                "code" => $request->code,
+                "sku" => $request->sku,
                 "name" => $request->name,
+                "quantity" => $request->quantity,
+                "description" => $request->description,
+                "category_id" => $request->category_id,
             ]);
 
         } catch (\Exception $e) {
@@ -88,8 +91,11 @@ class ProductController extends Controller
             $oProduct = Product::findOrFail($id);
 
             $oProduct->update([
-                "code" => $request->code,
+                "sku" => $request->sku,
                 "name" => $request->name,
+                "quantity" => $request->quantity,
+                "description" => $request->description,
+                "category_id" => $request->category_id,
             ]);
 
         } catch (Exception $e) {

@@ -50,8 +50,12 @@ class CategoryController extends Controller
         try	{
             //@var \App\Models\Product
             Category::create([
-                "code" => $request->code,
                 "name" => $request->name,
+                "order" => $request->order,
+                "active" => $request->active,
+                "image" => (($request->image) ? $request->image : null),
+                "category_id" => (($request->category_id) ? $request->category_id : null),
+                "category_group_id" => (($request->category_group_id) ? $request->category_group_id : null),
             ]);
 
         } catch (\Exception $e) {
@@ -88,8 +92,12 @@ class CategoryController extends Controller
             $oCategory = Category::findOrFail($id);
 
             $oCategory->update([
-                "code" => $request->code,
                 "name" => $request->name,
+                "order" => $request->order,
+                "active" => $request->active,
+                "image" => (($request->image) ? $request->image : null),
+                "category_id" => (($request->category_id) ? $request->category_id : null),
+                "category_group_id" => (($request->category_group_id) ? $request->category_group_id : null),
             ]);
 
         } catch (Exception $e) {
