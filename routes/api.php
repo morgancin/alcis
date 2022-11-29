@@ -8,8 +8,10 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AnexoController;
 use App\Http\Controllers\Api\PriceController;
 use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ActivityController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CurrencyController;
 use App\Http\Controllers\Api\PriceListController;
 use App\Http\Controllers\Api\ActivityTypeController;
@@ -137,6 +139,28 @@ Route::group(['middleware' => ['auth:sanctum']], function()
     });
 
     ///////////NEWS
+    Route::group(['prefix' => "products"], function()
+    {
+        Route::controller(ProductController::class)->group(function ()
+        {
+            Route::get('/list', 'index')->name('api.products.list');
+            Route::post('/create', 'store')->name('api.products.create');
+            Route::get('/product/{id}', 'show')->name('api.products.product');
+            Route::patch('/update/{id}', 'update')->name('api.products.update');
+        });
+    });
+
+    Route::group(['prefix' => "categories"], function()
+    {
+        Route::controller(CategoryController::class)->group(function ()
+        {
+            Route::get('/list', 'index')->name('api.categories.list');
+            Route::post('/create', 'store')->name('api.categories.create');
+            Route::get('/category/{id}', 'show')->name('api.categories.category');
+            Route::patch('/update/{id}', 'update')->name('api.categories.update');
+        });
+    });
+
     Route::group(['prefix' => "currencies"], function()
     {
         Route::controller(CurrencyController::class)->group(function ()

@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TagRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class TagRequest extends FormRequest
     public function rules()
     {
         return [
+            'sku' => ['required', 'string'],
             'name' => ['required', 'string'],
-            'type' => ['required', 'string'],
         ];
     }
 }
