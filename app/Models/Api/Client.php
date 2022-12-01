@@ -39,6 +39,20 @@ class Client extends Model
         return $this->first_name.' '.$this->last_name.' '.$this->second_last_name;
     }
 
+    /*
+    public function fullName(): Attribute
+    {
+        return new Attribute(
+            //get: fn ($value) => json_decode($value, true),
+            get: fn ($value, $attributes) => new Activity(
+                $attributes['first_name'],
+                $attributes['last_name'],
+                $attributes['second_last_name'],
+            ),
+        );
+    }
+    */
+
     /**
      * Interact with the clients.
      *

@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\CurrencyController;
 use App\Http\Controllers\Api\PriceListController;
 use App\Http\Controllers\Api\ActivityTypeController;
 use App\Http\Controllers\Api\ClientOriginController;
+use App\Http\Controllers\Api\ActivityResultController;
 use App\Http\Controllers\Api\ActivitySubjectController;
 
 /*
@@ -122,6 +123,17 @@ Route::group(['middleware' => ['auth:sanctum']], function()
                 Route::patch('/update/{id}', 'update')->name('api.activities.subjects.update');
                 Route::get('/list/{id_activity_type}', 'index')->name('api.activities.subjects');
                 Route::get('/activity-subject/{id}', 'show')->name('api.activities.subjects.activity_subject');
+            });
+        });
+
+        Route::group(['prefix' => "results"], function()
+        {
+            Route::controller(ActivityResultController::class)->group(function ()
+            {
+                Route::get('/list', 'index')->name('api.activities.results');
+                Route::post('/create', 'store')->name('api.activities.results.register');
+                Route::patch('/update/{id}', 'update')->name('api.activities.results.update');
+                Route::get('/activity-result/{id}', 'show')->name('api.activities.results.activity_subject');
             });
         });
     });

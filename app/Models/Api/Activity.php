@@ -17,7 +17,7 @@ class Activity extends Model
      */
 	protected $dates = ['activity_date'];
 
-    protected $fillable = ['user_id', 'client_id', 'activity_type_id', 'activity_subject_id', 'activity_date', 'start_date', 'start_time', 'end_date', 'end_time', 'comments'];
+    protected $fillable = ['user_id', 'client_id', 'activity_subject_id', 'activity_date', 'start_date', 'start_time', 'end_date', 'end_time', 'comments'];
 
     //protected $perPage = 30;
 
@@ -39,10 +39,12 @@ class Activity extends Model
     /**
      * Get the activity type that owns the activity.
      */
+    /*
     public function activity_type(): BelongsTo
     {
         return $this->belongsTo(ActivityType::class, 'activity_type_id', 'id');
     }
+    */
 
     /**
      * Get the activity subject that owns the activity.

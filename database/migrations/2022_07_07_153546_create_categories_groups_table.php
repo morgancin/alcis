@@ -17,6 +17,9 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id');
 
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->boolean('active');
             $table->unsignedInteger('type')->nullable();
             $table->unsignedBigInteger('item_group_id')->nullable();

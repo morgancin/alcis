@@ -17,6 +17,9 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id');
 
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->boolean('active');
 

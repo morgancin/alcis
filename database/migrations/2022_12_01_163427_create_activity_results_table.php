@@ -13,9 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('activities', function (Blueprint $table) {
+        Schema::create('activity_results', function (Blueprint $table) {
+            $table->engine = "InnoDB";
+            $table->id('id');
+
             $table->unsignedBigInteger('activity_type_id')->nullable();
             $table->foreign('activity_type_id')->references('id')->on('activity_types')->onDelete('cascade');
+
+            $table->string('name', 50)->collation('utf8mb4_unicode_ci')->nullable();
+
+            $table->boolean('tracking')->default(false);
+
+            $table->timestamps();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
         });
     }
 
@@ -26,8 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('activities', function (Blueprint $table) {
-            $table->dropColumn('activity_type_id');
-        });
+        Schema::dropIfExists('activity_results');
     }
 };
