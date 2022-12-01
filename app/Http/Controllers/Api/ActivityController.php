@@ -27,7 +27,8 @@ class ActivityController extends Controller
 
             if($oActivities->count() > 0)
                 //return response()->json($oActivities, 200);
-                return ActivityResource::collection($oActivities);
+                //return ActivityResource::collection($oActivities);
+                return new ActivityResource($oActivities);
             else
                 return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 
