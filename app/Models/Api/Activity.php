@@ -34,7 +34,7 @@ class Activity extends Model
      * @var array
      */
     protected $casts = [
-        'activity_date' => 'datetime:d-m-Y',
+        'activity_date' => 'date:d-m-Y',
     ];
 
     /**
