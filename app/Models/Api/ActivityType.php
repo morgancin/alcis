@@ -18,6 +18,7 @@ class ActivityType extends Model
         });
     }
 
+    ////////////RELATIONSHIPS
     /**
      * Get the activities for the activity type.
      */

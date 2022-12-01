@@ -20,11 +20,18 @@ class Client extends Model
         });
     }
 
+    ////////////RELATIONSHIPS
     /**
      * Get the activity associated with the client.
      */
     public function activity(): HasOne
     {
         return $this->hasOne(Activity::class, 'client_id', 'id');
+    }
+
+    ////////////ACCESSORS
+    public function getFullNameAttribute()
+    {
+        return $this->first_name.' '.$this->last_name.' '.$this->second_last_name;
     }
 }
