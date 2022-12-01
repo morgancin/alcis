@@ -17,6 +17,7 @@ class ActivityResource extends JsonResource
     {
         //return parent::toArray($request);
         return [
+            'id' => $this->id,
             'client' => $this->client,                      //RelationShip
             'end_date' => $this->end_date,
             'end_time' => $this->end_time,
