@@ -6,6 +6,8 @@ namespace App\Models\Api;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 class Client extends Model
 {
     //use HasFactory;
@@ -20,10 +22,6 @@ class Client extends Model
         });
     }
 
-    protected $casts = [
-        'full_name' => 'string',
-    ];
-
     ////////////RELATIONSHIPS
     /**
      * Get the activity associated with the client.
@@ -34,8 +32,26 @@ class Client extends Model
     }
 
     ////////////ACCESSORS
+    /*
     public function getFullNameAttribute()
     {
         return $this->first_name.' '.$this->last_name.' '.$this->second_last_name;
+    }
+    */
+
+    /**
+     * Interact with the clients.
+     *
+     * @return  \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => new Activity(
+                $attributes['first_name'],
+                $attributes['last_name'],
+                $attributes['second_last_name'],
+            ),
+        );
     }
 }
