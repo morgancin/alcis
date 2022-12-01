@@ -22,7 +22,8 @@ class Client extends Model
         });
     }
 
-    protected $appends = ['fullName'];
+    protected $appends = ['FullName'];
+
 
     ////////////RELATIONSHIPS
     /**
@@ -34,18 +35,17 @@ class Client extends Model
     }
 
     ////////////ACCESSORS
-    /*
     public function getFullNameAttribute()
     {
         return $this->first_name.' '.$this->last_name.' '.$this->second_last_name;
     }
-    */
 
     /**
      * Interact with the clients.
      *
      * @return  \Illuminate\Database\Eloquent\Casts\Attribute
      */
+    /*
     protected function fullName(): Attribute
     {
         return Attribute::make(
@@ -56,4 +56,5 @@ class Client extends Model
             ),
         );
     }
+    */
 }
