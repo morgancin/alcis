@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use Exception;
 use App\Models\Api\Activity;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ActivityResource;
 use App\Http\Requests\Api\ActivityRequest;
 
 class ActivityController extends Controller
@@ -24,14 +26,15 @@ class ActivityController extends Controller
                                     ->get();
 
             if($oActivities->count() > 0)
-                return response()->json($oActivities, 200);
+                //return response()->json($oActivities, 200);
+                return ActivityResource::collection($oActivities);
             else
-                return response()->json(['message' => __('api.messages.notfound')], 404);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -57,18 +60,18 @@ class ActivityController extends Controller
         DB::beginTransaction();
 
         try	{
-            //@var \App\Models\Client
-            Activity::create([
-                "end_date" => $request->end_date,
-                "end_time" => $request->end_time,
-                "comments" => $request->comments,
-                "client_id" => $request->client_id,
-                "start_date" => $request->start_date,
-                "start_time" => $request->start_time,
-                "activity_date" => $request->activity_date,
-                "activity_type_id" => $request->activity_type_id,
-                "activity_subject_id" => $request->activity_subject_id
-            ]);
+            //@var \App\Models\Activity
+            $oActivity = Activity::create([
+                                            "end_date" => $request->end_date,
+                                            "end_time" => $request->end_time,
+                                            "comments" => $request->comments,
+                                            "client_id" => $request->client_id,
+                                            "start_date" => $request->start_date,
+                                            "start_time" => $request->start_time,
+                                            "activity_date" => $request->activity_date,
+                                            "activity_type_id" => $request->activity_type_id,
+                                            "activity_subject_id" => $request->activity_subject_id
+                                        ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -80,6 +83,8 @@ class ActivityController extends Controller
 
         if ($success === true) {
             DB::commit();
+
+            //return new ActivityResource($oActivity);
 
             return response()->json([
                 'message' => __('api.messages.added')

@@ -4,6 +4,7 @@ namespace App\Models\Api;
 
 //use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Client extends Model
 {
@@ -17,5 +18,13 @@ class Client extends Model
         self::creating(function(Client $client){
             $client->user_id = auth()->id();
         });
+    }
+
+    /**
+     * Get the activity associated with the client.
+     */
+    public function activity(): HasOne
+    {
+        return $this->hasOne(Activity::class, 'client_id', 'id');
     }
 }

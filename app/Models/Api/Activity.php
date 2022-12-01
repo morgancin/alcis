@@ -4,6 +4,7 @@ namespace App\Models\Api;
 
 //use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Activity extends Model
 {
@@ -17,5 +18,29 @@ class Activity extends Model
         self::creating(function(Activity $activity){
             $activity->user_id = auth()->id();
         });
+    }
+
+    /**
+     * Get the client that owns the activity.
+     */
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class, 'client_id', 'id');
+    }
+
+    /**
+     * Get the activity type that owns the activity.
+     */
+    public function activity_type(): BelongsTo
+    {
+        return $this->belongsTo(ActivityType::class, 'activity_type_id', 'id');
+    }
+
+    /**
+     * Get the activity subject that owns the activity.
+     */
+    public function activity_subject(): BelongsTo
+    {
+        return $this->belongsTo(ActivitySubject::class, 'activity_subject_id', 'id');
     }
 }
