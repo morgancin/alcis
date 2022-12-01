@@ -29,15 +29,6 @@ class Activity extends Model
     }
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'activity_date' => 'date:d-m-Y',
-    ];
-
-    /**
      * Get the client that owns the activity.
      */
     public function client(): BelongsTo

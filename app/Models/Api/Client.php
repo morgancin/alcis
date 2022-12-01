@@ -22,9 +22,7 @@ class Client extends Model
         });
     }
 
-    //protected $appends = ['FullName'];
     protected $appends = ['full_name'];
-
 
     ////////////RELATIONSHIPS
     /**
