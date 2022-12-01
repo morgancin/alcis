@@ -9,6 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Activity extends Model
 {
     //use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+	protected $dates = ['activity_date'];
+
     protected $fillable = ['user_id', 'client_id', 'activity_type_id', 'activity_subject_id', 'activity_date', 'start_date', 'start_time', 'end_date', 'end_time', 'comments'];
 
     //protected $perPage = 30;
@@ -19,6 +27,15 @@ class Activity extends Model
             $activity->user_id = auth()->id();
         });
     }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'activity_date' => 'datetime:d-m-Y',
+    ];
 
     /**
      * Get the client that owns the activity.
