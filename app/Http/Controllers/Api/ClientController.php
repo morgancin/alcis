@@ -104,8 +104,6 @@ class ClientController extends Controller
         try {
             //@var \App\Models\Api\Client
             $oClient = Client::create([
-                            //"user_id" => auth()->user()->id,
-
                             "rfc" => $request->rfc,
                             "age" => $request->age,
                             "curp" => $request->curp,
@@ -129,7 +127,6 @@ class ClientController extends Controller
             {
                 $oClientAddress = ClientAddress::create([
                     "client_id" => $oClient->id,
-
                     "city" => ($request->city) ? $request->city : null,
                     "town" => ($request->town) ? $request->town : null,
                     "state" => ($request->state) ? $request->state : null,
@@ -144,12 +141,10 @@ class ClientController extends Controller
             }
 
             $oActivity = Activity::create([
-                //"user_id" => auth()->user()->id,
-
+                "client_id" => $oClient->id,
                 "comments" => $request->comments,
                 "end_date" => $request->end_date,
                 "end_time" => $request->end_time,
-                "client_id" => $request->client_id,
                 "start_time" => $request->start_time,
                 "start_date" => $request->start_date,
                 "activity_date" => $request->activity_date,
