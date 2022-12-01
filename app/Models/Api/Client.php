@@ -22,6 +22,8 @@ class Client extends Model
         });
     }
 
+    protected $appends = ['fullName'];
+
     ////////////RELATIONSHIPS
     /**
      * Get the activity associated with the client.
