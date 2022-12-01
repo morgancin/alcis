@@ -20,6 +20,10 @@ class Client extends Model
         });
     }
 
+    protected $casts = [
+        'full_name' => 'string',
+    ];
+
     ////////////RELATIONSHIPS
     /**
      * Get the activity associated with the client.
