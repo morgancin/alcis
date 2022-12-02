@@ -88,10 +88,22 @@ class ActivityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    /*
     public function show($id)
     {
-        //
+        try {
+            //@var \App\Models\Api\Activity
+            $oActivity = Activity::with(['client', 'activity_subject'])
+                                ->findOrFail($id);
+
+            if ($oActivity !== null)
+                return response()->json($oActivity, Response::HTTP_OK);
+            else
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
-    */
 }

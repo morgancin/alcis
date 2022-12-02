@@ -101,7 +101,8 @@ Route::group(['middleware' => ['auth:sanctum']], function()
         Route::controller(ActivityController::class)->group(function ()
         {
             Route::get('/list', 'index')->name('api.activities.list');
-            Route::post('/register', 'store')->name('api.activities.register');
+            Route::post('/create', 'store')->name('api.activities.create');
+            Route::get('/activity/{id}', 'show')->name('api.activities.activity');
         });
 
         Route::group(['prefix' => "types"], function()
