@@ -27,6 +27,7 @@ class ActivityResource extends JsonResource
             'activity_subject' => $this->activity_subject,  //RelationShip
             //'activity_date' => $this->activity_date->format('d/m/Y'),
             'activity_date' => $this->activity_date,
+            'activity_date_format' => $this->activity_date_format,
         ];
     }
 }

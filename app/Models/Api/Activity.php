@@ -17,6 +17,7 @@ class Activity extends Model
      */
 	protected $dates = ['activity_date'];
 
+
     protected $fillable = ['user_id', 'client_id', 'activity_subject_id', 'activity_date', 'start_date', 'start_time', 'end_date', 'end_time', 'comments'];
 
     //protected $perPage = 30;
@@ -27,6 +28,8 @@ class Activity extends Model
             $activity->user_id = auth()->id();
         });
     }
+
+    protected $appends = ['activity_date_format'];
 
     /**
      * Get the client that owns the activity.
@@ -45,10 +48,10 @@ class Activity extends Model
     }
 
     ////////////ACCESSORS
-    public function getActivityDateAttribute()
+    public function getActivityDateFormatAttribute()
     {
         //return $this->first_name.' '.$this->last_name.' '.$this->second_last_name;
-        //return $this->activity_date->format('d/m/Y');
-        return date("d-m-Y", strtotime($this->activity_date));
+        return $this->activity_date->format('d/m/Y');
+        //return date("d-m-Y", strtotime($this->activity_date));
     }
 }
