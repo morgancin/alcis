@@ -31,4 +31,9 @@ class ActivityType extends Model
     {
         return $this->hasMany(ActivityResult::class, 'activity_type_id', 'id');
     }
+
+    public function activity_subjects(): HasMany
+    {
+        return $this->hasMany(ActivitySubject::class, 'activity_type_id', 'id');
+    }
 }

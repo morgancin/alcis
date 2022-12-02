@@ -15,9 +15,13 @@ class ActivitySubjectController extends Controller
     {
         try	{
             //@var \App\Models\Api\ActivitySubject
-            $oActivitySubjects = ActivitySubject::where('user_id', auth()->user()->id)
-                                            ->where('activity_type_id', $id_activity_type)
-                                            ->get();
+            $oActivitySubjects = ActivitySubject::whereHas('activity_type', function($q) {
+                                                    $q->where('user_id', auth()->user()->id);
+                                                });
+            if($id_activity_type)
+                $oActivitySubjects->where('activity_type_id', $id_activity_type);
+
+            $oActivitySubjects = $oActivitySubjects->get();
 
             if($oActivitySubjects->count() > 0)
                 return response()->json($oActivitySubjects, 200);
@@ -45,7 +49,6 @@ class ActivitySubjectController extends Controller
         try {
             //@var \App\Models\Api\ActivitySubject
             ActivitySubject::create([
-                //'user_id' => $request->user_id,
                 'name' => $request->name,
                 'activity_type_id' => $request->activity_type_id,
             ]);
@@ -127,16 +130,5 @@ class ActivitySubjectController extends Controller
                 'message' => $e->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
