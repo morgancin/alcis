@@ -96,7 +96,7 @@ class ActivityController extends Controller
                                 ->findOrFail($id);
 
             if ($oActivity !== null)
-                return response()->json($oActivity, Response::HTTP_OK);
+                return new ActivityResource($oActivity);
             else
                 return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 
