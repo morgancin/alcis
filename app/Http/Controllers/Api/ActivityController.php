@@ -22,12 +22,11 @@ class ActivityController extends Controller
     {
         try	{
             //@var \App\Models\Api\Activity
-            $oActivities = Activity::with(['client', 'activity_type', 'activity_subject'])
+            $oActivities = Activity::with(['client', 'activity_subject'])
                                     ->where('user_id', auth()->user()->id)
                                     ->get();
 
             if($oActivities->count() > 0)
-                //return response()->json($oActivities, 200);
                 return ActivityResource::collection($oActivities);
             else
                 return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);

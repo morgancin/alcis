@@ -37,16 +37,6 @@ class Activity extends Model
     }
 
     /**
-     * Get the activity type that owns the activity.
-     */
-    /*
-    public function activity_type(): BelongsTo
-    {
-        return $this->belongsTo(ActivityType::class, 'activity_type_id', 'id');
-    }
-    */
-
-    /**
      * Get the activity subject that owns the activity.
      */
     public function activity_subject(): BelongsTo
