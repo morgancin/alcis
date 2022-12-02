@@ -48,6 +48,7 @@ class Activity extends Model
     public function getActivityDateAttribute()
     {
         //return $this->first_name.' '.$this->last_name.' '.$this->second_last_name;
-        return $this->activity_date->format('d/m/Y');
+        //return $this->activity_date->format('d/m/Y');
+        return date("d-m-Y", strtotime($this->activity_date));
     }
 }
