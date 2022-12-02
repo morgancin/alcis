@@ -26,4 +26,9 @@ class ActivityType extends Model
     {
         return $this->hasMany(Activity::class, 'activity_type_id', 'id');
     }
+
+    public function activity_results(): HasMany
+    {
+        return $this->hasMany(ActivityResult::class, 'activity_type_id', 'id');
+    }
 }
