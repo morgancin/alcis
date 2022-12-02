@@ -15,7 +15,6 @@ class ActivityResource extends JsonResource
      */
     public function toArray($request)
     {
-        //return parent::toArray($request);
         return [
             'id' => $this->id,
             'client' => $this->client,                      //RelationShip
@@ -24,10 +23,9 @@ class ActivityResource extends JsonResource
             'comments' => $this->comments,
             'start_date' => $this->start_date,
             'start_time' => $this->start_time,
-            'activity_subject' => $this->activity_subject,  //RelationShip
-            //'activity_date' => $this->activity_date->format('d/m/Y'),
             'activity_date' => $this->activity_date,
             'activity_date_format' => $this->activity_date_format,
+            'activity_subject' => new ActivitySubjectResource($this->activity_subject),  //RelationShip
         ];
     }
 }
