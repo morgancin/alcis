@@ -10,7 +10,6 @@ class Category extends Model
     //use HasFactory;
     protected $fillable = ['category_id', 'category_group_id', 'active', 'order', 'name', 'image'];
 
-    /*
     protected static function boot()
     {
         parent::boot();
@@ -19,5 +18,4 @@ class Category extends Model
             $price->user_id = auth()->id();
         });
     }
-    */
 }
