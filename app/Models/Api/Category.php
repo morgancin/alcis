@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     //use HasFactory;
-    protected $fillable = ['category_id', 'category_group_id', 'active', 'order', 'name', 'image'];
+    protected $fillable = ['user_id', 'category_id', 'category_group_id', 'active', 'order', 'name', 'image'];
 
     protected static function boot()
     {
         parent::boot();
-        self::creating(function(Price $price)
+        self::creating(function(Category $category)
         {
-            $price->user_id = auth()->id();
+            $category->user_id = auth()->id();
         });
     }
 }
