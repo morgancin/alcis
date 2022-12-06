@@ -25,6 +25,7 @@ class ActivityResultRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
+            'tracking_type' => ['required', 'string'],
         ];
     }
 }

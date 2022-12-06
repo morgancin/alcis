@@ -22,7 +22,7 @@ return new class extends Migration
 
             $table->string('name', 50)->collation('utf8mb4_unicode_ci')->nullable();
 
-            $table->boolean('tracking')->default(false);
+            $table->enum('tracking_type', ['activity', 'quote'])->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

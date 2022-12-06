@@ -49,7 +49,7 @@ class ActivityResultController extends Controller
             //@var \App\Models\Api\ActivityResult
             ActivityResult::create([
                 'name' => $request->name,
-                'tracking' => $request->tracking,
+                'tracking_type' => $request->tracking_type,
                 'activity_type_id' => $request->activity_type_id,
             ]);
 
@@ -88,7 +88,7 @@ class ActivityResultController extends Controller
 
             $oActivityResult->update([
                 'name' => $request->name,
-                'tracking' => $request->tracking,
+                'tracking_type' => $request->tracking_type,
                 'activity_type_id' => $request->activity_type_id,
             ]);
 
