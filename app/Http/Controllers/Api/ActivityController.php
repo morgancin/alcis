@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Api\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\Api\ActivityResult;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ActivityResource;
@@ -52,17 +53,13 @@ class ActivityController extends Controller
         try	{
             //@var \App\Models\Activity
             $oActivity = Activity::create([
-                                            "end_date" => $request->end_date,
-                                            "end_time" => $request->end_time,
                                             "comments" => $request->comments,
                                             "client_id" => $request->client_id,
                                             "start_date" => $request->start_date,
                                             "start_time" => $request->start_time,
                                             "activity_date" => $request->activity_date,
-                                            "activity_type_id" => $request->activity_type_id,
-                                            "activity_subject_id" => $request->activity_subject_id
+                                            "activity_subject_id" => $request->activity_subject_id,
                                         ]);
-
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -78,6 +75,59 @@ class ActivityController extends Controller
 
             return response()->json([
                 'message' => __('api.messages.added')
+            ], 200);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function store_reschedule(ActivityRequest $request, $id)
+    {
+        $success = true;
+        DB::beginTransaction();
+
+        try {
+            //@var \App\Models\Api\Activity
+            $oActivity = Activity::findOrFail($id);
+            $oActivityResult = ActivityResult::findOrFail($request->activity_result_id);
+
+            $oActivity->update([
+                'end_date' => date("Y-m-d"),
+                'end_time' => date("H:i:s"),
+                'observations' => $request->observations,
+                'activity_result_id' => $request->activity_result_id,
+            ]);
+
+            if($oActivityResult->tracking_type == 'activity')
+            {
+                Activity::create([
+                                    "comments" => $request->comments,
+                                    "client_id" => $oActivity->client_id,
+                                    "start_date" => $request->start_date,
+                                    "start_time" => $request->start_time,
+                                    "activity_date" => $request->activity_date,
+                                    "activity_subject_id" => $request->activity_subject_id,
+                            ]);
+            }
+
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+        if ($success === true) {
+            DB::commit();
+
+            return response()->json([
+                'message' => __('api.messages.updated')
             ], 200);
         }
     }

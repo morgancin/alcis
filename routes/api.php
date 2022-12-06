@@ -103,6 +103,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
             Route::get('/list', 'index')->name('api.activities.list');
             Route::post('/create', 'store')->name('api.activities.create');
             Route::get('/activity/{id}', 'show')->name('api.activities.activity');
+            Route::post('/reschedule/create/{id}', 'store_reschedule')->name('api.activities.reschedule.create');
         });
 
         Route::group(['prefix' => "types"], function()
