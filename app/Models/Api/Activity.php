@@ -47,6 +47,14 @@ class Activity extends Model
         return $this->belongsTo(ActivitySubject::class, 'activity_subject_id', 'id');
     }
 
+    /**
+     * Get the activity result that owns the activity.
+     */
+    public function activity_result(): BelongsTo
+    {
+        return $this->belongsTo(ActivityResult::class, 'activity_result_id', 'id');
+    }
+
     ////////////ACCESSORS
     public function getActivityDateFormatAttribute()
     {
