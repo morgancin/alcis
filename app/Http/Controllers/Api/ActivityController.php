@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ActivityResource;
 use App\Http\Requests\Api\ActivityRequest;
+use App\Http\Requests\Api\ActivityRescheduleRequest;
 
 class ActivityController extends Controller
 {
@@ -86,7 +87,7 @@ class ActivityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function store_reschedule(ActivityRequest $request, $id)
+    public function store_reschedule(ActivityRescheduleRequest $request, $id)
     {
         $success = true;
         DB::beginTransaction();
