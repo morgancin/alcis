@@ -149,7 +149,7 @@ class ClientController extends Controller
                 //"end_date" => $request->end_date,
                 //"end_time" => $request->end_time,
                 //"activity_date" => $request->activity_date,
-                "activity_type_id" => $request->activity_type_id,
+                //"activity_type_id" => $request->activity_type_id,
                 "activity_subject_id" => $request->activity_subject_id,
             ]);
 
