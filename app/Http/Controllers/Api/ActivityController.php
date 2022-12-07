@@ -54,11 +54,11 @@ class ActivityController extends Controller
         try	{
             //@var \App\Models\Activity
             $oActivity = Activity::create([
+                                            "activity_date" => date("Y-m-d"),
                                             "comments" => $request->comments,
                                             "client_id" => $request->client_id,
                                             "start_date" => $request->start_date,
                                             "start_time" => $request->start_time,
-                                            "activity_date" => $request->activity_date,
                                             "activity_subject_id" => $request->activity_subject_id,
                                         ]);
         } catch (\Exception $e) {
@@ -107,13 +107,13 @@ class ActivityController extends Controller
             if($oActivityResult->tracking_type == 'activity')
             {
                 Activity::create([
+                                    "activity_date" => date("Y-m-d"),
                                     "comments" => $request->comments,
                                     "client_id" => $oActivity->client_id,
                                     "start_date" => $request->start_date,
                                     "start_time" => $request->start_time,
-                                    "activity_date" => $request->activity_date,
                                     "activity_subject_id" => $request->activity_subject_id,
-                            ]);
+                                ]);
             }
 
         } catch (Exception $e) {
