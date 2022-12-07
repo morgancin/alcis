@@ -143,11 +143,12 @@ class ClientController extends Controller
             $oActivity = Activity::create([
                 "client_id" => $oClient->id,
                 "comments" => $request->comments,
-                "end_date" => $request->end_date,
-                "end_time" => $request->end_time,
+                "activity_date" => date("Y-m-d"),
                 "start_time" => $request->start_time,
                 "start_date" => $request->start_date,
-                "activity_date" => $request->activity_date,
+                //"end_date" => $request->end_date,
+                //"end_time" => $request->end_time,
+                //"activity_date" => $request->activity_date,
                 "activity_type_id" => $request->activity_type_id,
                 "activity_subject_id" => $request->activity_subject_id,
             ]);
