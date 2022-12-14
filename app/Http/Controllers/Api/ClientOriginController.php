@@ -22,14 +22,16 @@ class ClientOriginController extends Controller
             //@var \App\Models\Api\ClientOrigin
             $oClientOrigins = ClientOrigin::where('user_id', auth()->user()->id);
 
-            if(!$id_client_origin)               //Get the origins
+            if($id_client_origin)
+            {
+                if($id_client_origin == 'all')  //Get the mediums origins
+                    $oClientOrigins->whereNotNull('parent_id_client_medium');
+                else                            //Get the mediums origins for the origin
+                    $oClientOrigins->where('parent_id_client_medium', $id_client_origin);
+            }else                               //Get the origins
+            {
                 $oClientOrigins->whereNull('parent_id_client_medium');
-
-            elseif($id_client_origin == 'all')  //Get the mediums origins
-                $oClientOrigins->whereNotNull('parent_id_client_medium');
-
-            else                                //Get the mediums origins for the origin
-                $oClientOrigins->where('parent_id_client_medium', $id_client_origin);
+            }
 
             $oClientOrigins = $oClientOrigins->get();
 
@@ -63,7 +65,8 @@ class ClientOriginController extends Controller
                             );
 
             ////////ORIGINS MEDIUMS
-            if($request->has('parent_id_client_medium')){
+            if($request->has('parent_id_client_medium'))
+            {
                 $aRegistro['parent_id_client_medium'] = $request->parent_id_client_medium;
             }
             ////////////////////////////////
@@ -109,8 +112,7 @@ class ClientOriginController extends Controller
                         );
 
             ////////ORIGINS MEDIUMS
-            if($request->has('parent_id_client_medium'))
-            {
+            if($request->has('parent_id_client_medium')){
                 $aRegistro['parent_id_client_medium'] = $request->parent_id_client_medium;
             }
             ////////////////////////////////
