@@ -208,6 +208,30 @@ Route::group(['middleware' => ['auth:sanctum']], function()
         });
     });
 
+    Route::group(['prefix' => "quotes"], function()
+    {
+        Route::controller(QuoteController::class)->group(function ()
+        {
+            Route::get('/list', 'index')->name('api.quotes.list');
+            Route::post('/create', 'store')->name('api.quotes.create');
+            Route::get('/quote/{id}', 'show')->name('api.quotes.quote');
+            //Route::patch('/update/{id}', 'update')->name('api.quotes.update');
+        });
+
+        /*
+        Route::group(['prefix' => "lists"], function()
+        {
+            Route::controller(PriceListController::class)->group(function ()
+            {
+                Route::get('/list', 'index')->name('api.prices.list');
+                Route::post('/create', 'store')->name('api.prices.create');
+                Route::patch('/update/{id}', 'update')->name('api.prices.update');
+                Route::get('/price-list/{id}', 'show')->name('api.prices.price_list');
+            });
+        });
+        */
+    });
+
     Route::post('/fetch/curp', [AnexoController::class, 'fetchCurp'])->name('api.fetch.curp');
     Route::get('/fetch/data/cp/{cp}', [AnexoController::class, 'fetchCp'])->name('api.fetch.data.cp');
 });

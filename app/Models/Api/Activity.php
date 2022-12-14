@@ -4,6 +4,7 @@ namespace App\Models\Api;
 
 //use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Activity extends Model
@@ -31,12 +32,21 @@ class Activity extends Model
 
     protected $appends = ['activity_date_format'];
 
+    ////////////RELATIONSHIPS
     /**
      * Get the client that owns the activity.
      */
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class, 'client_id', 'id');
+    }
+
+    /**
+     * Get the quote associated with the activity.
+     */
+    public function quote(): HasOne
+    {
+        return $this->hasOne(Quote::class, 'activity_id', 'id');
     }
 
     /**
