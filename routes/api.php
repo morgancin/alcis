@@ -87,9 +87,10 @@ Route::group(['middleware' => ['auth:sanctum']], function()
 
                 Route::group(['prefix' => "mediums"], function()
                 {
+                    Route::get('/list/all', 'index')->name('api.clients.origins.medium.list.all');
                     Route::post('/register', 'store')->name('api.clients.origins.medium.register');
                     Route::patch('/update/{id}', 'update')->name('api.clients.origins.medium.update');
-                    Route::get('/list/{id_client_origin}', 'index')->name('api.clients.origins.medium');
+                    Route::get('/list/{id_client_origin}', 'index')->name('api.clients.origins.medium.list');
                     Route::get('/client-origin-medium/{id}', 'show')->name('api.clients.origins.medium.client_origin_medium');
                 });
             });
