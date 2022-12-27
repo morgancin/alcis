@@ -52,9 +52,9 @@ class CategoryController extends Controller
             //@var \App\Models\Product
             Category::create([
                 "name" => $request->name,
-                "order" => $request->order,
-                "active" => $request->active,
+                "order" => (($request->order) ? $request->order : null),
                 "image" => (($request->image) ? $request->image : null),
+                "active" => (($request->active) ? $request->active : null),
                 "category_id" => (($request->category_id) ? $request->category_id : null),
                 "category_group_id" => (($request->category_group_id) ? $request->category_group_id : null),
             ]);
@@ -94,9 +94,9 @@ class CategoryController extends Controller
 
             $oCategory->update([
                 "name" => $request->name,
-                "order" => $request->order,
-                "active" => $request->active,
+                "order" => (($request->order) ? $request->order : null),
                 "image" => (($request->image) ? $request->image : null),
+                "active" => (($request->active) ? $request->active : null),
                 "category_id" => (($request->category_id) ? $request->category_id : null),
                 "category_group_id" => (($request->category_group_id) ? $request->category_group_id : null),
             ]);
