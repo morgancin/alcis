@@ -8,7 +8,10 @@ use Illuminate\Http\Response;
 use App\Models\Api\ClientOrigin;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ClientOriginResource;
 use App\Http\Requests\Api\ClientOriginRequest;
+use App\Http\Resources\ClientOriginMediumsResource;
+
 class ClientOriginController extends Controller
 {
     /**
@@ -21,9 +24,12 @@ class ClientOriginController extends Controller
         try {
             //@var \App\Models\Api\ClientOrigin
             $oClientOrigins = ClientOrigin::where('user_id', auth()->user()->id);
+            $bOriginMedium = false;
 
             if($id_client_origin)
             {
+                $bOriginMedium = true;
+
                 if($id_client_origin == 'all')  //Get the mediums origins
                     $oClientOrigins->whereNotNull('parent_id_client_medium');
                 else                            //Get the mediums origins for the origin
@@ -36,8 +42,12 @@ class ClientOriginController extends Controller
             $oClientOrigins = $oClientOrigins->get();
 
             if ($oClientOrigins->count() > 0)
-                return response()->json($oClientOrigins, 200);
-            else
+            {
+                if(!$bOriginMedium) //Get the origins
+                    return ClientOriginResource::collection($oClientOrigins);
+                else                //Get the mediums origins or Get the mediums origins for the origin
+                    return ClientOriginMediumsResource::collection($oClientOrigins);
+            }else
                 return response()->json(['message' => __('api.messages.notfound')], 404);
 
         } catch (Exception $e) {

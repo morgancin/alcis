@@ -22,8 +22,8 @@ return new class extends Migration
 
             $table->string('description', 100)->collation('utf8mb4_unicode_ci')->nullable();
 
-            $table->unsignedBigInteger('parent_id_client_medium')->nullable();
-            $table->foreign('parent_id_client_medium')->references('id')->on('client_origins')->onDelete('cascade');
+            $table->unsignedBigInteger('client_origin_id')->nullable();
+            $table->foreign('client_origin_id')->references('id')->on('client_origins')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

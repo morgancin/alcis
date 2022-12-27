@@ -20,9 +20,11 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+
             $table->boolean('active');
             $table->unsignedInteger('order')->nullable();
-            $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('category_group_id')->nullable();
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('image', 255)->collation('utf8mb4_unicode_ci')->nullable();

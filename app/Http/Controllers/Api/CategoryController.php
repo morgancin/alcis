@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 use App\Http\Requests\Api\CategoryRequest;
 
 class CategoryController extends Controller
@@ -25,7 +26,7 @@ class CategoryController extends Controller
             $oCategories = Category::get();
 
             if ($oCategories->count() > 0)
-                return response()->json($oCategories, Response::HTTP_OK);
+                return CategoryResource::collection($oCategories);
             else
                 return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 
