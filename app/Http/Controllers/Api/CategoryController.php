@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Http\Requests\Api\CategoryRequest;
+use App\Http\Resources\SubCategoryResource;
 
 class CategoryController extends Controller
 {
@@ -19,16 +20,38 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($category_id = false)
     {
         try {
             //@var \App\Models\Api\Category
-            $oCategories = Category::get();
+            $oCategories = Category::where('user_id', auth()->user()->id);
+            $bSubCategories = false;
+
+            if($category_id)
+            {
+                $bSubCategories = true;
+
+                if($category_id == 'all')   //Get the subcategories
+                    $oCategories->whereNotNull('category_id');
+                else                        //Get the subcategories for the category
+                    $oCategories->where('category_id', $category_id);
+            }else                           //Get the categories
+            {
+                $oCategories->whereNull('category_id');
+            }
+
+            $oCategories = $oCategories->get();
 
             if ($oCategories->count() > 0)
-                return CategoryResource::collection($oCategories);
-            else
+            {
+                if(!$bSubCategories) //Get the categories
+                    return CategoryResource::collection($oCategories);
+                else                //Get the sub categories or Get the sub categories for the category
+                    return SubCategoryResource::collection($oCategories);
+            }else
+            {
                 return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+            }
 
         } catch (Exception $e) {
             return response()->json([

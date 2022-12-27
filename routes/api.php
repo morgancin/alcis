@@ -172,6 +172,14 @@ Route::group(['middleware' => ['auth:sanctum']], function()
             Route::post('/create', 'store')->name('api.categories.create');
             Route::get('/category/{id}', 'show')->name('api.categories.category');
             Route::patch('/update/{id}', 'update')->name('api.categories.update');
+
+            Route::group(['prefix' => "subcategories"], function()
+            {
+                Route::get('/list/{category_id}', 'index')->name('api.categories.subcategories.list');
+                //Route::post('/register', 'store')->name('api.clients.origins.medium.register');
+                //Route::patch('/update/{id}', 'update')->name('api.clients.origins.medium.update');
+                //Route::get('/client-origin-medium/{id}', 'show')->name('api.clients.origins.medium.client_origin_medium');
+            });
         });
     });
 
