@@ -7,8 +7,6 @@ use App\Models\Api\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 //use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\JsonResource;
-
 use App\Models\Api\ActivityResult;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -23,7 +21,8 @@ class ActivityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): JsonResponse
+    //public function index(): JsonResponse
+    public function index()
     {
         try	{
             //@var \App\Models\Api\Activity
