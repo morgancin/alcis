@@ -19,7 +19,6 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'subcategories' => CategoryResource::collection($this->whenLoaded('subcategories')),
-            //'category' => new CategoryResource($this->whenLoaded('category')),
         ];
     }
 }
