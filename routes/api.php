@@ -161,6 +161,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
             Route::post('/create', 'store')->name('api.products.create');
             Route::get('/product/{id}', 'show')->name('api.products.product');
             Route::patch('/update/{id}', 'update')->name('api.products.update');
+            Route::get('/list/category/{category_id}', 'index')->name('api.products.list.category');
         });
     });
 

@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Http\Requests\Api\ProductRequest;
 
 class ProductController extends Controller
@@ -18,14 +19,20 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($category_id = false)
     {
         try {
             //@var \App\Models\Api\Product
-            $oProducts = Product::get();
+            $oProducts = Product::whereHas('category', function($q) {
+                                            $q->where('user_id', auth()->user()->id);
+                                        });
+            if($category_id)
+                $oProducts->where('category_id', $category_id);
+
+            $oProducts = $oProducts->get();
 
             if ($oProducts->count() > 0)
-                return response()->json($oProducts, Response::HTTP_OK);
+                return ProductResource::collection($oProducts);
             else
                 return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 
@@ -128,7 +135,7 @@ class ProductController extends Controller
             $oProduct = Product::findOrFail($id);
 
             if ($oProduct !== null)
-                return response()->json($oProduct, Response::HTTP_OK);
+                return new ProductResource($oProduct);
             else
                 return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 

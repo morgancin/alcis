@@ -38,10 +38,13 @@ class Category extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
-        //return $this->hasOne(Category::class, 'id', 'category_id');
-        //return $this->hasOne(Category::class, 'category_id', 'id');
-        //return $this->belongsTo(Category::class, 'category_id', 'id')->whereNull('category_id');//NO JALÓ
-        //return $this->subcategories()->with('category');
-        //return $this->belongsTo(Category::class, 'category_id', 'id')->whereNotNull('category_id'); //JALÓ
+    }
+
+    /**
+     * Get the products for the category.
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'category_id', 'id');
     }
 }
