@@ -21,7 +21,7 @@ class Category extends Model
         });
     }
 
-    protected $with = ['products', 'subcategories'];
+    protected $with = ['subcategories'];
 
     ////////////RELATIONSHIPS
     /**
