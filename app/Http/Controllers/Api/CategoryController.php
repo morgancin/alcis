@@ -154,7 +154,7 @@ class CategoryController extends Controller
             $oCategory = Category::findOrFail($id);
 
             if ($oCategory !== null)
-                return response()->json($oCategory, Response::HTTP_OK);
+                return new CategoryResource($oCategory);
             else
                 return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 

@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PriceListResource;
 use App\Http\Requests\Api\PriceListRequest;
 
 class PriceListController extends Controller
@@ -22,11 +23,11 @@ class PriceListController extends Controller
     {
         try	{
             //@var \App\Models\Api\PriceList
-            $oPrice_lists = PriceList::where('user_id', auth()->user()->id)
+            $oPrices_lists = PriceList::where('user_id', auth()->user()->id)
                                     ->get();
 
-            if($oPrice_lists->count() > 0)
-                return response()->json($oPrice_lists, Response::HTTP_OK);
+            if($oPrices_lists->count() > 0)
+                return PriceListResource::collection($oPrices_lists);
             else
                 return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 
@@ -118,10 +119,10 @@ class PriceListController extends Controller
     {
         try {
             //@var \App\Models\Api\PriceList
-            $oPrice_list = PriceList::findOrFail($id);
+            $oPrices_list = PriceList::findOrFail($id);
 
-            if ($oPrice_list !== null)
-                return response()->json($oPrice_list, Response::HTTP_OK);
+            if ($oPrices_list !== null)
+                return new PriceListResource($oPrices_list);
             else
                 return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 
