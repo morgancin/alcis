@@ -21,7 +21,7 @@ class PriceListController extends Controller
     public function index()
     {
         try	{
-            //@var \App\Models\Api\Price
+            //@var \App\Models\Api\PriceList
             $oPrice_lists = PriceList::where('user_id', auth()->user()->id)
                                     ->get();
 

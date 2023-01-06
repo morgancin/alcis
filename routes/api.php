@@ -209,10 +209,10 @@ Route::group(['middleware' => ['auth:sanctum']], function()
         {
             Route::controller(PriceListController::class)->group(function ()
             {
-                Route::get('/list', 'index')->name('api.prices.list');
-                Route::post('/create', 'store')->name('api.prices.create');
-                Route::patch('/update/{id}', 'update')->name('api.prices.update');
-                Route::get('/price-list/{id}', 'show')->name('api.prices.price_list');
+                Route::get('/list', 'index')->name('api.prices.lists');
+                Route::post('/create', 'store')->name('api.prices.lists.create');
+                Route::patch('/update/{id}', 'update')->name('api.prices.lists.update');
+                //Route::get('/price-list/{id}', 'show')->name('api.prices.lists.price_list');
             });
         });
     });
