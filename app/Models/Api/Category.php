@@ -21,7 +21,7 @@ class Category extends Model
         });
     }
 
-    protected $with = ['subcategories'];
+    protected $with = ['products', 'subcategories'];
 
     ////////////RELATIONSHIPS
     /**
@@ -35,7 +35,7 @@ class Category extends Model
     /**
      * Get the category for the subcategory.
      */
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
