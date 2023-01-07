@@ -23,7 +23,8 @@ class PriceListController extends Controller
     {
         try	{
             //@var \App\Models\Api\PriceList
-            $oPrices_lists = PriceList::where('user_id', auth()->user()->id)
+            $oPrices_lists = PriceList::with(['prices'])
+                                    ->where('user_id', auth()->user()->id)
                                     ->get();
 
             if($oPrices_lists->count() > 0)
@@ -122,7 +123,8 @@ class PriceListController extends Controller
             $oPrices_list = PriceList::findOrFail($id);
 
             if ($oPrices_list !== null)
-                return new PriceListResource($oPrices_list);
+                //return new PriceListResource($oPrices_list);
+                return (new PriceListResource($oPrices_list->loadMissing(['prices'])));
             else
                 return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 

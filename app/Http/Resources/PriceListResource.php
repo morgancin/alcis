@@ -1,4 +1,5 @@
 <?php
+//https://sam-ngu.medium.com/avoiding-infinite-nested-relationship-loop-in-laravel-api-resource-35685898b360
 
 namespace App\Http\Resources;
 

@@ -10,10 +10,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Price extends Model
 {
     //use HasFactory;
-    //protected $fillable = ['user_id', 'product_id', 'currency_id', 'price_list_id', 'price'];
     protected $fillable = ['currency_id', 'price_list_id', 'price'];
 
-    protected $with = ['currency', 'prices_list'];
+    //protected $with = ['currency', 'prices_list'];
+    //protected $with = ['currency'];
 
     /*
     protected static function boot()

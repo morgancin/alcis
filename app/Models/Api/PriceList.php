@@ -11,7 +11,7 @@ class PriceList extends Model
     //use HasFactory;
     protected $fillable = ['user_id', 'name'];
 
-    protected $with = ['prices'];
+    //protected $with = ['prices'];
 
     protected static function boot()
     {

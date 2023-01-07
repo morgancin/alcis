@@ -1,4 +1,5 @@
 <?php
+//https://sam-ngu.medium.com/avoiding-infinite-nested-relationship-loop-in-laravel-api-resource-35685898b360
 
 namespace App\Http\Resources;
 
@@ -18,7 +19,7 @@ class PriceResource extends JsonResource
             'id' => $this->id,
             'price' => $this->price,
             'currency' => new CurrencyResource($this->currency),
-            'prices_list' => new PriceListResource($this->prices_list),
+            'prices_list' => new PriceListResource($this->whenLoaded('prices_list')),
         ];
     }
 }
