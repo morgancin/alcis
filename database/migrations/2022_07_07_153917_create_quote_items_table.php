@@ -29,11 +29,11 @@ return new class extends Migration
             //$table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->unsignedInteger('quantity')->nullable();
-            $table->unsignedDecimal('price', 12, 4)->nullable();
+            $table->unsignedDecimal('price', 8, 2)->nullable();
             $table->string('coupon_code', 255)->collation('utf8mb4_unicode_ci')->nullable();
-            $table->unsignedDecimal('discount_percent', 12, 4)->nullable();
-            $table->unsignedDecimal('discount_amount', 12, 4)->nullable();
-            $table->unsignedDecimal('total', 12, 4)->nullable();
+            $table->unsignedDecimal('discount_percent', 8, 2)->nullable();
+            $table->unsignedDecimal('discount_amount', 8, 2)->nullable();
+            $table->unsignedDecimal('total', 8, 2)->nullable();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
