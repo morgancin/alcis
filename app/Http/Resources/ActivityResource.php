@@ -25,8 +25,8 @@ class ActivityResource extends JsonResource
             'start_time' => $this->start_time,
             'activity_date' => $this->activity_date,
             'activity_date_format' => $this->activity_date_format,
-            'activity_result' => new ActivityResultResource($this->activity_result),  //RelationShip
-            'activity_subject' => new ActivitySubjectResource($this->activity_subject),  //RelationShip
+            'activity_result' => (new ActivityResultResource($this->activity_result)),  //RelationShip
+            'activity_subject' => (new ActivitySubjectResource($this->activity_subject)),  //RelationShip
         ];
     }
 }

@@ -18,7 +18,7 @@ class ActivityResultResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'tracking_type' => $this->tracking_type,
-            'activity_type' => new ActivityTypeResource($this->activity_type),  //RelationShip
+            'activity_type' => (new ActivityTypeResource($this->activity_type)),  //RelationShip
         ];
     }
 }
