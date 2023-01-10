@@ -23,7 +23,7 @@ class ProductController extends Controller
     {
         try {
             //@var \App\Models\Api\Product
-            $oProducts = Product::with(['category', 'lists_prices'])
+            $oProducts = Product::with(['category', 'prices_lists'])
                                 ->whereHas('category', function($q) {
                                     $q->where('user_id', auth()->user()->id);
                                 });
