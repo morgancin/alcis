@@ -10,10 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Price extends Model
 {
     //use HasFactory;
-    protected $fillable = ['currency_id', 'price_list_id', 'price'];
-
-    //protected $with = ['currency', 'prices_list'];
-    //protected $with = ['currency'];
+    protected $fillable = ['product_id', 'currency_id', 'price_list_id', 'price'];
 
     /*
     protected static function boot()
@@ -41,5 +38,13 @@ class Price extends Model
     public function prices_list(): BelongsTo
     {
         return $this->belongsTo(PriceList::class, 'price_list_id', 'id');
+    }
+
+    /**
+     * Get the product for the price.
+     */
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 }

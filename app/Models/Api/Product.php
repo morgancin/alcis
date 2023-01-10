@@ -42,10 +42,20 @@ class Product extends Model
     }
 
     /**
+     * Get the prices lists for the product.
+     */
+    public function prices(): HasMany
+    {
+        return $this->hasMany(Price::class, 'product_id', 'id');
+    }
+
+    /**
      * Get the lists prices for the product.
      */
+    /*
     public function prices_lists(): BelongsToMany
     {
         return $this->belongsToMany(PriceList::class, 'price_list_product', 'product_id', 'price_list_id');
     }
+    */
 }

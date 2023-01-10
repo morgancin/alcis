@@ -5,14 +5,13 @@ namespace App\Models\Api;
 //use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class PriceList extends Model
 {
     //use HasFactory;
     protected $fillable = ['user_id', 'name'];
-
-    //protected $with = ['prices'];
 
     protected static function boot()
     {
@@ -33,10 +32,20 @@ class PriceList extends Model
     }
 
     /**
+     * Get the user for the prices list.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
      * Get the products for the list price.
      */
+    /*
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'price_list_product', 'price_list_id', 'product_id');
     }
+    */
 }

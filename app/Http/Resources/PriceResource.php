@@ -18,7 +18,8 @@ class PriceResource extends JsonResource
         return [
             'id' => $this->id,
             'price' => $this->price,
-            'currency' => new CurrencyResource($this->currency),
+            'product' => new ProductResource($this->whenLoaded('product')),
+            'currency' => new CurrencyResource($this->whenLoaded('currency')),
             'prices_list' => new PriceListResource($this->whenLoaded('prices_list')),
         ];
     }

@@ -18,7 +18,7 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'category' => (new CategoryResource($this->category)),
-            'prices_lists' => PriceListResource::collection($this->whenLoaded('prices_lists')),
+            'prices' => PriceResource::collection($this->whenLoaded('prices')),
         ];
     }
 }
