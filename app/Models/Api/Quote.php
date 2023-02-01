@@ -33,7 +33,8 @@ class Quote extends Model
     /**
      * Get the items for the quote.
      */
-    public function items(): HasMany
+    //public function items(): HasMany
+    public function products(): HasMany
     {
         return $this->hasMany(QuoteItems::class, 'quote_id', 'id');
     }

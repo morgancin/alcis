@@ -13,18 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lead_pipeline_stage', function (Blueprint $table) {
+        Schema::create('pipelines', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->id('id');
 
-            $table->string('code', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
-
-            $table->unsignedInteger('probability')->nullable();
-            $table->unsignedInteger('sort_order')->nullable();
-
-            $table->unsignedBigInteger('lead_pipeline_id')->nullable();
-            $table->foreign('lead_pipeline_id')->references('id')->on('lead_pipelines')->onDelete('cascade');
+            $table->unsignedTinyInteger('is_default')->nullable();
+            //$table->unsignedInteger('rotten_days')->nullable();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
@@ -38,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lead_pipeline_stages');
+        Schema::dropIfExists('lead_pipelines');
     }
 };

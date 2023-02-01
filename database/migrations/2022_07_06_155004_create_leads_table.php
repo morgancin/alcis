@@ -36,11 +36,11 @@ return new class extends Migration
             $table->unsignedBigInteger('lead_type_id')->nullable();
             $table->foreign('lead_type_id')->references('id')->on('lead_types')->onDelete('cascade');
 
-            $table->unsignedBigInteger('lead_pipeline_id')->nullable();
-            $table->foreign('lead_pipeline_id')->references('id')->on('lead_pipelines')->onDelete('cascade');
+            $table->unsignedBigInteger('pipeline_id')->nullable();
+            $table->foreign('pipeline_id')->references('id')->on('pipelines')->onDelete('cascade');
 
-            $table->unsignedBigInteger('lead_pipeline_stage_id')->nullable();
-            $table->foreign('lead_pipeline_stage_id')->references('id')->on('lead_pipeline_stage')->onDelete('cascade');
+            $table->unsignedBigInteger('pipeline_stage_id')->nullable();
+            $table->foreign('pipeline_stage_id')->references('id')->on('pipeline_stages')->onDelete('cascade');
             //////////
 
             $table->text('lost_reason')->collation('utf8mb4_unicode_ci')->nullable();

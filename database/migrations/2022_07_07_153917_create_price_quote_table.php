@@ -13,7 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('quote_items', function (Blueprint $table) {
+        Schema::create('price_product_quote', function (Blueprint $table) {
+        //Schema::create('quote_items', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->id('id');
 
@@ -22,6 +23,9 @@ return new class extends Migration
 
             $table->unsignedBigInteger('product_id')->nullable();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+
+            //$table->unsignedBigInteger('price_id')->nullable();
+            //$table->foreign('price_id')->references('id')->on('prices')->onDelete('cascade');
 
             //$table->unsignedDecimal('tax_percent', 12, 4)->nullable();
             //$table->unsignedDecimal('tax_amount', 12, 4)->nullable();
@@ -33,6 +37,7 @@ return new class extends Migration
             $table->string('coupon_code', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->unsignedDecimal('discount_percent', 8, 2)->nullable();
             $table->unsignedDecimal('discount_amount', 8, 2)->nullable();
+            $table->unsignedDecimal('amount', 8, 2)->nullable();
             $table->unsignedDecimal('total', 8, 2)->nullable();
 
             $table->timestamps();

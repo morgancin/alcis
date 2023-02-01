@@ -49,11 +49,11 @@ class QuoteController extends Controller
         try	{
             //@var \App\Models\Quote
             $oQuote = Quote::create([
-                                "user_id" => $request->user_id,
-                                "activity_id" => $request->activity_id,
                                 "total" => $request->total,
+                                "user_id" => $request->user_id,
                                 "sub_total" => $request->sub_total,
                                 "description" => $request->description,
+                                "activity_id" => $request->activity_id,
                                 //"expire_at" => $request->expire_at,
                                 //"discount_amount" => $request->discount_amount,
                                 //"discount_percent" => $request->discount_percent,
@@ -83,6 +83,48 @@ class QuoteController extends Controller
             return response()->json([
                 'message' => __('api.messages.added')
             ], Response::HTTP_OK);
+        }
+    }
+
+    /**
+     * Display the document quote.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function document_quote()
+    {
+        try {
+            //$name=DB::table('invoices')->where('id_payments',$id)->first();
+            //$file = storage_path('facturas/'. env('RUC') .'-' . $name->type_document.'-'.$name->serie.'-'.$name->correlative.'.pdf');
+            //$pdf= env('RUC') .'-' . $name->type_document.'-'.$name->serie.'-'.$name->correlative.'.pdf';
+
+            $file = storage_path('file_pdf/example_pdf.pdf');
+            $pdf= 'pruebas.pdf';
+            $headers = array(
+                            'Content-Type: application/pdf',
+                    );
+
+            return response()->download($file, $pdf, $headers);
+
+            /*
+            //@var \App\Models\Api\Quote
+            $oQuote = Quote::with([
+                'items:id,quote_id,quantity,price,total',
+                'items.product:id,sku,name,description',
+            ])
+            ->findOrFail($id);
+
+            if ($oQuote !== null)
+                return response()->json($oQuote, Response::HTTP_OK);
+            else
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+            */
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 

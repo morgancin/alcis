@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AnexoController;
 use App\Http\Controllers\Api\PriceController;
+use App\Http\Controllers\Api\QuoteController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProfileController;
@@ -224,6 +225,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
             Route::get('/list', 'index')->name('api.quotes.list');
             Route::post('/create', 'store')->name('api.quotes.create');
             Route::get('/quote/{id}', 'show')->name('api.quotes.quote');
+            Route::get('/quote/view', 'document_quote')->name('api.quotes.view');
             //Route::patch('/update/{id}', 'update')->name('api.quotes.update');
         });
 
