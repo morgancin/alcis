@@ -28,7 +28,9 @@ return new class extends Migration
 
             $table->time('start_time', $precision = 0)->nullable();
             $table->time('end_time', $precision = 0)->nullable();
-            $table->text('comments')->collation('utf8mb4_unicode_ci')->nullable();
+
+            $table->string('comments', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('observations', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
