@@ -31,12 +31,12 @@ class ClientOriginController extends Controller
                 $bOriginMedium = true;
 
                 if($id_client_origin == 'all')  //Get the mediums origins
-                    $oClientOrigins->whereNotNull('parent_id_client_medium');
+                    $oClientOrigins->whereNotNull('client_origin_id');
                 else                            //Get the mediums origins for the origin
-                    $oClientOrigins->where('parent_id_client_medium', $id_client_origin);
+                    $oClientOrigins->where('client_origin_id', $id_client_origin);
             }else                               //Get the origins
             {
-                $oClientOrigins->whereNull('parent_id_client_medium');
+                $oClientOrigins->whereNull('client_origin_id');
             }
 
             $oClientOrigins = $oClientOrigins->get();
@@ -75,9 +75,9 @@ class ClientOriginController extends Controller
                             );
 
             ////////ORIGINS MEDIUMS
-            if($request->has('parent_id_client_medium'))
+            if($request->has('client_origin_id'))
             {
-                $aRegistro['parent_id_client_medium'] = $request->parent_id_client_medium;
+                $aRegistro['client_origin_id'] = $request->client_origin_id;
             }
             ////////////////////////////////
 
@@ -122,8 +122,8 @@ class ClientOriginController extends Controller
                         );
 
             ////////ORIGINS MEDIUMS
-            if($request->has('parent_id_client_medium')){
-                $aRegistro['parent_id_client_medium'] = $request->parent_id_client_medium;
+            if($request->has('client_origin_id')){
+                $aRegistro['client_origin_id'] = $request->client_origin_id;
             }
             ////////////////////////////////
 
