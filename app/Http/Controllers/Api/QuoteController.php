@@ -98,28 +98,15 @@ class QuoteController extends Controller
             //$name=DB::table('invoices')->where('id_payments',$id)->first();
             //$file = storage_path('facturas/'. env('RUC') .'-' . $name->type_document.'-'.$name->serie.'-'.$name->correlative.'.pdf');
             //$pdf= env('RUC') .'-' . $name->type_document.'-'.$name->serie.'-'.$name->correlative.'.pdf';
+            //return response()->json('hey', Response::HTTP_OK);
 
-            $file = storage_path('file_pdf/example_pdf.pdf');
             $pdf= 'pruebas.pdf';
+            $file = storage_path('file_pdf/example_pdf.pdf');
             $headers = array(
                             'Content-Type: application/pdf',
-                    );
+                        );
 
             return response()->download($file, $pdf, $headers);
-
-            /*
-            //@var \App\Models\Api\Quote
-            $oQuote = Quote::with([
-                'items:id,quote_id,quantity,price,total',
-                'items.product:id,sku,name,description',
-            ])
-            ->findOrFail($id);
-
-            if ($oQuote !== null)
-                return response()->json($oQuote, Response::HTTP_OK);
-            else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
-            */
 
         } catch (Exception $e) {
             return response()->json([

@@ -225,7 +225,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
             Route::get('/list', 'index')->name('api.quotes.list');
             Route::post('/create', 'store')->name('api.quotes.create');
             Route::get('/quote/{id}', 'show')->name('api.quotes.quote');
-            Route::get('/quote/view', 'document_quote')->name('api.quotes.view');
+            Route::get('/document/view', 'document_quote')->name('api.quotes.view');
             //Route::patch('/update/{id}', 'update')->name('api.quotes.update');
         });
 
