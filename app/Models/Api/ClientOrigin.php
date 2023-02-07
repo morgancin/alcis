@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ClientOrigin extends Model
 {
     //use HasFactory;
-    protected $fillable = ['user_id', 'description', 'parent_id_client_medium'];
+    protected $fillable = ['user_id', 'description', 'client_origin_id'];
 
     protected static function boot(){
         parent::boot();
@@ -31,7 +31,7 @@ class ClientOrigin extends Model
      */
     public function origin_mediums(): HasMany
     {
-        return $this->hasMany(ClientOrigin::class, 'parent_id_client_medium', 'id');
+        return $this->hasMany(ClientOrigin::class, 'client_origin_id', 'id');
     }
 
     /**
@@ -39,6 +39,6 @@ class ClientOrigin extends Model
      */
     public function origin(): BelongsTo
     {
-        return $this->belongsTo(ClientOrigin::class, 'parent_id_client_medium', 'id');
+        return $this->belongsTo(ClientOrigin::class, 'client_origin_id', 'id');
     }
 }
