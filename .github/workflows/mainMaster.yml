@@ -11,10 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt
-      - uses: dtolnay/rust-toolchain@stable
       - name: FTP-Deploy-Action
+        run: cargo fmt --all -- --check
         with:
           ftp-server: ${{ secrets.FTP_SERVER }}
           ftp-username: ${{ secrets.FTP_USERNAME }}
