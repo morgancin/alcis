@@ -3,31 +3,36 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
-use App\Models\Api\Client;
+use App\Models\Api\Prospect;
 use App\Models\Api\Activity;
 use Illuminate\Http\Request;
-use App\Models\Api\ClientAddress;
+use App\Models\Api\ProspectAddress;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\ClientRequest;
-use App\Http\Requests\Api\ClientActivityRequest;
+use App\Http\Requests\Api\ProspectRequest;
+use App\Http\Requests\Api\ProspectActivityRequest;
 
-class ClientController extends Controller
+class ProspectController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            //@var \App\Models\Api\Client
-            $oClients = Client::where('user_id', auth()->user()->id)
-                ->get();
+            //@var \App\Models\Api\Prospect
+            $oProspects = new Prospect;
 
-            if ($oClients->count() > 0)
-                return response()->json($oClients, 200);
+            if($request->query('account_id')) {
+                $oProspects = $oProspects->where('account_id', $request->query('account_id'));
+            }
+
+            $oProspects = $oProspects->get();
+
+            if ($oProspects->count() > 0)
+                return response()->json($oProspects, 200);
             else
                 return response()->json(['message' => __('api.messages.notfound')], 404);
 
@@ -39,22 +44,50 @@ class ClientController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    /*
+    public function list_contacts_companies()
+    {
+        try {
+            //@var \App\Models\Api\Prospect
+            $oProspects = Prospect::where('user_id', auth()->user()->id)
+                                //->whereNotNull('client_id')
+                                ->whereType('company')
+                                ->get();
+
+            if ($oProspects->count() > 0)
+                return response()->json($oProspects, 200);
+            else
+                return response()->json(['message' => __('api.messages.notfound')], 404);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+    */
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ClientRequest $request)
+    public function store(ProspectRequest $request)
     {
         $success = true;
         DB::beginTransaction();
 
         try {
-            //@var \App\Models\Api\Client
-            Client::create([
-                //"user_id" => auth()->user()->id,
+            //@var \App\Models\Api\Prospect
+            Prospect::create([
                 "rfc" => $request->rfc,
                 "age" => $request->age,
+                "type" => $request->type,
                 "curp" => $request->curp,
                 "email" => $request->email,
                 "gender" => $request->gender,
@@ -64,12 +97,13 @@ class ClientController extends Controller
                 "birth_date" => $request->birth_date,
                 "phone_home" => $request->phone_home,
                 "profession" => $request->profession,
+                "account_id" => $request->account_id,
                 "birth_place" => $request->birth_place,
                 "phone_office" => $request->phone_office,
                 "phone_mobile" => $request->phone_mobile,
                 "second_last_name" => $request->second_last_name,
                 "service_priority" => $request->service_priority,
-                "client_medium_origin_id" => $request->client_medium_origin_id
+                "prospecting_mean_id" => $request->prospecting_mean_id
             ]);
 
         } catch (\Exception $e) {
@@ -95,17 +129,17 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    //Create Store ClientActivity
-    public function store_client_activity(ClientActivityRequest $request)
+    public function store_prospect_and_activity(ProspectActivityRequest $request)
     {
         $success = true;
         DB::beginTransaction();
 
         try {
-            //@var \App\Models\Api\Client
-            $oClient = Client::create([
+            //@var \App\Models\Api\Prospect
+            $oProspect = Prospect::create([
                             "rfc" => $request->rfc,
                             "age" => $request->age,
+                            "type" => $request->type,
                             "curp" => $request->curp,
                             "email" => $request->email,
                             "gender" => $request->gender,
@@ -115,18 +149,19 @@ class ClientController extends Controller
                             "birth_date" => $request->birth_date,
                             "phone_home" => $request->phone_home,
                             "profession" => $request->profession,
+                            "account_id" => $request->account_id,
                             "birth_place" => $request->birth_place,
                             "phone_office" => $request->phone_office,
                             "phone_mobile" => $request->phone_mobile,
                             "second_last_name" => $request->second_last_name,
                             "service_priority" => $request->service_priority,
-                            "client_medium_origin_id" => $request->client_medium_origin_id
+                            "prospecting_mean_id" => $request->prospecting_mean_id
                         ]);
 
             if ($request->has('zipcode') && $request->has('city'))
             {
-                $oClientAddress = ClientAddress::create([
-                    "client_id" => $oClient->id,
+                $oProspectAddress = ProspectAddress::create([
+                    "prospect_id" => $oProspect->id,
                     "city" => ($request->city) ? $request->city : null,
                     "town" => ($request->town) ? $request->town : null,
                     "state" => ($request->state) ? $request->state : null,
@@ -141,16 +176,17 @@ class ClientController extends Controller
             }
 
             $oActivity = Activity::create([
-                "client_id" => $oClient->id,
+                "prospect_id" => $oProspect->id,
                 "comments" => $request->comments,
                 "activity_date" => date("Y-m-d"),
                 "start_time" => $request->start_time,
                 "start_date" => $request->start_date,
+                "account_id" => $request->account_id,
+                "activity_subject_id" => $request->activity_subject_id,
                 //"end_date" => $request->end_date,
                 //"end_time" => $request->end_time,
                 //"activity_date" => $request->activity_date,
                 //"activity_type_id" => $request->activity_type_id,
-                "activity_subject_id" => $request->activity_subject_id,
             ]);
 
             ///SE PROGRAMA EJECUTA CRONJOB
@@ -181,11 +217,11 @@ class ClientController extends Controller
     public function show($id)
     {
         try {
-            //@var \App\Models\Api\Client
-            $oClient = Client::findOrFail($id);
+            //@var \App\Models\Api\Prospect
+            $oProspect = Prospect::findOrFail($id);
 
-            if ($oClient !== null)
-                return response()->json($oClient, 200);
+            if ($oProspect !== null)
+                return response()->json($oProspect, 200);
             else
                 return response()->json(['message' => __('api.messages.notfound')], 404);
 
@@ -203,20 +239,19 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ClientRequest $request, $id)
+    public function update(ProspectRequest $request, $id)
     {
         $success = true;
         DB::beginTransaction();
 
         try {
-            //@var \App\Models\Api\Client
-            $oClient = Client::findOrFail($id);
+            //@var \App\Models\Api\Prospect
+            $oProspect = Prospect::findOrFail($id);
 
-            $oClient->update([
-                //"user_id" => auth()->user()->id,
-
+            $oProspect->update([
                 "age" => $request->age,
                 "rfc" => $request->rfc,
+                "type" => $request->type,
                 "curp" => $request->curp,
                 "email" => $request->email,
                 "gender" => $request->gender,
@@ -231,7 +266,7 @@ class ClientController extends Controller
                 "phone_mobile" => $request->phone_mobile,
                 "second_last_name" => $request->second_last_name,
                 "service_priority" => $request->service_priority,
-                "client_medium_origin_id" => $request->client_medium_origin_id,
+                "prospecting_mean_id" => $request->prospecting_mean_id,
             ]);
 
         } catch (Exception $e) {

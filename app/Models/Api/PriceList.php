@@ -11,8 +11,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class PriceList extends Model
 {
     //use HasFactory;
-    protected $fillable = ['user_id', 'name'];
+    protected $fillable = ['name'];
 
+    /*
     protected static function boot()
     {
         parent::boot();
@@ -21,6 +22,7 @@ class PriceList extends Model
             $price_list->user_id = auth()->id();
         });
     }
+    */
 
     ////////////RELATIONSHIPS
     /**
@@ -34,10 +36,12 @@ class PriceList extends Model
     /**
      * Get the user for the prices list.
      */
+    /*
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'account_id', 'id');
     }
+    */
 
     /**
      * Get the products for the list price.

@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('activities', function (Blueprint $table) {
-            $table->unsignedBigInteger('client_id')->nullable();
-            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+        Schema::table('prospects', function (Blueprint $table) {
+            $table->unsignedBigInteger('prospecting_mean_id')->nullable();
+            $table->foreign('prospecting_mean_id')->references('id')->on('prospecting_sources')->onDelete('cascade');
         });
     }
 
@@ -26,8 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('activities', function (Blueprint $table) {
-            $table->dropColumn('client_id');
+        Schema::table('prospects', function (Blueprint $table) {
+            $table->dropColumn('prospecting_mean_id');
         });
     }
 };

@@ -27,7 +27,6 @@ class ActivityController extends Controller
         try	{
             //@var \App\Models\Api\Activity
             $oActivities = Activity::with(['client', 'activity_subject'])
-                                    ->where('user_id', auth()->user()->id)
                                     ->get();
 
             if($oActivities->count() > 0)
@@ -58,9 +57,10 @@ class ActivityController extends Controller
             $oActivity = Activity::create([
                                             "activity_date" => date("Y-m-d"),
                                             "comments" => $request->comments,
-                                            "client_id" => $request->client_id,
                                             "start_date" => $request->start_date,
                                             "start_time" => $request->start_time,
+                                            "account_id" => $request->account_id,
+                                            "prospect_id" => $request->prospect_id,
                                             "activity_subject_id" => $request->activity_subject_id,
                                         ]);
         } catch (\Exception $e) {
@@ -111,9 +111,10 @@ class ActivityController extends Controller
                 Activity::create([
                                     "activity_date" => date("Y-m-d"),
                                     "comments" => $request->comments,
-                                    "client_id" => $oActivity->client_id,
                                     "start_date" => $request->start_date,
                                     "start_time" => $request->start_time,
+                                    "account_id" => $request->account_id,
+                                    "prospect_id" => $oActivity->prospect_id,
                                     "activity_subject_id" => $request->activity_subject_id,
                                 ]);
             }

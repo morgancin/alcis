@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ClientOriginResource extends JsonResource
+class ProspectingSourceResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,9 +17,9 @@ class ClientOriginResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'account_id' => $this->account_id,
             'description' => $this->description,
-            'origin_mediums' => ClientOriginResource::collection($this->whenLoaded('origin_mediums')),
+            'prospecting_means' => ProspectingSourceResource::collection($this->whenLoaded('prospecting_means')),
         ];
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ClientOriginMediumsResource extends JsonResource
+class ProspectingMeanResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,7 +19,7 @@ class ClientOriginMediumsResource extends JsonResource
             'id' => $this->id,
             'user_id' => $this->user_id,
             'description' => $this->description,
-            'origin' => new ClientOriginResource($this->origin),
+            'prospecting_source' => new ProspectingSourceResource($this->prospecting_source),
         ];
     }
 }

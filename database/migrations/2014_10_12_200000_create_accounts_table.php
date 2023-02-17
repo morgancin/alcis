@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('activity_types', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->id('id');
 
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-            $table->string('name', 100)->collation('utf8mb4_unicode_ci')->nullable();
-            $table->enum('type', ['call', 'email', 'sms', 'meet', 'date', 'other'])->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
@@ -35,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activity_types');
+        Schema::dropIfExists('accounts');
     }
 };

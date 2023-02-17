@@ -12,17 +12,6 @@ class Price extends Model
     //use HasFactory;
     protected $fillable = ['product_id', 'currency_id', 'price_list_id', 'price'];
 
-    /*
-    protected static function boot()
-    {
-        parent::boot();
-        self::creating(function(Price $price)
-        {
-            $price->user_id = auth()->id();
-        });
-    }
-    */
-
     ////////////RELATIONSHIPS
     /**
      * Get the currency for the price.

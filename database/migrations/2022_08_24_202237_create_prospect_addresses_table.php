@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('client_addresses', function (Blueprint $table) {
+        Schema::create('prospect_addresses', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->id('id');
 
-            $table->unsignedBigInteger('client_id')->nullable();
-            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->unsignedBigInteger('prospect_id')->nullable();
+            $table->foreign('prospect_id')->references('id')->on('prospects')->onDelete('cascade');
 
             $table->string('street', 50)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('outdoor', 30)->collation('utf8mb4_unicode_ci')->nullable();
@@ -44,6 +44,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_addresses');
+        Schema::dropIfExists('prospect_addresses');
     }
 };

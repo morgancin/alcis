@@ -13,19 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories_groups', function (Blueprint $table) {
+        Schema::create('account_user', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->id('id');
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->boolean('active');
-            $table->unsignedInteger('type')->nullable();
-            $table->unsignedBigInteger('item_group_id')->nullable();
-            $table->unsignedBigInteger('category_group_id')->nullable();
-            $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
-            $table->string('image', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->unsignedBigInteger('account_id')->nullable();
+            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
@@ -39,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories_groups');
+        Schema::dropIfExists('account_user');
     }
 };

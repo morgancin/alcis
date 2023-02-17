@@ -9,17 +9,23 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Api\ActivitySubject;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ActivitySubjectRequest;
+
 class ActivitySubjectController extends Controller
 {
-    public function index($id_activity_type = false)
+    public function index($activity_type_id = false)
     {
         try	{
             //@var \App\Models\Api\ActivitySubject
+            $oActivitySubjects = new ActivitySubject;
+
+            /*
             $oActivitySubjects = ActivitySubject::whereHas('activity_type', function($q) {
                                                     $q->where('user_id', auth()->user()->id);
                                                 });
-            if($id_activity_type)
-                $oActivitySubjects->where('activity_type_id', $id_activity_type);
+            */
+
+            if($activity_type_id)
+                $oActivitySubjects->where('activity_type_id', $activity_type_id);
 
             $oActivitySubjects = $oActivitySubjects->get();
 
@@ -77,7 +83,7 @@ class ActivitySubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ActivitySubjectRequest $request, $id)
+    public function update($id = FALSE, ActivitySubjectRequest $request)
     {
         $success = true;
         DB::beginTransaction();
@@ -114,11 +120,24 @@ class ActivitySubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($activity_type_id = FALSE, $id = FALSE)
     {
         try {
             //@var \App\Models\Api\ActivitySubject
-            $oActivitySubjects = ActivitySubject::findOrFail($id);
+            if($id) {
+                $oActivitySubjects = ActivitySubject::findOrFail($id);
+
+            }elseif($activity_type_id) {
+                $oActivitySubjects = ActivitySubject::where('activity_type_id', $activity_type_id)->get();
+                /*
+                $oActivitySubjects = ActivitySubject::whereHas('activity_type', function($q) {
+                    $q->where('user_id', auth()->user()->id);
+                })->where('activity_type_id', $activity_type_id)
+                ->get();
+                */
+            }
+
+            //$oActivitySubjects->where('activity_type_id', $activity_type_id);
 
             if ($oActivitySubjects !== null)
                 return response()->json($oActivitySubjects, Response::HTTP_OK);

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Product extends Model
 {
     //use HasFactory;
-    protected $fillable = ['category_id', 'sku', 'name', 'description', 'quantity'];
+    protected $fillable = ['account_id', 'category_id', 'sku', 'name', 'description', 'quantity'];
 
     /*
     protected static function boot()

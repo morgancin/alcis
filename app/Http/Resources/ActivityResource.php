@@ -17,7 +17,7 @@ class ActivityResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'client' => $this->client,                      //RelationShip
+            'prospect' => $this->prospect,                      //RelationShip
             'end_date' => $this->end_date,
             'end_time' => $this->end_time,
             'comments' => $this->comments,

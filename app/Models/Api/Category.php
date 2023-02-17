@@ -10,8 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Category extends Model
 {
     //use HasFactory;
-    protected $fillable = ['user_id', 'category_id', 'category_group_id', 'active', 'order', 'name', 'image'];
+    protected $fillable = ['category_id', 'category_group_id', 'active', 'order', 'name', 'image'];
 
+    /*
     protected static function boot()
     {
         parent::boot();
@@ -20,6 +21,7 @@ class Category extends Model
             $category->user_id = auth()->id();
         });
     }
+    */
 
     protected $with = ['products', 'subcategories'];
 

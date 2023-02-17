@@ -50,7 +50,7 @@ class QuoteController extends Controller
             //@var \App\Models\Quote
             $oQuote = Quote::create([
                                 "total" => $request->total,
-                                "user_id" => $request->user_id,
+                                "account_id" => $request->account_id,
                                 "sub_total" => $request->sub_total,
                                 "description" => $request->description,
                                 "activity_id" => $request->activity_id,

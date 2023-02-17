@@ -9,14 +9,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class ActivityType extends Model
 {
     //use HasFactory;
-    protected $fillable = ['user_id', 'name', 'type'];
+    protected $fillable = ['name', 'type'];
 
+    /*
     protected static function boot(){
         parent::boot();
-        self::creating(function(ActivityType $activitytype){
-            $activitytype->user_id = auth()->id();
+        self::creating(function(ActivityType $activity_type){
+            $activity_type->user_id = auth()->id();
         });
     }
+    */
 
     ////////////RELATIONSHIPS
     /**

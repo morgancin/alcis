@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('price_lists', function (Blueprint $table) {
+        Schema::create('prospect_tag', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->id('id');
 
-            $table->unsignedBigInteger('account_id')->nullable();
-            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
+            $table->unsignedBigInteger('prospect_id')->nullable();
+            $table->foreign('prospect_id')->references('id')->on('prospects')->onDelete('cascade');
 
-            $table->string('name', 100)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->unsignedBigInteger('tag_id')->nullable();
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('price_lists');
+        Schema::dropIfExists('prospect_tag');
     }
 };

@@ -10,8 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Quote extends Model
 {
     //use HasFactory;
-    protected $fillable = ['user_id', 'activity_id', 'description', 'discount_percent', 'discount_amount', 'expire_at', 'sub_total', 'total'];
+    protected $fillable = ['account_id', 'activity_id', 'description', 'discount_percent', 'discount_amount', 'expire_at', 'sub_total', 'total'];
 
+    /*
     protected static function boot()
     {
         parent::boot();
@@ -20,6 +21,7 @@ class Quote extends Model
             $quote->user_id = auth()->id();
         });
     }
+    */
 
     ////////////RELATIONSHIPS
     /**
@@ -27,7 +29,7 @@ class Quote extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'account_id', 'id');
     }
 
     /**

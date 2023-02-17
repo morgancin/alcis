@@ -9,14 +9,14 @@ use App\Models\Api\ActivityType;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ActivityTypeRequest;
+
 class ActivityTypeController extends Controller
 {
     public function index()
     {
         try	{
             //@var \App\Models\Api\ActivityType
-            $oActivityTypes = ActivityType::where('user_id', auth()->user()->id)
-                                            ->get();
+            $oActivityTypes = ActivityType::get();
 
             if($oActivityTypes->count() > 0)
                 return response()->json($oActivityTypes, 200);
@@ -44,10 +44,9 @@ class ActivityTypeController extends Controller
         try {
             //@var \App\Models\Api\ActivityType
             ActivityType::create([
-                //'user_id' => auth()->user()->id,
-                'type' => $request->type,
-                'name' => $request->name,
-            ]);
+                                    'type' => $request->type,
+                                    'name' => $request->name,
+                                ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -113,7 +112,7 @@ class ActivityTypeController extends Controller
     public function show($id)
     {
         try {
-            //@var \App\Models\Api\Client
+            //@var \App\Models\Api\ActivityType
             $oActivityType = ActivityType::findOrFail($id);
 
             if ($oActivityType !== null)

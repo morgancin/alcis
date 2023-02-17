@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClientOriginRequest extends FormRequest
+class ProspectingSourceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class ClientOriginRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'account_id' => ['required', 'int'],
+            'description' => ['required', 'string'],
         ];
     }
 }

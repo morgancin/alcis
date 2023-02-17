@@ -7,40 +7,20 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\Password;
 
 use Exception;
-use App\Models\User;
+use App\Models\Api\Company;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\UserRequest;
 
-class UserController extends Controller
+class CompanyController extends Controller
 {
     public function index()
     {
         try	{
-            //@var \App\Models\User
-            $oUsers = User::get();
+            //@var \App\Models\Company
+            $oCompanies = Company::get();
 
-            if($oUsers->count() > 0)
-                return response()->json($oUsers, 200);
-            else
-                return response()->json(['message' => 'No se encontraron registros'], 404);
-
-        } catch (Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-            ], 500);
-        }
-    }
-
-    /*
-    public function list_companies()
-    {
-        try	{
-            //@var \App\Models\User
-            $oUsers = User::whereRole('company')
-                        ->get();
-
-            if($oUsers->count() > 0)
-                return response()->json($oUsers, 200);
+            if($oCompanies->count() > 0)
+                return response()->json($oCompanies, 200);
             else
                 return response()->json(['message' => 'No se encontraron registros'], 404);
 
@@ -54,13 +34,11 @@ class UserController extends Controller
     public function list_users_companies()
     {
         try	{
-            //@var \App\Models\User
-            $oUsers = User::where('parent_id', auth()->user()->id)
-                            ->where('role', 'usercompany')
-                            ->get();
+            //@var \App\Models\Company
+            $oCompanies = Company::get();
 
-            if($oUsers->count() > 0)
-                return response()->json($oUsers, 200);
+            if($oCompanies->count() > 0)
+                return response()->json($oCompanies, 200);
             else
                 return response()->json(['message' => 'No se encontraron registros'], 404);
 
@@ -70,7 +48,6 @@ class UserController extends Controller
             ], 500);
         }
     }
-    */
 
     /**
      * Handle an incoming registration request.
@@ -89,18 +66,12 @@ class UserController extends Controller
             $data = $request->validate([
                 'name' => 'required|string',
                 'email' => 'required|email|string|unique:users,email',
-                'password' => [
-                    'required',
-                    'confirmed',
-                    Password::min(8)->mixedCase()->numbers()->symbols()
-                ]
             ]);
 
-            //@var \App\Models\User $user
-            $oUser = User::create([
+            //@var \App\Models\Company $user
+            $oCompany = Company::create([
                                     'name' => $data['name'],
                                     'email' => $data['email'],
-                                    'password' => bcrypt($data['password']),
                                 ]);
 
         } catch (Exception $e) {
@@ -115,7 +86,7 @@ class UserController extends Controller
             DB::commit();
 
             return response()->json([
-                'data' => $oUser,
+                'data' => $oCompany,
                 'message' => 'Registro insertado correctamente',
             ], 200);
         }
@@ -127,14 +98,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($nId = FALSE)
     {
         try	{
-            //@var \App\Models\User
-            $oUser = User::findOrFail(auth()->user()->id);
+            //@var \App\Models\Company
+            $oCompany = Company::findOrFail($nId);
 
-            if($oUser !== null)
-                return response()->json($oUser, 200);
+            if($oCompany !== null)
+                return response()->json($oCompany, 200);
             else
                 return response()->json(['message' => 'No se encontraron registros'], 404);
 
@@ -162,7 +133,7 @@ class UserController extends Controller
             $data = $request->validate([
                 'name' => 'required|string',
                 'email' => 'required',
-                'parent_id' => 'nullable|int',
+                'user_id' => 'nullable|int',
                 'password' => [
                     'required',
                     'confirmed',
@@ -171,14 +142,13 @@ class UserController extends Controller
             ]);
             */
 
-            //@var \App\Models\User
-            //$oUser = User::findOrFail(auth()->user()->id);
-            $oUser = User::findOrFail($nId);
+            //@var \App\Models\Company
+            //$oCompany = Company::findOrFail(auth()->user()->id);
+            $oCompany = Company::findOrFail($nId);
 
-            $oUser->update([
+            $oCompany->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => bcrypt($request->password),
             ]);
 
         } catch (Exception $e) {
@@ -193,7 +163,7 @@ class UserController extends Controller
             DB::commit();
 
             return response()->json([
-                'data' => $oUser,
+                'data' => $oCompany,
                 'message' => 'Registro editado correctamente',
             ], 200);
         }

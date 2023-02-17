@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\Api;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProfileRequest extends FormRequest
+class AccountRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +24,7 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => ['required', 'string'],
+            'name' => ['required', 'string'],
         ];
     }
 }

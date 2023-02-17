@@ -13,17 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('client_origins', function (Blueprint $table) {
+        Schema::create('companies', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->id('id');
 
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-            $table->string('description', 100)->collation('utf8mb4_unicode_ci')->nullable();
-
-            $table->unsignedBigInteger('client_origin_id')->nullable();
-            $table->foreign('client_origin_id')->references('id')->on('client_origins')->onDelete('cascade');
+            $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
@@ -37,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_origins');
+        Schema::dropIfExists('companies');
     }
 };

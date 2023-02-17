@@ -17,10 +17,14 @@ class ActivityResultController extends Controller
     {
         try	{
             //@var \App\Models\Api\ActivityResult
+            $oActivityResults = ActivityResult::get();
+
+            /*
             $oActivityResults = ActivityResult::whereHas('activity_type', function($q) {
                                                     $q->where('user_id', auth()->user()->id);
                                                 })
                                                 ->get();
+            */
 
             if($oActivityResults->count() > 0)
                 return response()->json($oActivityResults, Response::HTTP_OK);

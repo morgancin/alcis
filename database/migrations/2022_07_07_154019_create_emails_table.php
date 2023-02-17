@@ -17,13 +17,21 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id');
 
+            $table->unsignedBigInteger('lead_id')->nullable();
+            $table->foreign('lead_id')->references('id')->on('leads')->onDelete('cascade');
+
+            $table->unsignedBigInteger('person_id')->nullable();
+            $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade');
+
+            $table->unsignedBigInteger('parent_id')->nullable();
+            //$table->foreign('parent_id');
+
+            $table->unsignedTinyInteger('is_read')->nullable();
             $table->string('subject', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('source', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('user_type', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->text('reply')->collation('utf8mb4_unicode_ci')->nullable();
-
-            $table->unsignedTinyInteger('is_read')->nullable();
 
             $table->json('folders')->nullable();
             $table->json('from')->nullable();
@@ -37,15 +45,6 @@ return new class extends Migration
 
             $table->json('reference_ids')->nullable();
             $table->string('message_id', 255)->collation('utf8mb4_unicode_ci')->nullable();
-
-            $table->unsignedBigInteger('person_id')->nullable();
-            $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade');
-
-            $table->unsignedBigInteger('lead_id')->nullable();
-            $table->foreign('lead_id')->references('id')->on('leads')->onDelete('cascade');
-
-            $table->unsignedBigInteger('parent_id')->nullable();
-            //$table->foreign('parent_id');
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

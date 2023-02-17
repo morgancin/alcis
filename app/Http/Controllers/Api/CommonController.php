@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 
 use App\Http\Requests\Api\FetchCurpRequest;
 
-class AnexoController extends Controller
+class CommonController extends Controller
 {
     public function fetchCp($nCp = false)
     {

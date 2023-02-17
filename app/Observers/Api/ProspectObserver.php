@@ -2,18 +2,18 @@
 
 namespace App\Observers\Api;
 
-use App\Models\Api\Client;
-use App\Models\Api\ClientAddress;
+use App\Models\Api\Prospect;
+use App\Models\Api\ProspectAddress;
 
-class ClientObserver
+class ProspectObserver
 {
     /**
-     * Handle the Client "created" event.
+     * Handle the Prospect "created" event.
      *
-     * @param  \App\Models\Api\Client  $client
+     * @param  \App\Models\Api\Prospect  $prospect
      * @return void
      */
-    public function created(Client $client)
+    public function created(Prospect $prospect)
     {
         $aAdress = [];
 
@@ -99,59 +99,59 @@ class ClientObserver
 
         if(count($aAdress) > 0)
         {
-            $aAdress['client_id'] = $client->id_client;
+            $aAdress['client_id'] = $prospect->id_client;
 
-            ClientAddress::create($aAdress);
+            ProspectAddress::create($aAdress);
         }
     }
 
     /**
-     * Handle the Client "updated" event.
+     * Handle the Prospect "updated" event.
      *
-     * @param  \App\Models\Api\Client  $client
+     * @param  \App\Models\Api\Prospect  $prospect
      * @return void
      */
     /*
-    public function updated(Client $client)
+    public function updated(Prospect $prospect)
     {
         //
     }
     */
 
     /**
-     * Handle the Client "deleted" event.
+     * Handle the Prospect "deleted" event.
      *
-     * @param  \App\Models\Api\Client  $client
+     * @param  \App\Models\Api\Prospect  $prospect
      * @return void
      */
     /*
-    public function deleted(Client $client)
+    public function deleted(Prospect $prospect)
     {
         //
     }
     */
 
     /**
-     * Handle the Client "restored" event.
+     * Handle the Prospect "restored" event.
      *
-     * @param  \App\Models\Api\Client  $client
+     * @param  \App\Models\Api\Prospect  $prospect
      * @return void
      */
     /*
-    public function restored(Client $client)
+    public function restored(Prospect $prospect)
     {
         //
     }
     */
 
     /**
-     * Handle the Client "force deleted" event.
+     * Handle the Prospect "force deleted" event.
      *
-     * @param  \App\Models\Api\Client  $client
+     * @param  \App\Models\Api\Prospect  $prospect
      * @return void
      */
     /*
-    public function forceDeleted(Client $client)
+    public function forceDeleted(Prospect $prospect)
     {
         //
     }

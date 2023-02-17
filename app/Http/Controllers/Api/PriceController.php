@@ -22,8 +22,7 @@ class PriceController extends Controller
     {
         try	{
             //@var \App\Models\Api\Price
-            $oPrices = Price::where('user_id', auth()->user()->id)
-                                    ->get();
+            $oPrices = Price::get();
 
             if($oPrices->count() > 0)
                 return response()->json($oPrices, Response::HTTP_OK);

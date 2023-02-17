@@ -52,6 +52,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quote_items');
+        Schema::dropIfExists('price_product_quote');
     }
 };

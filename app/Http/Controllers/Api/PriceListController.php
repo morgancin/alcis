@@ -24,8 +24,7 @@ class PriceListController extends Controller
         try	{
             //@var \App\Models\Api\PriceList
             $oPrices_lists = PriceList::with(['prices'])
-                                    ->where('user_id', auth()->user()->id)
-                                    ->get();
+                                        ->get();
 
             if($oPrices_lists->count() > 0)
                 return PriceListResource::collection($oPrices_lists);

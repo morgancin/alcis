@@ -16,10 +16,9 @@ return new class extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->id('id');
-            //start_date & end_date se cambian a TimeStamp
 
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('account_id')->nullable();
+            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
 
             $table->date('activity_date', $precision = 0);
 

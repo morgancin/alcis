@@ -24,7 +24,7 @@ class CategoryController extends Controller
     {
         try {
             //@var \App\Models\Api\Category
-            $oCategories = Category::where('user_id', auth()->user()->id);
+            $oCategories = Category::get();
             $bSubCategories = false;
 
             if($category_id)

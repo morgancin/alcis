@@ -16,11 +16,12 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($type = null)
+    public function index($type = 'all')
     {
         try {
             //@var \App\Models\Api\Tag
-            $oTags = Tag::where('user_id', auth()->user()->id);
+            //$oTags = Tag::where('user_id', auth()->user()->id);
+            $oTags = new Tag;
 
             if($type !== 'all')
                 $oTags->where('type', $type);
@@ -53,7 +54,6 @@ class TagController extends Controller
         try {
             //@var \App\Models\Api\Tag
             $oTag = Tag::create([
-                                    //"user_id" => auth()->user()->id,
                                     "name" => $request->name,
                                     "type" => $request->type,
                                 ]);
@@ -88,7 +88,7 @@ class TagController extends Controller
         DB::beginTransaction();
 
         try {
-            //@var \App\Models\Api\Client
+            //@var \App\Models\Api\Tag
             $oTag = Tag::findOrFail($id);
 
             $oTag->update([

@@ -19,16 +19,17 @@ class Activity extends Model
 	protected $dates = ['activity_date'];
 
 
-    protected $fillable = ['user_id', 'client_id', 'activity_subject_id', 'activity_date', 'start_date', 'start_time', 'end_date', 'end_time', 'comments', 'observations', 'activity_result_id'];
+    protected $fillable = ['account_id', 'prospect_id', 'activity_subject_id', 'activity_date', 'start_date', 'start_time', 'end_date', 'end_time', 'comments', 'observations', 'activity_result_id'];
 
     //protected $perPage = 30;
-
+    /*
     protected static function boot(){
         parent::boot();
         self::creating(function(Activity $activity){
             $activity->user_id = auth()->id();
         });
     }
+    */
 
     protected $appends = ['activity_date_format'];
 
@@ -38,7 +39,7 @@ class Activity extends Model
      */
     public function client(): BelongsTo
     {
-        return $this->belongsTo(Client::class, 'client_id', 'id');
+        return $this->belongsTo(Prospect::class, 'prospect_id', 'id');
     }
 
     /**

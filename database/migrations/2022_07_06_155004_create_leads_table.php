@@ -17,15 +17,9 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id');
 
-            $table->string('title', 255)->collation('utf8mb4_unicode_ci')->nullable();
-            $table->text('description')->collation('utf8mb4_unicode_ci')->nullable();
-
-            $table->unsignedDecimal('lead_value', 12, 4)->nullable();
-            $table->unsignedTinyInteger('status')->nullable();
-
             /////
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('account_id')->nullable();
+            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
 
             $table->unsignedBigInteger('person_id')->nullable();
             $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade');
@@ -42,6 +36,12 @@ return new class extends Migration
             $table->unsignedBigInteger('pipeline_stage_id')->nullable();
             $table->foreign('pipeline_stage_id')->references('id')->on('pipeline_stages')->onDelete('cascade');
             //////////
+
+            $table->string('title', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->text('description')->collation('utf8mb4_unicode_ci')->nullable();
+
+            $table->unsignedDecimal('lead_value', 12, 4)->nullable();
+            $table->unsignedTinyInteger('status')->nullable();
 
             $table->text('lost_reason')->collation('utf8mb4_unicode_ci')->nullable();
             $table->dateTime('closed_at', $precision = 0);

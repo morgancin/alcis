@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('activity_participant', function (Blueprint $table) {
+        Schema::create('activity_participants', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->id('id');
 
             $table->unsignedBigInteger('activity_id')->nullable();
             $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
 
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            //$table->unsignedBigInteger('account_id')->nullable();
+            //$table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
 
             $table->unsignedBigInteger('person_id')->nullable();
             $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade');
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activity_participant');
+        Schema::dropIfExists('activity_participants');
     }
 };

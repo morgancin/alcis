@@ -13,12 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('prospects', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->id('id');
 
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('account_id')->nullable();
+            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
+
+            //$table->unsignedBigInteger('prospect_id')->nullable();
+            //$table->foreign('prospect_id')->references('id')->on('prospects')->onDelete('cascade');
+
+            //$table->enum('type', ['prospect', 'company'])->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->string('first_name', 50)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('last_name', 50)->collation('utf8mb4_unicode_ci')->nullable();
@@ -51,6 +56,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('prospects');
     }
 };
