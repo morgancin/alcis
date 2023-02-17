@@ -17,7 +17,7 @@ class UserController extends Controller
     {
         try	{
             //@var \App\Models\User
-            $oUsers = User::get();
+            $oUsers = User::with('accounts')->get();
 
             if($oUsers->count() > 0)
                 return response()->json($oUsers, 200);

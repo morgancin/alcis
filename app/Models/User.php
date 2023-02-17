@@ -8,10 +8,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    protected $with = ['accounts'];
 
     /**
      * The attributes that are mass assignable.
@@ -49,5 +52,12 @@ class User extends Authenticatable
     public function profile(): HasOne
     {
         return $this->hasOne(Api\Profile::class, 'user_id', 'id');
+    }
+
+    public function accounts(): BelongsToMany
+    {
+        //return $this->belongsToMany(Product::class, 'price_list_product', 'price_list_id', 'product_id');
+        //return $this->belongsToMany(Api\Account::class, 'account_user', 'account_id', 'user_id');
+        return $this->belongsToMany(Api\Account::class, 'account_user', 'user_id', 'account_id');
     }
 }

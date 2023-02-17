@@ -196,7 +196,8 @@ class ProspectingSourceController extends Controller
             $oProspectingSource = ProspectingSource::findOrFail($id);
 
             if ($oProspectingSource !== null)
-                return response()->json($oProspectingSource, Response::HTTP_OK);
+
+                return new ProspectingSourceResource($oProspectingSource);
             else
                 return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
 
