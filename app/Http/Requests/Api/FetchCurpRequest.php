@@ -24,11 +24,12 @@ class FetchCurpRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => ['required', 'string'],
-            'last_name' => ['required', 'string'],
             'gender' => ['required', 'string'],
             'birth_date' => ['required', 'date'],
+            'last_name' => ['required', 'string'],
+            'first_name' => ['required', 'string'],
             'birth_place' => ['required', 'string'],
+            'second_last_name' => ['required', 'string'],
         ];
     }
 }

@@ -8,36 +8,31 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Models\Api\ActivitySubject;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ActivitySubjectResource;
 use App\Http\Requests\Api\ActivitySubjectRequest;
 
 class ActivitySubjectController extends Controller
 {
-    public function index($activity_type_id = false)
+    public function index(Request $request)
     {
         try	{
             //@var \App\Models\Api\ActivitySubject
-            $oActivitySubjects = new ActivitySubject;
+            $oActivitySubjects = ActivitySubject::with(['activities', 'activity_type']);
 
-            /*
-            $oActivitySubjects = ActivitySubject::whereHas('activity_type', function($q) {
-                                                    $q->where('user_id', auth()->user()->id);
-                                                });
-            */
-
-            if($activity_type_id)
-                $oActivitySubjects->where('activity_type_id', $activity_type_id);
+            if($request->query('activity_type_id'))
+                $oActivitySubjects->where('activity_type_id', $request->query('activity_type_id'));
 
             $oActivitySubjects = $oActivitySubjects->get();
 
             if($oActivitySubjects->count() > 0)
-                return response()->json($oActivitySubjects, 200);
+                return ActivitySubjectResource::collection($oActivitySubjects);
             else
-                return response()->json(['message' => __('api.messages.notfound')], 404);
+                return response()->json(['message' => __('api.messages.notfound'), 'data' => []], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -55,8 +50,9 @@ class ActivitySubjectController extends Controller
         try {
             //@var \App\Models\Api\ActivitySubject
             ActivitySubject::create([
-                'name' => $request->name,
-                'activity_type_id' => $request->activity_type_id,
+                "name" => (($request->name) ? $request->name : null),
+                "activity_type_id" => (($request->activity_type_id) ? $request->activity_type_id : null),
+                "active" => (($request->active) ? $request->active : false)
             ]);
 
         } catch (\Exception $e) {
@@ -64,7 +60,7 @@ class ActivitySubjectController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -72,7 +68,7 @@ class ActivitySubjectController extends Controller
 
             return response()->json([
                 'message' => __('api.messages.added')
-            ], 200);
+            ], Response::HTTP_OK);
         }
     }
 
@@ -93,8 +89,9 @@ class ActivitySubjectController extends Controller
             $oActivitySubject = ActivitySubject::findOrFail($id);
 
             $oActivitySubject->update([
-                'name' => $request->name,
-                'activity_type_id' => $request->activity_type_id,
+                "name" => (($request->name) ? $request->name : null),
+                "activity_type_id" => (($request->activity_type_id) ? $request->activity_type_id : null),
+                "active" => (($request->active) ? $request->active : false)
             ]);
 
         } catch (Exception $e) {
@@ -102,7 +99,7 @@ class ActivitySubjectController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -110,7 +107,7 @@ class ActivitySubjectController extends Controller
 
             return response()->json([
                 'message' => __('api.messages.updated')
-            ], 200);
+            ], Response::HTTP_OK);
         }
     }
 
@@ -120,34 +117,21 @@ class ActivitySubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($activity_type_id = FALSE, $id = FALSE)
+    public function show($id)
     {
         try {
             //@var \App\Models\Api\ActivitySubject
-            if($id) {
-                $oActivitySubjects = ActivitySubject::findOrFail($id);
-
-            }elseif($activity_type_id) {
-                $oActivitySubjects = ActivitySubject::where('activity_type_id', $activity_type_id)->get();
-                /*
-                $oActivitySubjects = ActivitySubject::whereHas('activity_type', function($q) {
-                    $q->where('user_id', auth()->user()->id);
-                })->where('activity_type_id', $activity_type_id)
-                ->get();
-                */
-            }
-
-            //$oActivitySubjects->where('activity_type_id', $activity_type_id);
+            $oActivitySubjects = ActivitySubject::findOrFail($id);
 
             if ($oActivitySubjects !== null)
-                return response()->json($oActivitySubjects, Response::HTTP_OK);
+                return new ActivitySubjectResource($oActivitySubjects);
             else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

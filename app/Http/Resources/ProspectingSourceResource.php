@@ -17,9 +17,16 @@ class ProspectingSourceResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'account_id' => $this->account_id,
-            'description' => $this->description,
+            'account' => (new AccountResource($this->account)),
             'prospecting_means' => ProspectingSourceResource::collection($this->whenLoaded('prospecting_means')),
+
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'active' => ($this->active) ? true : false,
+            'created_user_id' => $this->created_user_id,
+            'updated_user_id' => $this->updated_user_id
         ];
     }
 }

@@ -24,8 +24,7 @@ class ActivityResultRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
-            'tracking_type' => ['required', 'string'],
+            'name' => ['required', 'string']
         ];
     }
 }

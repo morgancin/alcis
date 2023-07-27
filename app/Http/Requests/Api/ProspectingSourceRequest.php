@@ -25,7 +25,7 @@ class ProspectingSourceRequest extends FormRequest
     {
         return [
             'account_id' => ['required', 'int'],
-            'description' => ['required', 'string'],
+            'name' => ['required', 'string'],
         ];
     }
 }

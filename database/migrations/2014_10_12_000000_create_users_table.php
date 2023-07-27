@@ -17,23 +17,23 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id');
 
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->string('email', 255)->collation('utf8mb4_unicode_ci')->unique();
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
-
-            $table->unsignedTinyInteger('status')->nullable();
 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 255)->collation('utf8mb4_unicode_ci');
 
-            //$table->string('image', 255)->collation('utf8mb4_unicode_ci')->nullable();
-
-            //$table->unsignedBigInteger('role_id')->nullable();
-            //$table->foreign('subcategoria_id')->references('id_subcategoria')->on('subcategorias')->onDelete('cascade');
-
-            //$table->unsignedInteger('anovencimiento')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
+
+            $table->unsignedBigInteger('updated_user_id')->nullable();
+            $table->foreign('updated_user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->boolean('active')->default(1);
         });
     }
 

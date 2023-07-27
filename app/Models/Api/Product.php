@@ -11,18 +11,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Product extends Model
 {
     //use HasFactory;
-    protected $fillable = ['account_id', 'category_id', 'sku', 'name', 'description', 'quantity'];
+    protected $fillable = ['account_id', 'category_id', 'sku', 'name', 'description', 'quantity', 'created_user_id', 'updated_user_id', 'active'];
 
-    /*
-    protected static function boot()
-    {
+    protected static function boot(){
         parent::boot();
-        self::creating(function(Price $price)
-        {
-            $price->user_id = auth()->id();
+        self::creating(function(Product $product){
+            $product->created_user_id = auth()->id();
         });
     }
-    */
 
     ////////////RELATIONSHIPS
     /**
@@ -44,18 +40,24 @@ class Product extends Model
     /**
      * Get the prices lists for the product.
      */
-    public function prices(): HasMany
+    public function price_lists(): BelongsToMany
     {
-        return $this->hasMany(Price::class, 'product_id', 'id');
+        return $this->belongsToMany(PriceList::class, 'currency_price_list_product', 'product_id', 'price_list_id')->withPivot('price', 'currency_id');
     }
 
     /**
-     * Get the lists prices for the product.
+     * Get the components for the product.
      */
-    /*
-    public function prices_lists(): BelongsToMany
+    public function components(): HasMany
     {
-        return $this->belongsToMany(PriceList::class, 'price_list_product', 'product_id', 'price_list_id');
+        return $this->hasMany(ProductComponent::class, 'product_id', 'id');
     }
-    */
+
+    /**
+     * Get the images for the product.
+     */
+    public function images(): HasMany
+    {
+        return $this->hasMany(ProductImage::class, 'product_id', 'id');
+    }
 }

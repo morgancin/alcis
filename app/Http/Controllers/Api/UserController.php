@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rules\Password;
-
 use Exception;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Http\Requests\Api\UserRequest;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -20,57 +22,56 @@ class UserController extends Controller
             $oUsers = User::with('accounts')->get();
 
             if($oUsers->count() > 0)
-                return response()->json($oUsers, 200);
+                return UserResource::collection($oUsers);
             else
-                return response()->json(['message' => 'No se encontraron registros'], 404);
+                return response()->json(['message' => 'No se encontraron registros'], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    /*
-    public function list_companies()
+    public function roles()
     {
         try	{
-            //@var \App\Models\User
-            $oUsers = User::whereRole('company')
-                        ->get();
+            $aData = array('admin', 'user');
 
-            if($oUsers->count() > 0)
-                return response()->json($oUsers, 200);
-            else
-                return response()->json(['message' => 'No se encontraron registros'], 404);
+            return response()->json([
+                'success' => true,
+                'message' => 'Successful',
+                'errors' => [],
+                'data' => $aData,
+            ], Response::HTTP_OK);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function list_users_companies()
+    public function permissions()
     {
         try	{
-            //@var \App\Models\User
-            $oUsers = User::where('parent_id', auth()->user()->id)
-                            ->where('role', 'usercompany')
-                            ->get();
+            $aData = array('user_create', 'user_edit', 'user_show', 'user_delete', 'user_access', 'company_create', 'company_edit', 'company_show', 'company_delete', 'company_access');
 
-            if($oUsers->count() > 0)
-                return response()->json($oUsers, 200);
-            else
-                return response()->json(['message' => 'No se encontraron registros'], 404);
+            //return response()->json($aData, Response::HTTP_OK);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Successful',
+                'errors' => [],
+                'data' => $aData,
+            ], Response::HTTP_OK);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    */
 
     /**
      * Handle an incoming registration request.
@@ -87,6 +88,7 @@ class UserController extends Controller
 
         try	{
             $data = $request->validate([
+                'accounts' => 'required',
                 'name' => 'required|string',
                 'email' => 'required|email|string|unique:users,email',
                 'password' => [
@@ -98,26 +100,28 @@ class UserController extends Controller
 
             //@var \App\Models\User $user
             $oUser = User::create([
-                                    'name' => $data['name'],
-                                    'email' => $data['email'],
-                                    'password' => bcrypt($data['password']),
-                                ]);
+                                    "name" => (($data['name']) ? $data['name'] : null),
+                                    "email" => (($data['email']) ? $data['email'] : null),
+                                    "password" => bcrypt($data['password']),
+                                    "active" => (($request->active) ? $request->active : false)
+                                ])->load('accounts');
+
+            $oUser->accounts()->attach($data['accounts']);
 
         } catch (Exception $e) {
             DB::rollBack();
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
             DB::commit();
 
             return response()->json([
-                'data' => $oUser,
-                'message' => 'Registro insertado correctamente',
-            ], 200);
+                'message' => __('api.messages.added')
+            ], Response::HTTP_OK);
         }
     }
 
@@ -127,21 +131,21 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
         try	{
             //@var \App\Models\User
-            $oUser = User::findOrFail(auth()->user()->id);
+            $oUser = User::findOrFail($id);
 
             if($oUser !== null)
-                return response()->json($oUser, 200);
+                return new UserResource($oUser);
             else
-                return response()->json(['message' => 'No se encontraron registros'], 404);
+                return response()->json(['message' => 'No se encontraron registros'], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -176,9 +180,10 @@ class UserController extends Controller
             $oUser = User::findOrFail($nId);
 
             $oUser->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
+                "name" => (($request->name) ? $request->name : null),
+                "email" => (($request->email) ? $request->email : null),
+                "password" => bcrypt($request->password),
+                "active" => (($request->active) ? $request->active : false)
             ]);
 
         } catch (Exception $e) {
@@ -186,16 +191,15 @@ class UserController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
             DB::commit();
 
             return response()->json([
-                'data' => $oUser,
-                'message' => 'Registro editado correctamente',
-            ], 200);
+                'message' => __('api.messages.updated')
+            ], Response::HTTP_OK);
         }
     }
 }

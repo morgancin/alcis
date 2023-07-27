@@ -9,6 +9,7 @@ use App\Models\Api\ActivityResult;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ActivityResultResource;
 use App\Http\Requests\Api\ActivityResultRequest;
 
 class ActivityResultController extends Controller
@@ -19,22 +20,15 @@ class ActivityResultController extends Controller
             //@var \App\Models\Api\ActivityResult
             $oActivityResults = ActivityResult::get();
 
-            /*
-            $oActivityResults = ActivityResult::whereHas('activity_type', function($q) {
-                                                    $q->where('user_id', auth()->user()->id);
-                                                })
-                                                ->get();
-            */
-
             if($oActivityResults->count() > 0)
-                return response()->json($oActivityResults, Response::HTTP_OK);
+                return ActivityResultResource::collection($oActivityResults);
             else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -52,9 +46,11 @@ class ActivityResultController extends Controller
         try {
             //@var \App\Models\Api\ActivityResult
             ActivityResult::create([
-                'name' => $request->name,
-                'tracking_type' => $request->tracking_type,
-                'activity_type_id' => $request->activity_type_id,
+                "name" => (($request->name) ? $request->name : null),
+                "is_tracking" => (($request->is_tracking) ? $request->is_tracking : false),
+                "activity_type_id" => (($request->activity_type_id) ? $request->activity_type_id : null),
+                "pipeline_stage_id" => (($request->pipeline_stage_id) ? $request->pipeline_stage_id : null),
+                "active" => (($request->active) ? $request->active : false)
             ]);
 
         } catch (\Exception $e) {
@@ -62,7 +58,7 @@ class ActivityResultController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -91,9 +87,11 @@ class ActivityResultController extends Controller
             $oActivityResult = ActivityResult::findOrFail($id);
 
             $oActivityResult->update([
-                'name' => $request->name,
-                'tracking_type' => $request->tracking_type,
-                'activity_type_id' => $request->activity_type_id,
+                "name" => (($request->name) ? $request->name : null),
+                "is_tracking" => (($request->is_tracking) ? $request->is_tracking : false),
+                "activity_type_id" => (($request->activity_type_id) ? $request->activity_type_id : null),
+                "pipeline_stage_id" => (($request->pipeline_stage_id) ? $request->pipeline_stage_id : null),
+                "active" => (($request->active) ? $request->active : false)
             ]);
 
         } catch (Exception $e) {
@@ -101,7 +99,7 @@ class ActivityResultController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -126,14 +124,15 @@ class ActivityResultController extends Controller
             $oActivityResult = ActivityResult::findOrFail($id);
 
             if ($oActivityResult !== null)
-                return response()->json($oActivityResult, Response::HTTP_OK);
+                return new ActivityResultResource($oActivityResult);
+
             else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

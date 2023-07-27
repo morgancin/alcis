@@ -13,20 +13,25 @@ class ActivityResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
+
     public function toArray($request)
     {
         return [
             'id' => $this->id,
-            'prospect' => $this->prospect,                      //RelationShip
-            'end_date' => $this->end_date,
-            'end_time' => $this->end_time,
             'comments' => $this->comments,
-            'start_date' => $this->start_date,
-            'start_time' => $this->start_time,
-            'activity_date' => $this->activity_date,
-            'activity_date_format' => $this->activity_date_format,
-            'activity_result' => (new ActivityResultResource($this->activity_result)),  //RelationShip
-            'activity_subject' => (new ActivitySubjectResource($this->activity_subject)),  //RelationShip
+            'user_id' => $this->created_user_id,
+            'prospect' => (new ProspectResource($this->prospect)),
+            'activity_result' => (new ActivityResultResource($this->activity_result)),
+            'activity_subject' => (new ActivitySubjectResource($this->activity_subject)),
+            'end_date' => ($this->end_date) ? $this->end_date->format('Y-m-d') : null,
+            'start_date' => ($this->start_date) ? $this->start_date->format('H:i') : null,
+            'activity_date' => ($this->activity_date) ? $this->activity_date->format('d/m/Y H:i') : null,
+
+            'active' => $this->active,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'created_user_id' => $this->created_user_id,
+            'updated_user_id' => $this->updated_user_id
         ];
     }
 }

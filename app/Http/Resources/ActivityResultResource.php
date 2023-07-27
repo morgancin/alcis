@@ -17,8 +17,16 @@ class ActivityResultResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'tracking_type' => $this->tracking_type,
-            'activity_type' => (new ActivityTypeResource($this->activity_type)),  //RelationShip
+            'activity_type_id' => $this->activity_type_id,
+            'pipeline_stage_id' => $this->pipeline_stage_id,
+            'is_tracking' => ($this->is_tracking) ? true : false,
+            'activity_type' => (new ActivityTypeResource($this->activity_type)),
+
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'active' => ($this->active) ? true : false,
+            'created_user_id' => $this->created_user_id,
+            'updated_user_id' => $this->updated_user_id
         ];
     }
 }

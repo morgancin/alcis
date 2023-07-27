@@ -18,6 +18,12 @@ class CurrencyResource extends JsonResource
             'id' => $this->id,
             'code' => $this->code,
             'name' => $this->name,
+
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'active' => ($this->active) ? true : false,
+            'created_user_id' => $this->created_user_id,
+            'updated_user_id' => $this->updated_user_id
         ];
     }
 }

@@ -10,7 +10,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Price extends Model
 {
     //use HasFactory;
-    protected $fillable = ['product_id', 'currency_id', 'price_list_id', 'price'];
+    protected $fillable = ['product_id', 'currency_id', 'price_list_id', 'price', 'created_user_id', 'updated_user_id', 'active'];
+
+    protected static function boot(){
+        parent::boot();
+        self::creating(function(Price $price){
+            $price->created_user_id = auth()->id();
+        });
+    }
 
     ////////////RELATIONSHIPS
     /**

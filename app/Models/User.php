@@ -6,6 +6,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -22,11 +24,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'role',
         'name',
         'email',
-        'password',
         'user_id',
+        'password',
+        'created_user_id',
+        'updated_user_id',
+        'active'
     ];
 
     /**
@@ -51,13 +55,30 @@ class User extends Authenticatable
     ////////////RELACIONES////////////
     public function profile(): HasOne
     {
-        return $this->hasOne(Api\Profile::class, 'user_id', 'id');
+        return $this->hasOne(Api\Profile::class, 'created_user_id', 'id');
     }
 
+    /**
+     * Get the activities for the user.
+     */
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Api\Activity::class, 'created_user_id', 'id');
+    }
+
+    /**
+     * Get the accounts for the user.
+     */
     public function accounts(): BelongsToMany
     {
-        //return $this->belongsToMany(Product::class, 'price_list_product', 'price_list_id', 'product_id');
-        //return $this->belongsToMany(Api\Account::class, 'account_user', 'account_id', 'user_id');
         return $this->belongsToMany(Api\Account::class, 'account_user', 'user_id', 'account_id');
+    }
+
+    /**
+     * Get the teams for the user.
+     */
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Api\Team::class, 'team_user', 'created_user_id', 'team_id');
     }
 }

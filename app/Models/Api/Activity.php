@@ -3,6 +3,7 @@
 namespace App\Models\Api;
 
 //use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,38 +17,58 @@ class Activity extends Model
      *
      * @var array
      */
-	protected $dates = ['activity_date'];
+	protected $dates = ['activity_date', 'start_date', 'end_date'];
 
-
-    protected $fillable = ['account_id', 'prospect_id', 'activity_subject_id', 'activity_date', 'start_date', 'start_time', 'end_date', 'end_time', 'comments', 'observations', 'activity_result_id'];
+    protected $fillable = ['account_id', 'prospect_id', 'pipeline_stage_id', 'activity_result_id', 'activity_subject_id', 'activity_date', 'start_date', 'end_date', 'on_time', 'potential_value', 'comments', 'observations', 'created_user_id', 'updated_user_id', 'active'];
 
     //protected $perPage = 30;
-    /*
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new UserScope);
+    }
+
     protected static function boot(){
         parent::boot();
         self::creating(function(Activity $activity){
-            $activity->user_id = auth()->id();
+            $activity->created_user_id = auth()->id();
         });
     }
-    */
-
-    protected $appends = ['activity_date_format'];
 
     ////////////RELATIONSHIPS
     /**
-     * Get the client that owns the activity.
+     * Get the prospect that owns the activity.
      */
-    public function client(): BelongsTo
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_user_id', 'id');
+    }
+
+    /**
+     * Get the prospect that owns the activity.
+     */
+    public function prospect(): BelongsTo
     {
         return $this->belongsTo(Prospect::class, 'prospect_id', 'id');
     }
 
     /**
+     * Get the prospect that owns the activity.
+     */
+    public function account(): BelongsTo
+    {
+        return $this->belongsTo(Account::class, 'account_id', 'id');
+    }
+
+    /**
      * Get the quote associated with the activity.
      */
-    public function quote(): HasOne
+    public function document(): HasOne
     {
-        return $this->hasOne(Quote::class, 'activity_id', 'id');
+        return $this->hasOne(Document::class, 'activity_id', 'id');
     }
 
     /**
@@ -64,11 +85,5 @@ class Activity extends Model
     public function activity_result(): BelongsTo
     {
         return $this->belongsTo(ActivityResult::class, 'activity_result_id', 'id');
-    }
-
-    ////////////ACCESSORS
-    public function getActivityDateFormatAttribute()
-    {
-        return $this->activity_date->format('d/m/Y');
     }
 }

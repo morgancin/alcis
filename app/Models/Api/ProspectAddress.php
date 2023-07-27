@@ -8,5 +8,28 @@ use Illuminate\Database\Eloquent\Model;
 class ProspectAddress extends Model
 {
     //use HasFactory;
-    protected $fillable = ['prospect_id', 'zipcode', 'street', 'outdoor', 'indoor', 'suburb', 'town', 'city', 'state', 'country', 'alias'];
+    protected $fillable = [
+                            'type',
+                            'town',
+                            'city',
+                            'state',
+                            'alias',
+                            'street',
+                            'indoor',
+                            'suburb',
+                            'country',
+                            'outdoor',
+                            'zipcode',
+                            'prospect_id',
+                            'created_user_id',
+                            'updated_user_id',
+                            'active'
+                        ];
+
+    protected static function boot(){
+        parent::boot();
+        self::creating(function(ProspectAddress $prospect_address){
+            $prospect_address->created_user_id = auth()->id();
+        });
+    }
 }

@@ -17,22 +17,30 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id');
 
+            //$table->unsignedBigInteger('user_id')->nullable();
+            //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->unsignedBigInteger('account_id')->nullable();
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
 
-            $table->date('activity_date', $precision = 0);
-
-            $table->timestamp('end_date')->nullable();
-            $table->timestamp('start_date')->nullable();
-
-            $table->time('start_time', $precision = 0)->nullable();
-            $table->time('end_time', $precision = 0)->nullable();
-
+            $table->timestamp('activity_date')->nullable(); // ALMACENA PARA CUÁNDO SERÁ LA ACTIVITY
+            $table->timestamp('start_date')->nullable();    //ALMACENA CUANDO INICIA LA ACTIVITY
+            $table->timestamp('end_date')->nullable();      //ALMACENA CUANDO FINALIZA LA ACTIVITY
+            $table->boolean('on_time')->nullable();
+            $table->unsignedDecimal('potential_value', 8, 2)->nullable();
             $table->string('comments', 255)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('observations', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
+
+            $table->unsignedBigInteger('created_user_id')->nullable();
+            $table->foreign('created_user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('updated_user_id')->nullable();
+            $table->foreign('updated_user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->boolean('active')->default(1);
         });
     }
 

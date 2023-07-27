@@ -24,10 +24,9 @@ class PriceRequest extends FormRequest
     public function rules()
     {
         return [
-            'price' => ['required'],
-            'product_id' => ['required'],
-            'currency_id' => ['required'],
-            'price_list_id' => ['required'],
+            'is_default' => ['required'],
+            'account_id' => ['required'],
+            'name' => ['required', 'string'],
         ];
     }
 }

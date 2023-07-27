@@ -18,9 +18,23 @@ return new class extends Migration
             $table->id('id');
 
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('phone', 30)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('website', 100)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('address', 100)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->unsignedDecimal('potential_value', 8, 2)->nullable();
+            $table->string('tax_id', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('comments', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
+
+            $table->unsignedBigInteger('created_user_id')->nullable();
+            $table->foreign('created_user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('updated_user_id')->nullable();
+            $table->foreign('updated_user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->boolean('active')->default(1);
         });
     }
 

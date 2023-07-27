@@ -9,7 +9,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Currency extends Model
 {
     //use HasFactory;
-    protected $fillable = ['code', 'name'];
+    protected $fillable = ['code', 'name', 'created_user_id', 'updated_user_id', 'active'];
+
+    protected static function boot(){
+        parent::boot();
+        self::creating(function(Currency $currency){
+            $currency->created_user_id = auth()->id();
+        });
+    }
 
     ////////////RELATIONSHIPS
     /**

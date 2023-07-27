@@ -17,36 +17,32 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id('id');
 
-            /////
             $table->unsignedBigInteger('account_id')->nullable();
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
 
-            $table->unsignedBigInteger('person_id')->nullable();
-            $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade');
+            //$table->unsignedBigInteger('prospect_id')->nullable();
+            //$table->foreign('prospect_id')->references('id')->on('prospects')->onDelete('cascade');
 
-            $table->unsignedBigInteger('lead_source_id')->nullable();
-            $table->foreign('lead_source_id')->references('id')->on('lead_sources')->onDelete('cascade');
+            //$table->unsignedBigInteger('prospecting_mean_id')->nullable();
+            //$table->foreign('prospecting_mean_id')->references('id')->on('prospecting_sources')->onDelete('cascade');
 
-            $table->unsignedBigInteger('lead_type_id')->nullable();
-            $table->foreign('lead_type_id')->references('id')->on('lead_types')->onDelete('cascade');
+            $table->string('email', 150)->collation('utf8mb4_unicode_ci');
+            $table->string('last_name', 50)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('comments', 255)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('first_name', 50)->collation('utf8mb4_unicode_ci')->nullable();
+            $table->string('second_last_name', 50)->collation('utf8mb4_unicode_ci')->nullable();
 
-            $table->unsignedBigInteger('pipeline_id')->nullable();
-            $table->foreign('pipeline_id')->references('id')->on('pipelines')->onDelete('cascade');
+            $table->unsignedBigInteger('first_assignation_user_id')->nullable();
+            $table->foreign('first_assignation_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->dateTime('first_assignation_at', $precision = 0)->nullable();
 
-            $table->unsignedBigInteger('pipeline_stage_id')->nullable();
-            $table->foreign('pipeline_stage_id')->references('id')->on('pipeline_stages')->onDelete('cascade');
-            //////////
+            $table->unsignedBigInteger('second_assignation_user_id')->nullable();
+            $table->foreign('second_assignation_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->dateTime('second_assignation_at', $precision = 0)->nullable();
 
-            $table->string('title', 255)->collation('utf8mb4_unicode_ci')->nullable();
-            $table->text('description')->collation('utf8mb4_unicode_ci')->nullable();
-
-            $table->unsignedDecimal('lead_value', 12, 4)->nullable();
-            $table->unsignedTinyInteger('status')->nullable();
-
-            $table->text('lost_reason')->collation('utf8mb4_unicode_ci')->nullable();
-            $table->dateTime('closed_at', $precision = 0);
-
-            $table->date('expected_close_date', $precision = 0);
+            $table->unsignedBigInteger('final_assignation_user_id')->nullable();
+            $table->foreign('final_assignation_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->dateTime('attended_at', $precision = 0)->nullable();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

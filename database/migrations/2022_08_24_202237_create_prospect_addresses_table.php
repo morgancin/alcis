@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('prospect_id')->nullable();
             $table->foreign('prospect_id')->references('id')->on('prospects')->onDelete('cascade');
 
+            $table->enum('type', ['S', 'I'])->default('I');
             $table->string('street', 50)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('outdoor', 30)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('indoor', 30)->collation('utf8mb4_unicode_ci')->nullable();
@@ -27,13 +28,21 @@ return new class extends Migration
             $table->string('town', 50)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('city', 50)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('state', 50)->collation('utf8mb4_unicode_ci')->nullable();
-            $table->string('country', 50)->collation('utf8mb4_unicode_ci')->default('México');
+            $table->string('country', 50)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('alias', 50)->collation('utf8mb4_unicode_ci')->nullable();
             $table->string('zipcode', 5)->collation('utf8mb4_unicode_ci')->nullable();
             //$table->unsignedInteger('zipcode', 5)->nullable();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
+
+            $table->unsignedBigInteger('created_user_id')->nullable();
+            $table->foreign('created_user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('updated_user_id')->nullable();
+            $table->foreign('updated_user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->boolean('active')->default(1);
         });
     }
 

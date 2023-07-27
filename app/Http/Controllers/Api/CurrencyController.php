@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CurrencyResource;
 use App\Http\Requests\Api\CurrencyRequest;
 
 class CurrencyController extends Controller
@@ -25,14 +26,14 @@ class CurrencyController extends Controller
             $oCurrencies = Currency::get();
 
             if ($oCurrencies->count() > 0)
-                return response()->json($oCurrencies, Response::HTTP_OK);
+                return CurrencyResource::collection($oCurrencies);
             else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -50,8 +51,9 @@ class CurrencyController extends Controller
         try	{
             //@var \App\Models\Currency
             Currency::create([
-                "code" => $request->code,
-                "name" => $request->name,
+                "code" => ($request->code) ? $request->code : null,
+                "name" => ($request->name) ? $request->name : null,
+                "active" => (($request->active) ? $request->active : false)
             ]);
 
         } catch (\Exception $e) {
@@ -59,7 +61,7 @@ class CurrencyController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -88,8 +90,9 @@ class CurrencyController extends Controller
             $oCurrency = Currency::findOrFail($id);
 
             $oCurrency->update([
-                "code" => $request->code,
-                "name" => $request->name,
+                "code" => ($request->code) ? $request->code : null,
+                "name" => ($request->name) ? $request->name : null,
+                "active" => (($request->active) ? $request->active : false)
             ]);
 
         } catch (Exception $e) {
@@ -97,7 +100,7 @@ class CurrencyController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -122,14 +125,14 @@ class CurrencyController extends Controller
             $oCurrency = Currency::findOrFail($id);
 
             if ($oCurrency !== null)
-                return response()->json($oCurrency, Response::HTTP_OK);
+                return new CurrencyResource($oCurrency);
             else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

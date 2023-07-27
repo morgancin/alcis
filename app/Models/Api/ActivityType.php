@@ -3,22 +3,21 @@
 namespace App\Models\Api;
 
 //use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ActivityType extends Model
 {
     //use HasFactory;
-    protected $fillable = ['name', 'type'];
+    protected $fillable = ['name', 'type', 'created_user_id', 'updated_user_id', 'active'];
 
-    /*
     protected static function boot(){
         parent::boot();
         self::creating(function(ActivityType $activity_type){
-            $activity_type->user_id = auth()->id();
+            $activity_type->created_user_id = auth()->id();
         });
     }
-    */
 
     ////////////RELATIONSHIPS
     /**

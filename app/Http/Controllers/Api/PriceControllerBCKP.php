@@ -27,12 +27,12 @@ class PriceController extends Controller
             if($oPrices->count() > 0)
                 return response()->json($oPrices, Response::HTTP_OK);
             else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -61,7 +61,7 @@ class PriceController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -101,7 +101,7 @@ class PriceController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -128,12 +128,12 @@ class PriceController extends Controller
             if ($oPrice !== null)
                 return response()->json($oPrice, Response::HTTP_OK);
             else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

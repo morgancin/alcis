@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Exception;
 use App\Models\Api\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
@@ -39,7 +40,7 @@ class ProfileController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -48,7 +49,7 @@ class ProfileController extends Controller
             return response()->json([
                 'data' => $oProfile,
                 'message' => 'Registro insertado correctamente',
-            ], 200);
+            ], Response::HTTP_OK);
         }
     }
 
@@ -61,14 +62,14 @@ class ProfileController extends Controller
     {
         try {
             if (auth()->user())
-                return response()->json(auth()->user()->profile, 200);
+                return response()->json(auth()->user()->profile, Response::HTTP_OK);
             else
-                return response()->json(['message' => __('api.messages.notfound')], 404);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -96,7 +97,7 @@ class ProfileController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -104,7 +105,7 @@ class ProfileController extends Controller
 
             return response()->json([
                 'message' => __('api.messages.updated')
-            ], 200);
+            ], Response::HTTP_OK);
         }
     }
 }

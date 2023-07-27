@@ -18,8 +18,16 @@ class PriceListResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'prices' => PriceResource::collection($this->whenLoaded('prices')),
+            'account_id' => $this->account_id,
             'products' => ProductResource::collection($this->whenLoaded('products')),
+            //'price' => $this->products->pivot->price,
+            //'prices' => PriceResource::collection($this->whenLoaded('prices')),
+
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'active' => ($this->active) ? true : false,
+            'created_user_id' => $this->created_user_id,
+            'updated_user_id' => $this->updated_user_id
         ];
     }
 }

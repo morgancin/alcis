@@ -3,6 +3,7 @@
 namespace App\Models\Api;
 
 //use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +11,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ActivityResult extends Model
 {
     //use HasFactory;
-    protected $fillable = ['activity_type_id', 'name', 'tracking_type'];
+    protected $fillable = ['name', 'activity_type_id', 'pipeline_stage_id', 'is_tracking', 'created_user_id', 'updated_user_id', 'active'];
+
+    protected static function boot(){
+        parent::boot();
+        self::creating(function(ActivityResult $activity_result){
+            $activity_result->created_user_id = auth()->id();
+        });
+    }
 
     ////////////RELATIONSHIPS
     /**

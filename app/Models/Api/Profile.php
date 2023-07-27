@@ -9,17 +9,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Profile extends Model
 {
     //use HasFactory;
-    protected $fillable = ['user_id', 'language'];
+    protected $fillable = ['created_user_id', 'language', 'created_user_id', 'updated_user_id', 'active'];
 
     protected static function boot(){
         parent::boot();
         self::creating(function(Profile $profile){
-            $profile->user_id = auth()->id();
+            $profile->created_user_id = auth()->id();
         });
     }
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'created_user_id', 'id');
     }
 }

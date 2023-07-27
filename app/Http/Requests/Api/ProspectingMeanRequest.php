@@ -24,7 +24,7 @@ class ProspectingMeanRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => ['required', 'string'],
+            'name' => ['required', 'string'],
             'prospecting_source_id' => ['required', 'int']
         ];
     }

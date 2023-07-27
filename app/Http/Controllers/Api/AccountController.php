@@ -35,12 +35,12 @@ class AccountController extends Controller
             if($oAccounts->count() > 0)
                 return AccountResource::collection($oAccounts);
             else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -58,24 +58,73 @@ class AccountController extends Controller
         try	{
             //@var \App\Models\Account
             $oAccount = Account::create([
-                                        "name" => $request->name,
+                                        "name" => ($request->name) ? $request->name : null,
+                                        "tax_id" => ($request->tax_id) ? $request->tax_id : null,
+                                        "website" => ($request->website) ? $request->website : null,
+                                        "address" => ($request->address) ? $request->address : null,
+                                        "active" => (($request->active) ? $request->active : false),
+                                        "comments" => ($request->comments) ? $request->comments : null,
+                                        "phone_office" => ($request->phone_office) ? $request->phone_office : null,
+                                        "potential_value" => ($request->potential_value) ? $request->potential_value : null
                                     ]);
         } catch (\Exception $e) {
             DB::rollBack();
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
             DB::commit();
 
-            //return new ActivityResource($oActivity);
-
             return response()->json([
                 'message' => __('api.messages.added')
-            ], 200);
+            ], Response::HTTP_OK);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(AccountRequest $request, $id)
+    {
+        $success = true;
+        DB::beginTransaction();
+
+        try {
+            //@var \App\Models\Api\Account
+            $oAccount = Account::findOrFail($id);
+
+            $oAccount->update([
+                "name" => ($request->name) ? $request->name : null,
+                "tax_id" => ($request->tax_id) ? $request->tax_id : null,
+                "website" => ($request->website) ? $request->website : null,
+                "address" => ($request->address) ? $request->address : null,
+                "active" => (($request->active) ? $request->active : false),
+                "comments" => ($request->comments) ? $request->comments : null,
+                "phone_office" => ($request->phone_office) ? $request->phone_office : null,
+                "potential_value" => ($request->potential_value) ? $request->potential_value : null
+            ]);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        if ($success === true) {
+            DB::commit();
+
+            return response()->json([
+                'message' => __('api.messages.updated')
+            ], Response::HTTP_OK);
         }
     }
 
@@ -94,12 +143,12 @@ class AccountController extends Controller
             if ($oAccount !== null)
                 return new AccountResource($oAccount);
             else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

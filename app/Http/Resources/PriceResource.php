@@ -21,6 +21,12 @@ class PriceResource extends JsonResource
             'product' => new ProductResource($this->whenLoaded('product')),
             'currency' => new CurrencyResource($this->whenLoaded('currency')),
             'prices_list' => new PriceListResource($this->whenLoaded('prices_list')),
+
+            'active' => $this->active,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'created_user_id' => $this->created_user_id,
+            'updated_user_id' => $this->updated_user_id
         ];
     }
 }

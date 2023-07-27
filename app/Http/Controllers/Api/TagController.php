@@ -7,8 +7,10 @@ use App\Models\Api\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\TagResource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TagRequest;
+
 class TagController extends Controller
 {
     /**
@@ -16,27 +18,32 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($type = 'all')
+    public function index(Request $request)
     {
         try {
             //@var \App\Models\Api\Tag
             //$oTags = Tag::where('user_id', auth()->user()->id);
             $oTags = new Tag;
 
-            if($type !== 'all')
-                $oTags->where('type', $type);
+            if($request->query('type'))
+            {
+                if($request->query('type') === 'list')
+                {
+                    $oTags = $oTags->where('type', $request->query('type'));
+                }
+            }
 
             $oTags = $oTags->get();
 
             if ($oTags->count() > 0)
-                return response()->json($oTags, 200);
+                return TagResource::collection($oTags);
             else
-                return response()->json(['message' => __('api.messages.notfound')], 404);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -54,16 +61,17 @@ class TagController extends Controller
         try {
             //@var \App\Models\Api\Tag
             $oTag = Tag::create([
-                                    "name" => $request->name,
-                                    "type" => $request->type,
-                                ]);
+                "name" => (($request->name) ? $request->name : null),
+                "type" => (($request->type) ? $request->type : null),
+                "active" => (($request->active) ? $request->active : false)
+            ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -71,7 +79,7 @@ class TagController extends Controller
 
             return response()->json([
                 'message' => __('api.messages.added')
-            ], 200);
+            ], Response::HTTP_OK);
         }
     }
 
@@ -89,19 +97,18 @@ class TagController extends Controller
 
         try {
             //@var \App\Models\Api\Tag
-            $oTag = Tag::findOrFail($id);
-
-            $oTag->update([
-                            "name" => $request->name,
-                            "type" => $request->type,
-                        ]);
+            $oTag = Tag::find($id)->update([
+                "name" => (($request->name) ? $request->name : null),
+                "type" => (($request->type) ? $request->type : null),
+                "active" => (($request->active) ? $request->active : false)
+            ]);
 
         } catch (Exception $e) {
             DB::rollBack();
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -109,7 +116,7 @@ class TagController extends Controller
 
             return response()->json([
                 'message' => __('api.messages.updated')
-            ], 200);
+            ], Response::HTTP_OK);
         }
     }
 
@@ -126,14 +133,14 @@ class TagController extends Controller
             $oTag = Tag::findOrFail($id);
 
             if ($oTag !== null)
-                return response()->json($oTag, Response::HTTP_OK);
+                return new TagResource($oTag);
             else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

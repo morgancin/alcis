@@ -55,12 +55,12 @@ class ProspectingSourceController extends Controller
                 else                //Get the mediums origins or Get the mediums origins for the origin
                     return ProspectingMeanResource::collection($oProspectingSource);
             }else
-                return response()->json(['message' => __('api.messages.notfound')], 404);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -76,20 +76,19 @@ class ProspectingSourceController extends Controller
         DB::beginTransaction();
 
         try {
-            $aRegistro = array(
-                                'account_id' => $request->account_id,
-                                'description' => $request->description,
-                            );
-
             //@var \App\Models\Api\ProspectingSource
-            ProspectingSource::create($aRegistro);
+            ProspectingSource::create([
+                "name" => (($request->name) ? $request->name : null),
+                "account_id" => (($request->account_id) ? $request->account_id : null),
+                "active" => (($request->active) ? $request->active : false)
+            ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -97,7 +96,7 @@ class ProspectingSourceController extends Controller
 
             return response()->json([
                 'message' => __('api.messages.added')
-            ], 200);
+            ], Response::HTTP_OK);
         }
     }
 
@@ -113,20 +112,20 @@ class ProspectingSourceController extends Controller
         DB::beginTransaction();
 
         try {
-            $aRegistro = array(
-                                'description' => $request->description,
-                                'prospecting_source_id' => $request->prospecting_source_id,
-                            );
-
             //@var \App\Models\Api\ProspectingSource
-            ProspectingSource::create($aRegistro);
+            ProspectingSource::create([
+                "name" => (($request->name) ? $request->name : null),
+                "account_id" => (($request->account_id) ? $request->account_id : null),
+                "prospecting_source_id" => (($request->prospecting_source_id) ? $request->prospecting_source_id : null),
+                "active" => (($request->active) ? $request->active : false)
+            ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -134,7 +133,7 @@ class ProspectingSourceController extends Controller
 
             return response()->json([
                 'message' => __('api.messages.added')
-            ], 200);
+            ], Response::HTTP_OK);
         }
     }
 
@@ -155,7 +154,9 @@ class ProspectingSourceController extends Controller
             $oProspectingSource = ProspectingSource::findOrFail($id);
 
             $aRegistro = array(
-                                'description' => $request->description,
+                                "name" => (($request->name) ? $request->name : null),
+                                "account_id" => (($request->account_id) ? $request->account_id : null),
+                                "active" => (($request->active) ? $request->active : false)
                             );
 
             ////////ORIGINS MEDIUMS
@@ -171,7 +172,7 @@ class ProspectingSourceController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -179,7 +180,7 @@ class ProspectingSourceController extends Controller
 
             return response()->json([
                 'message' => __('api.messages.updated')
-            ], 200);
+            ], Response::HTTP_OK);
         }
     }
 
@@ -196,15 +197,38 @@ class ProspectingSourceController extends Controller
             $oProspectingSource = ProspectingSource::findOrFail($id);
 
             if ($oProspectingSource !== null)
-
                 return new ProspectingSourceResource($oProspectingSource);
             else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_prospecting_means($id)
+    {
+        try {
+            //@var \App\Models\Api\ProspectingSource
+            $oProspectingSource = ProspectingSource::findOrFail($id);
+
+            if ($oProspectingSource !== null)
+                return new ProspectingMeanResource($oProspectingSource);
+            else
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

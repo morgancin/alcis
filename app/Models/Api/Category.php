@@ -3,6 +3,7 @@
 namespace App\Models\Api;
 
 //use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,18 +11,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Category extends Model
 {
     //use HasFactory;
-    protected $fillable = ['category_id', 'category_group_id', 'active', 'order', 'name', 'image'];
+    protected $fillable = ['category_id', 'category_group_id', 'active', 'order', 'name', 'image', 'created_user_id', 'updated_user_id', 'active'];
 
-    /*
-    protected static function boot()
-    {
+    protected static function boot(){
         parent::boot();
-        self::creating(function(Category $category)
-        {
-            $category->user_id = auth()->id();
+        self::creating(function(Category $category){
+            $category->created_user_id = auth()->id();
         });
     }
-    */
 
     protected $with = ['products', 'subcategories'];
 

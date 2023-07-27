@@ -22,13 +22,21 @@ return new class extends Migration
 
             $table->string('name', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
-            $table->unsignedInteger('percent')->nullable();
+            $table->unsignedInteger('percentage')->nullable();
             $table->unsignedInteger('sort_order')->nullable();
 
             //$table->string('code', 255)->collation('utf8mb4_unicode_ci')->nullable();
 
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
+
+            $table->unsignedBigInteger('created_user_id')->nullable();
+            $table->foreign('created_user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('updated_user_id')->nullable();
+            $table->foreign('updated_user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->boolean('active')->default(1);
         });
     }
 

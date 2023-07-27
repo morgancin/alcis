@@ -19,6 +19,12 @@ class SubCategoryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'category' => new CategoryResource($this->category),
+
+            'active' => $this->active,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'created_user_id' => $this->created_user_id,
+            'updated_user_id' => $this->updated_user_id
         ];
     }
 }

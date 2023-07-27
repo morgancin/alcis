@@ -24,7 +24,7 @@ class CategoryController extends Controller
     {
         try {
             //@var \App\Models\Api\Category
-            $oCategories = Category::get();
+            $oCategories = New Category;
             $bSubCategories = false;
 
             if($category_id)
@@ -50,13 +50,13 @@ class CategoryController extends Controller
                     return SubCategoryResource::collection($oCategories);
             }else
             {
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
             }
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -77,7 +77,7 @@ class CategoryController extends Controller
                 "name" => $request->name,
                 "order" => (($request->order) ? $request->order : null),
                 "image" => (($request->image) ? $request->image : null),
-                "active" => (($request->active) ? $request->active : null),
+                "active" => (($request->active) ? $request->active : false),
                 "category_id" => (($request->category_id) ? $request->category_id : null),
                 "category_group_id" => (($request->category_group_id) ? $request->category_group_id : null),
             ]);
@@ -87,7 +87,7 @@ class CategoryController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -119,7 +119,7 @@ class CategoryController extends Controller
                 "name" => $request->name,
                 "order" => (($request->order) ? $request->order : null),
                 "image" => (($request->image) ? $request->image : null),
-                "active" => (($request->active) ? $request->active : null),
+                "active" => (($request->active) ? $request->active : false),
                 "category_id" => (($request->category_id) ? $request->category_id : null),
                 "category_group_id" => (($request->category_group_id) ? $request->category_group_id : null),
             ]);
@@ -129,7 +129,7 @@ class CategoryController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -156,12 +156,12 @@ class CategoryController extends Controller
             if ($oCategory !== null)
                 return new CategoryResource($oCategory);
             else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

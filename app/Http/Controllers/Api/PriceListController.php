@@ -19,22 +19,24 @@ class PriceListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try	{
+            $pageSize = $request->page_size ?? 20;
+
             //@var \App\Models\Api\PriceList
-            $oPrices_lists = PriceList::with(['prices'])
-                                        ->get();
+            $oPrices_lists = PriceList::with(['products'])
+                                        ->paginate($pageSize);
 
             if($oPrices_lists->count() > 0)
                 return PriceListResource::collection($oPrices_lists);
             else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -52,7 +54,9 @@ class PriceListController extends Controller
         try	{
             //@var \App\Models\PriceList
             PriceList::create([
-                "name" => $request->name,
+                "name" => (($request->name) ? $request->name : null),
+                "account_id" => (($request->account_id) ? $request->account_id : null),
+                "active" => (($request->active) ? $request->active : false)
             ]);
 
         } catch (\Exception $e) {
@@ -60,7 +64,7 @@ class PriceListController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -89,7 +93,9 @@ class PriceListController extends Controller
             $oPrice_list = PriceList::findOrFail($id);
 
             $oPrice_list->update([
-                "name" => $request->name,
+                "name" => (($request->name) ? $request->name : null),
+                "account_id" => (($request->account_id) ? $request->account_id : null),
+                "active" => (($request->active) ? $request->active : false)
             ]);
 
         } catch (Exception $e) {
@@ -97,7 +103,7 @@ class PriceListController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -123,14 +129,14 @@ class PriceListController extends Controller
 
             if ($oPrices_list !== null)
                 //return new PriceListResource($oPrices_list);
-                return (new PriceListResource($oPrices_list->loadMissing(['prices'])));
+                return (new PriceListResource($oPrices_list->loadMissing(['products'])));
             else
-                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => __('api.messages.notfound')], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

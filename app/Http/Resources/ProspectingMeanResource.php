@@ -17,9 +17,16 @@ class ProspectingMeanResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'description' => $this->description,
+            'name' => $this->name,
+            'account_id' => $this->account_id,
+            'prospecting_source_id' => $this->prospecting_source_id,
             'prospecting_source' => new ProspectingSourceResource($this->prospecting_source),
+
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'active' => ($this->active) ? true : false,
+            'created_user_id' => $this->created_user_id,
+            'updated_user_id' => $this->updated_user_id
         ];
     }
 }

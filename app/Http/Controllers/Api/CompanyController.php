@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rules\Password;
-
 use Exception;
 use App\Models\Api\Company;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\UserRequest;
+use App\Http\Resources\CompanyResource;
+use App\Http\Requests\Api\CompanyRequest;
+use Illuminate\Validation\Rules\Password;
 
 class CompanyController extends Controller
 {
@@ -20,32 +23,14 @@ class CompanyController extends Controller
             $oCompanies = Company::get();
 
             if($oCompanies->count() > 0)
-                return response()->json($oCompanies, 200);
+                return CompanyResource::collection($oCompanies);
             else
-                return response()->json(['message' => 'No se encontraron registros'], 404);
+                return response()->json(['message' => 'No se encontraron registros'], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
-        }
-    }
-
-    public function list_users_companies()
-    {
-        try	{
-            //@var \App\Models\Company
-            $oCompanies = Company::get();
-
-            if($oCompanies->count() > 0)
-                return response()->json($oCompanies, 200);
-            else
-                return response()->json(['message' => 'No se encontraron registros'], 404);
-
-        } catch (Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -57,38 +42,40 @@ class CompanyController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(CompanyRequest $request)
     {
         $success = true;
         DB::beginTransaction();
 
         try	{
-            $data = $request->validate([
-                'name' => 'required|string',
-                'email' => 'required|email|string|unique:users,email',
-            ]);
-
             //@var \App\Models\Company $user
             $oCompany = Company::create([
-                                    'name' => $data['name'],
-                                    'email' => $data['email'],
-                                ]);
-
+                                        'name' => $request->name,
+                                        'phone' =>$request->phone,
+                                        'tax_id' =>$request->tax_id,
+                                        'address' =>$request->address,
+                                        'website' =>$request->website,
+                                        'comments' =>$request->comments,
+                                        'potential_value' =>$request->potential_value,
+                                    ]);
         } catch (Exception $e) {
             DB::rollBack();
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
             DB::commit();
 
+            return new CompanyResource($oCompany);
+
+            /*
             return response()->json([
-                'data' => $oCompany,
-                'message' => 'Registro insertado correctamente',
-            ], 200);
+                'message' => __('api.messages.added')
+            ], Response::HTTP_OK);
+            */
         }
     }
 
@@ -105,14 +92,14 @@ class CompanyController extends Controller
             $oCompany = Company::findOrFail($nId);
 
             if($oCompany !== null)
-                return response()->json($oCompany, 200);
+                return new CompanyResource($oCompany);
             else
-                return response()->json(['message' => 'No se encontraron registros'], 404);
+                return response()->json(['message' => 'No se encontraron registros'], Response::HTTP_NO_CONTENT);
 
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -147,16 +134,21 @@ class CompanyController extends Controller
             $oCompany = Company::findOrFail($nId);
 
             $oCompany->update([
-                'name' => $request->name,
-                'email' => $request->email,
-            ]);
+                                'name' => $request->name,
+                                'phone' =>$request->phone,
+                                'tax_id' =>$request->tax_id,
+                                'address' =>$request->address,
+                                'website' =>$request->website,
+                                'comments' =>$request->comments,
+                                'potential_value' =>$request->potential_value,
+                            ]);
 
         } catch (Exception $e) {
             DB::rollBack();
 
             return response()->json([
                 'message' => $e->getMessage(),
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($success === true) {
@@ -165,7 +157,7 @@ class CompanyController extends Controller
             return response()->json([
                 'data' => $oCompany,
                 'message' => 'Registro editado correctamente',
-            ], 200);
+            ], Response::HTTP_OK);
         }
     }
 }

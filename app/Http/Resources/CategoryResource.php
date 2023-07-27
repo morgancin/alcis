@@ -18,11 +18,17 @@ class CategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'parent_id' => $this->category_id,
+            'category_id' => $this->category_id,
             'products_count'=> $this->whenLoaded('products', function() {
                 return $this->products->count();
             }),
             'subcategories' => CategoryResource::collection($this->whenLoaded('subcategories')),
+
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'active' => ($this->active) ? true : false,
+            'created_user_id' => $this->created_user_id,
+            'updated_user_id' => $this->updated_user_id
         ];
     }
 }

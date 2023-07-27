@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Api\LoginRequest;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    //public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email|string|exists:users,email',
-            'password' => [
-                'required',
-            ],
-            'remember' => 'boolean'
-        ]);
+        $credentials = $request->all();
 
         $remember = $credentials['remember'] ?? false;
         unset($credentials['remember']);
@@ -27,13 +26,33 @@ class AuthController extends Controller
             ], 422);
         }
         $user = Auth::user();
-        $user->profile = $user->profile;
-        $token = $user->createToken('main')->plainTextToken;
+        //$user->profile = $user->profile;
+        $user['token'] = $user->createToken('main')->plainTextToken;
+        $user['parents'] = $this->getRecursive($user->user_id);
+
+        /////
+        /*
+        $start_time = microtime(true);
+        if($this->getRecursive($user->user_id))
+        {
+            $end_time = microtime(true);
+            $duration = $end_time - $start_time;
+
+            echo " duration = ".$duration;
+        }
+        */
+        ///////
 
         return response()->json([
-            'user' => $user,
-            'token' => $token
-        ], 200);
+            //'user' => $user,
+            //'token' => $token
+            'success' => true,
+            'message' => 'Login Successful',
+            'errors' => [],
+            'data' => $user,
+        ], Response::HTTP_OK);
+
+        //return new UserResource($user);
     }
 
     public function logout()
@@ -45,34 +64,26 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
-    /*
-    public function register(Request $request)
+    // $this->getRecursive($user->user_id); //Así se invoca
+    private function getRecursive($parent)
     {
-        $data = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|string|unique:users,email',
-            'password' => [
-                'required',
-                'confirmed',
-                Password::min(8)->mixedCase()->numbers()->symbols()
-            ]
-        ]);
+        $oUsers = User::all();
 
-        //@var \App\Models\User $user
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password'])
-        ]);
-        $token = $user->createToken('main')->plainTextToken;
+        $result = [];
+        foreach ($oUsers as $user) {
+            if ($parent == $user->user_id)
+            {
+                $result[] = [
+                            'id' => $user->id,
+                            'name' => $user->name,
+                            'childs' => $this->getRecursive($user->id)
+                        ];
+                    }
+            }
 
-        return response([
-            'user' => $user,
-            'token' => $token
-        ]);
+        return $result;
     }
-    */
 }

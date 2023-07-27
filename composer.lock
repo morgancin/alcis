@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "95ae6fba9d91021fd808682219a410d3",
+    "content-hash": "8a113b62c5bdfd5754838cf940984530",
     "packages": [
         {
             "name": "brick/math",
@@ -6125,16 +6125,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "6.42.1",
+            "version": "7.3.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:twilio/twilio-php.git",
-                "reference": "8a1a5bc1616c4b50a23e09880c1e3d02f93a68ec"
+                "reference": "db64f7b5555b1bb4b5ea1511917cadf064342c0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/8a1a5bc1616c4b50a23e09880c1e3d02f93a68ec",
-                "reference": "8a1a5bc1616c4b50a23e09880c1e3d02f93a68ec",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/db64f7b5555b1bb4b5ea1511917cadf064342c0e",
+                "reference": "db64f7b5555b1bb4b5ea1511917cadf064342c0e",
                 "shasum": ""
             },
             "require": {
@@ -6142,7 +6142,7 @@
             },
             "require-dev": {
                 "guzzlehttp/guzzle": "^6.3 || ^7.0",
-                "phpunit/phpunit": ">=7.0"
+                "phpunit/phpunit": ">=7.0 < 10"
             },
             "suggest": {
                 "guzzlehttp/guzzle": "An HTTP client to execute the API requests"
@@ -6170,7 +6170,7 @@
                 "sms",
                 "twilio"
             ],
-            "time": "2022-09-21T19:12:52+00:00"
+            "time": "2023-04-20T07:20:58+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -9191,5 +9191,5 @@
         "php": "^8.0.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.3.0"
 }
